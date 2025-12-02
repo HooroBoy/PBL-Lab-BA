@@ -15,7 +15,7 @@ require_once __DIR__ . '/config.php';
     <style>
         /* Custom colors based on the design */
         :root {
-            --color-primary: #124874; /* Biru Penguin */
+            --color-primary: #124874; /* Biru Penguin hallo*/
             --color-secondary-light: #ECF2FB;
             --color-text-dark: #181818;
             --color-text-medium: #646464;
