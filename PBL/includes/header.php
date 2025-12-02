@@ -77,22 +77,34 @@ require_once __DIR__ . '/config.php';
                                     Visi & Misi
                                     <a href="../profile/SO.php"></a>
                                     <a href="../profile/FokusRiset.php"></a>
+                                    <a href="../profile/Dosen.php"></a>
+
                                 </a>
                                 <a href="<?php echo BASE_URL; ?>/profile/SO.php" class="block px-4 py-2 text-sm text-text-dark hover:bg-gray-100 hover:text-primary">
                                     Struktur Organisasi
                                     <a href="../profile/VisiMisi.php"></a>
                                     <a href="../profile/FokusRiset.php"></a>
+                                    <a href="../profile/Dosen.php"></a>
                                 </a>
                                 <a href="<?php echo BASE_URL; ?>/profile/FokusRiset.php" class="block px-4 py-2 text-sm text-text-dark hover:bg-gray-100 hover:text-primary">
                                     Fokus Riset
                                     <a href="../profile/VisiMisi.php"></a>
                                     <a href="../profile/SO.php"></a>
+                                    <a href="../profile/Dosen.php"></a>
+                                </a>
+                                <a href="<?php echo BASE_URL; ?>/profile/FokusRiset.php" class="block px-4 py-2 text-sm text-text-dark hover:bg-gray-100 hover:text-primary">
+                                    Dosen
+                                    <a href="../profile/VisiMisi.php"></a>
+                                    <a href="../profile/SO.php"></a>
+                                    <a href="../profile/FokusRiset.php"></a>
                                 </a>
                             </div>
                         </div>
                     </div>
                     
-                    <a href="<?php echo BASE_URL; ?>/projects-demos/index.php" class="text-text-dark hover:text-blue-700 transition duration-150">Projects & Demo</a>
+                    <a href="<?php echo BASE_URL; ?>/projects-demos/index.php" class="text-text-dark hover:text-blue-700 transition duration-150">
+                        Articles
+                    </a>
                     
                     <div class="relative" x-data="{ open: false }" @click.outside="open = false">
                         <button @click="open = !open" type="button" class="text-text-dark hover:text-blue-700 transition duration-150 flex items-center focus:outline-none px-3 py-2">
@@ -104,6 +116,11 @@ require_once __DIR__ . '/config.php';
                             <div class="py-1">
                                 <a href="<?php echo BASE_URL; ?>/resources/activity-gallery.php" class="block px-4 py-2 text-sm text-text-dark hover:bg-gray-100 hover:text-primary">
                                     Activity Gallery
+                                    <a href="../resource/Article.php"></a>
+                                </a>
+                                <a href="<?php echo BASE_URL; ?>/resources/activity-gallery.php" class="block px-4 py-2 text-sm text-text-dark hover:bg-gray-100 hover:text-primary">
+                                    Facility Gallery
+                                    <a href="../resource/ActivityGallery.php"></a>
                                 </a>
                             </div>
                         </div>

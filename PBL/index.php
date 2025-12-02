@@ -9,7 +9,7 @@ include 'includes/header.php';
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center lg:justify-between gap-12">
                 <div class="w-full lg:w-1/2 flex flex-col space-y-8">
                     <div class="space-y-4">
-                        <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-primary text-xs font-semibold rounded-full border border-gray-200">
+                        <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-primary text-xs font-semibold rounded-full border border-gray-500">
                             Business Analytics
                         </span>
                         <h1 class="text-5xl md:text-6xl font-extrabold text-text-dark leading-tight md:leading-snug">
@@ -108,7 +108,7 @@ include 'includes/header.php';
         <section class="w-full bg-white py-20 md:py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 flex flex-col items-center">
                 <h2 class="text-4xl md:text-5xl font-bold text-text-dark text-center">
-                    Explore Article
+                    Explore Our Work
                 </h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -176,8 +176,8 @@ include 'includes/header.php';
                     </div>
                 </div>
 
-                <a href="projects-demos/index.php" class="px-8 py-3 text-sm font-bold bg-gray-50 text-text-dark rounded-full border border-gray-300 hover:bg-gray-100 transition duration-300">
-                    Explore More Articles
+                <a href="projects-demos/index.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+                    Explore More The Work
                 </a>
 
             </div>
@@ -189,14 +189,14 @@ include 'includes/header.php';
                 <div class="w-full lg:w-7/12 flex flex-col space-y-12">
                     <div class="space-y-6">
                         <h2 class="text-4xl md:text-5xl font-bold text-text-dark leading-snug">
-                            Live Demo: Interactive Analytics Prototype
+                            Article
                         </h2>
                         <p class="text-lg text-medium leading-relaxed">
                             We don't just research; we build solutions. Get hands-on with our interactive prototype and see how Business Intelligence and Data Analytics can transform raw data into strategic decisions. This demo is the tangible result of our research focus, giving you a real-time data analysis experience.
                         </p>
                     </div>
-                    <a href="projects-demos/prototypes/index.php" class="self-start px-8 py-3 text-sm font-bold bg-gray-50 text-text-dark rounded-full border border-gray-300 hover:bg-gray-100 transition duration-300">
-                        Try the Demo
+                    <a href="projects-demos/prototypes/index.php" class="self-start px-8 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-100 transition duration-300">
+                        Learn Articles
                     </a>
                 </div>
                 
@@ -219,11 +219,15 @@ include 'includes/header.php';
                     <h2 class="text-4xl md:text-5xl font-bold text-text-dark">
                         Our Lab in Action
                     </h2>
-                    <div class="flex space-x-2 p-2 bg-white border border-gray-300 rounded-full">
-                        <button class="px-8 py-2 bg-primary text-white text-sm font-bold rounded-full hover:bg-blue-800 transition duration-150">
+                    <div x-data="{ active: 'activities' }" class="relative flex space-x-2 p-2 bg-white border border-gray-300 rounded-full">
+                            <!-- Indicator (animated) -->
+                            <div class="absolute inset-y-1 left-1 w-1/2 bg-primary rounded-full pointer-events-none transform transition-transform duration-150"
+                                :class="{ 'translate-x-0': active === 'activities', 'translate-x-full': active === 'facility' }"></div>
+
+                        <button @click="active = 'activities'" :class="active === 'activities' ? 'bg-primary text-white' : 'bg-transparent text-medium'" class="relative z-10 px-8 py-2 text-sm font-bold rounded-full transition duration-150">
                             Activities
                         </button>
-                        <button class="px-8 py-2 text-medium text-sm font-medium rounded-full hover:bg-gray-50 transition duration-150">
+                        <button @click="active = 'facility'" :class="active === 'facility' ? 'bg-primary text-white' : 'bg-transparent text-medium'" class="relative z-10 px-8 py-2 text-sm font-medium rounded-full transition duration-150">
                             Facility
                         </button>
                     </div>
@@ -280,7 +284,7 @@ include 'includes/header.php';
                     </div>
                 </div>
 
-                <a href="resources/activity-gallery.php" class="px-8 py-3 text-sm font-bold bg-gray-50 text-text-dark rounded-full border border-gray-300 hover:bg-gray-100 transition duration-300">
+                <a href="resources/activity-gallery.php" class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full border border-blue hover:bg-blue-100 transition duration-300">
                     View Full Gallery
                 </a>
 
