@@ -221,7 +221,7 @@ include 'includes/header.php';
                     </h2>
                     <div x-data="{ active: 'activities' }" class="relative flex space-x-2 p-2 bg-white border border-gray-300 rounded-full">
                             <!-- Indicator (animated) -->
-                            <div class="absolute inset-y-1 left-1 w-1/2 bg-primary rounded-full pointer-events-none transform transition-transform duration-150"
+                            <div class="absolute inset-2 left-2 w-2 bg-primary rounded-full pointer-events-none transform transition-transform duration-150"
                                 :class="{ 'translate-x-0': active === 'activities', 'translate-x-full': active === 'facility' }"></div>
 
                         <button @click="active = 'activities'" :class="active === 'activities' ? 'bg-primary text-white' : 'bg-transparent text-medium'" class="relative z-10 px-8 py-2 text-sm font-bold rounded-full transition duration-150">
