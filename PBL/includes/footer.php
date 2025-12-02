@@ -1,3 +1,4 @@
+<?php if (!defined('BASE_URL')) { require_once __DIR__ . '/config.php'; } ?>
 <footer class="w-full bg-primary py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white space-y-16">
                 
@@ -5,7 +6,7 @@
                     
                     <div class="space-y-6 lg:w-1/4">
                         <div class="flex items-center space-x-2">
-                            <img class="w-12 h-12 rounded-lg" src="PBL/assets/Logo/1.png" alt="LBA" />
+                            <img class="w-12 h-12 rounded-lg" src="<?php echo BASE_URL; ?>/assets/Logo/Logo2.png" alt="LBA" />
                             <div class="flex flex-col">
                                 <span class="text-base font-semibold uppercase leading-tight">Laboratorium</span>
                                 <span class="text-xs font-light uppercase leading-none">Transforming data into decision</span>
@@ -33,27 +34,27 @@
                         <div class="space-y-3">
                             <h4 class="text-base font-semibold mb-2">Profile</h4>
                             <ul class="space-y-2">
-                                <li><a href="../profile/vision-mission.php" class="opacity-70 hover:opacity-100 transition duration-150">Vision & Mission</a></li>
-                                <li><a href="../profile/organization-structure.php" class="opacity-70 hover:opacity-100 transition duration-150">Organizational Structure</a></li>
-                                <li><a href="../profile/research-focus.php" class="opacity-70 hover:opacity-100 transition duration-150">Research Focus</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/profile/VisiMisi.php" class="opacity-70 hover:opacity-100 transition duration-150">Visi & Misi</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/profile/SO.php" class="opacity-70 hover:opacity-100 transition duration-150">Struktur Organisasi</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/profile/FokusRiset.php" class="opacity-70 hover:opacity-100 transition duration-150">Fokus Riset</a></li>
                             </ul>
                         </div>
                         
                         <div class="space-y-3">
                             <h4 class="text-base font-semibold mb-2">Projects & Demo</h4>
                             <ul class="space-y-2">
-                                <li><a href="../projects-demos/index.php" class="opacity-70 hover:opacity-100 transition duration-150">All Projects</a></li>
-                                <li><a href="../projects-demos/prototypes/demo-project-A" class="opacity-70 hover:opacity-100 transition duration-150">Live Demo Prototipe</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/projects-demos/index.php" class="opacity-70 hover:opacity-100 transition duration-150">All Projects</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/projects-demos/prototypes/demo-project-A" class="opacity-70 hover:opacity-100 transition duration-150">Live Demo Prototipe</a></li>
                             </ul>
                         </div>
                         
                         <div class="space-y-3">
                             <h4 class="text-base font-semibold mb-2">Resources</h4>
                             <ul class="space-y-2">
-                                <li><a href="../resources/lab-lecturers.php" class="opacity-70 hover:opacity-100 transition duration-150">Lab Lecturer</a></li>
-                                <li><a href="../resources/facilities-borrowing.php" class="opacity-70 hover:opacity-100 transition duration-150">Facilities & Borrowing</a></li>
-                                <li><a href="../resources/activity-gallery.php" class="opacity-70 hover:opacity-100 transition duration-150">Activity Gallery</a></li>
-                                <li><a href="../resources/downloads.php" class="opacity-70 hover:opacity-100 transition duration-150">Unduhan (Presentasi)</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/resources/lab-lecturers.php" class="opacity-70 hover:opacity-100 transition duration-150">Lab Lecturer</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/resources/facilities-borrowing.php" class="opacity-70 hover:opacity-100 transition duration-150">Facilities & Borrowing</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/resources/activity-gallery.php" class="opacity-70 hover:opacity-100 transition duration-150">Activity Gallery</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/resources/downloads.php" class="opacity-70 hover:opacity-100 transition duration-150">Unduhan (Presentasi)</a></li>
                             </ul>
                         </div>
                     </div>

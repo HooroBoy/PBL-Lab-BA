@@ -25,8 +25,8 @@ include 'includes/header.php';
                 </div>
 
                 <div class="w-full lg:w-5/12 flex justify-center">
-                    <img class="w-full max-w-sm lg:max-w-lg h-auto rounded-xl shadow-2xl" 
-                         src="assets/images/penguin-mascot.png" 
+                    <img class="w-full max-w-sm lg:max-w-lg h-auto rounded-xl" 
+                         src="assets/Logo/Penguin.png" 
                          alt="Penguin Mascot representing Data Analytics" 
                          onerror="this.onerror=null; this.src='https://placehold.co/510x600/124874/FFFFFF?text=Analytics+Lab';"
                     />
