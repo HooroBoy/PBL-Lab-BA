@@ -19,7 +19,7 @@ include 'includes/header.php';
                             Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.
                         </p>
                     </div>
-                    <button class="self-start px-8 py-4 text-sm font-bold bg-gray-50 text-text-dark rounded-full shadow-xl border-4 outline-primary hover:bg-gray-100 transition duration-300">
+                    <button class="self-start px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl border-4 border-primary hover:bg-blue-800 transition duration-300">
                         Learn More
                     </button>
                 </div>
@@ -38,7 +38,7 @@ include 'includes/header.php';
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
                 <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
                     <h2 class="text-4xl md:text-5xl font-bold text-text-dark lg:w-2/3">
-                        Creating Solutions, <br/>Not Just Analysis
+                        Fokus Riset
                     </h2>
                     <p class="text-lg text-medium lg:w-1/3">
                         The Business Analytics Laboratory is committed to moving beyond theoretical review. We focus on applying cutting-edge research to build tangible, data-driven solutions that solve complex business challenges. Our primary research areas include:
@@ -108,7 +108,7 @@ include 'includes/header.php';
         <section class="w-full bg-white py-20 md:py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 flex flex-col items-center">
                 <h2 class="text-4xl md:text-5xl font-bold text-text-dark text-center">
-                    Explore Our Work
+                    Explore Article
                 </h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">

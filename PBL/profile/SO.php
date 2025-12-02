@@ -22,7 +22,7 @@ include '../includes/header.php';
                 </h2>
                 
                 <div class="flex justify-center overflow-x-auto p-4">
-                    <img src="../assets/Logo/StrukturOrganisasi.jpg" 
+                    <img src="../assets/Logo/Bagan.png" 
                          alt="Bagan Struktur Organisasi Laboratorium Business Analytics" 
                          class="max-w-full h-auto"
                          onerror="this.onerror=null; this.src='https://placehold.co/1000x500?text=Struktur+Organisasi';" />
