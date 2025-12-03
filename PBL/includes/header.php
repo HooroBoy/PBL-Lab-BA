@@ -126,7 +126,6 @@ require_once __DIR__ . '/config.php';
                     <!-- Mobile three-dot menu (visible on small/medium widths) -->
                     <div x-data="{ openMobileMenu: false }" class="lg:hidden relative">
                         <button @click="openMobileMenu = !openMobileMenu" class="p-2 rounded-md hover:bg-white/10 text-white focus:outline-none">
-                            <!-- three dots icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 8a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z" />
                             </svg>
