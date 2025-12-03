@@ -23,7 +23,7 @@ a.group:hover .group-icon { background-color: #fff !important; color: #124874 !i
                 Fokus Riset
             </h1>
             <p class="text-lg text-medium">
-                Exploring new frontiers in technology and business analytics
+                Menjelajahi cakrawala baru dalam teknologi dan analitik bisnis
             </p>
         </header>
 
@@ -39,14 +39,14 @@ a.group:hover .group-icon { background-color: #fff !important; color: #124874 !i
                     </div>
                     
                     <h3 class="text-xl font-bold leading-snug group-hover:text-white transition duration-150">
-                        Business Intelligence
+                        Intelijen Bisnis
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        We focus on transforming raw data into strategic assets. Our research explores advanced visualization and interactive dashboards to empower organizations with clear, actionable insights for better decision-making.
+                        Kami fokus mengubah data mentah menjadi aset strategis. Riset kami mengeksplorasi visualisasi canggih dan dasbor interaktif untuk memberdayakan organisasi dengan wawasan yang jelas dan dapat ditindaklanjuti untuk pengambilan keputusan yang lebih baik.
                     </p>
                     
                     <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
-                        Learn More 
+                        Pelajari Lebih Lanjut 
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
                     </div>
                 </div>
@@ -61,14 +61,14 @@ a.group:hover .group-icon { background-color: #fff !important; color: #124874 !i
                     </div>
 
                     <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                        Data Analytics & NLP
+                        Analisis Data & NLP
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        Our work combines statistical modelling with machine learning and Natural Language Processing. We analyze complex, unstructured datasets to uncover hidden patterns, forecast trends, and extract valuable meaning from text.
+                        Pekerjaan kami menggabungkan pemodelan statistik dengan pembelajaran mesin dan Pemrosesan Bahasa Alami. Kami menganalisis dataset kompleks dan tak terstruktur untuk menemukan pola tersembunyi, meramalkan tren, dan mengekstrak makna berharga dari teks.
                     </p>
 
                     <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
-                        Learn More 
+                        Pelajari Lebih Lanjut 
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
                     </div>
                 </div>
@@ -83,14 +83,14 @@ a.group:hover .group-icon { background-color: #fff !important; color: #124874 !i
                     </div>
 
                     <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                        Process Mining
+                        Penambangan Proses
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        By analyzing digital event logs, our research maps and evaluates real-world business operations. We focus on identifying bottlenecks, discovering inefficiencies, and optimizing workflows to enhance operational performance.
+                        Dengan menganalisis log peristiwa digital, riset kami memetakan dan mengevaluasi operasi bisnis dunia nyata. Kami fokus mengidentifikasi hambatan, menemukan ketidakefisienan, dan mengoptimalkan alur kerja untuk meningkatkan kinerja operasional.
                     </p>
                     
                     <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
-                        Learn More 
+                        Pelajari Lebih Lanjut 
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
                     </div>
                 </div>
@@ -105,14 +105,14 @@ a.group:hover .group-icon { background-color: #fff !important; color: #124874 !i
                     </div>
 
                     <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                        Innovative Tools
+                        Alat Inovatif
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        We bridge the gap between theory and practice. This area focuses on developing novel prototypes and functional applications, turning our research in BI, analytics, and process mining into practical, usable tools that deliver real-world value.
+                        Kami menjembatani jurang antara teori dan praktik. Area ini fokus pada pengembangan prototipe inovatif dan aplikasi fungsional, mengubah riset kami dalam BI, analitik, dan penambangan proses menjadi alat praktis yang memberikan nilai nyata.
                     </p>
 
                     <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
-                        Learn More 
+                        Pelajari Lebih Lanjut 
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
                     </div>
                 </div>
