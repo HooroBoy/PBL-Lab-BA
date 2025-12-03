@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         timer: 2000,
         timerProgressBar: true,
     }).then(() => {
-        window.location.href = '/project-azenk/admin/kategori_riset/view.php?halaman=kategori_riset';
+        window.location.href = '/PBL-Lab-BA/admin/kategori_riset/view.php?halaman=kategori_riset';
     })
     </script>";
 }
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <input type="text" name="deskripsi" class="form-control">
                                     </div>
                                     <button type="submit" name="submit" class="btn btn-primary">Tambah</button>
-                                    <a href="/project-azenk/admin/kategori_riset/view.php?halaman=kategori_riset" class="btn btn-secondary">Kembali</a>
+                                    <a href="/PBL-Lab-BA/admin/kategori_riset/view.php?halaman=kategori_riset" class="btn btn-secondary">Kembali</a>
                                 </form>
                             </div>
                         </div>

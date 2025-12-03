@@ -45,7 +45,7 @@ $galeri = Galeri::all($kategori);
                         <?php foreach ($galeri as $g) { ?>
                         <div class="col-md-4 mb-3">
                             <div class="card h-100">
-                                <img src="<?php echo $g['gambar']; ?>" class="card-img-top" alt="Gambar Galeri" style="object-fit:cover;max-height:200px;">
+                                <img src="../../public/<?php echo $g['gambar']; ?>" class="card-img-top" alt="Gambar Galeri" style="object-fit:cover;max-height:200px;">
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo htmlspecialchars($g['judul']); ?></h5>
                                     <p class="card-text"><?php echo nl2br(htmlspecialchars($g['deskripsi'])); ?></p>

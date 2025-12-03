@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         timer: 2000,
         timerProgressBar: true,
     }).then(() => {
-        window.location.href = '/project-azenk/admin/dosen/view.php?halaman=dosen';
+        window.location.href = '/PBL-Lab-BA/admin/dosen/view.php?halaman=dosen';
     })
     </script>";
 }

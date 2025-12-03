@@ -10,8 +10,8 @@
     //         timer: 2000,
     //         timerProgressBar: true,
     //     }).then(() => {
-    //         window.location.href = '/project-azenk/admin/kategori_riset/view.php?halaman=kategori_riset';
+    //         window.location.href = '/PBL-Lab-BA/admin/kategori_riset/view.php?halaman=kategori_riset';
     //     })
     //     </script>";
-    header("Location: /project-azenk/admin/kategori_riset/view.php?halaman=kategori_riset");
+    header("Location: /PBL-Lab-BA/admin/kategori_riset/view.php?halaman=kategori_riset");
 ?>

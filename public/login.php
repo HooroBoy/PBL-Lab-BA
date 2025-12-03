@@ -20,7 +20,7 @@
     session_start();
 
     if (isset($_SESSION['nama'])) {
-        header('Location: /project-azenk/admin/index.php?halaman=beranda');
+        header('Location: /PBL-Lab-BA/admin/index.php?halaman=beranda');
         exit;
     }
 
@@ -51,7 +51,7 @@
                 timer: 2000,
                 timerProgressBar: true,
             }).then(() => {
-                window.location.href = '/project-azenk/admin/index.php?halaman=beranda';
+                window.location.href = '/PBL-Lab-BA/admin/index.php?halaman=beranda';
             })
             </script>
             ";

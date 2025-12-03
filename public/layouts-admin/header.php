@@ -35,7 +35,7 @@
                         </li>
                         <?php if (isset($_SESSION['nama'])) : ?>
                             <li>
-                                <a class="dropdown-item" href="/project-azenk/admin/logout.php" onclick="confirmLogout(event)"><i class="icon-mid bi bi-box-arrow-left me-2"></i>
+                                <a class="dropdown-item" href="/PBL-Lab-BA/admin/logout.php" onclick="confirmLogout(event)"><i class="icon-mid bi bi-box-arrow-left me-2"></i>
                                     Logout</a>
                             </li>
                         <?php else : ?>

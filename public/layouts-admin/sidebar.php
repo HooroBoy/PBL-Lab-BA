@@ -115,7 +115,7 @@ if (isset($_GET['halaman'])) {
                 <li class="sidebar-title">Menu</li>
 
                 <li class="sidebar-item <?= $beranda ? 'active' : '' ?>">
-                    <a href="/project-azenk/admin/index.php?halaman=beranda" class="sidebar-link">
+                    <a href="/PBL-Lab-BA/admin/index.php?halaman=beranda" class="sidebar-link">
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
@@ -131,13 +131,13 @@ if (isset($_GET['halaman'])) {
                     </a>
                 </li>
                 <li class="sidebar-item <?= $kategori_riset || $tambah_kategori_riset || $ubah_kategori_riset ? 'active' : '' ?>">
-                    <a href="/project-azenk/admin/kategori_riset/view.php?halaman=kategori_riset" class="sidebar-link">
+                    <a href="/PBL-Lab-BA/admin/kategori_riset/view.php?halaman=kategori_riset" class="sidebar-link">
                         <i class="bi bi-book"></i>
                         <span>Kategori Riset</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?= $dosen || $tambah_dosen || $ubah_dosen ? 'active' : '' ?>">
-                    <a href="/project-azenk/admin/dosen/view.php?halaman=dosen" class="sidebar-link">
+                    <a href="/PBL-Lab-BA/admin/dosen/view.php?halaman=dosen" class="sidebar-link">
                         <i class="bi bi-person-workspace"></i>
                         <span>Dosen</span>
                     </a>
@@ -150,10 +150,10 @@ if (isset($_GET['halaman'])) {
                     </a>
                     <ul class="submenu">
                         <li class="submenu-item <?php if(isset($_GET['kategori']) && $_GET['kategori']=='aktivitas') echo 'active'; ?>">
-                            <a href="/project-azenk/admin/galeri/view.php?kategori=aktivitas">Galeri Aktivitas</a>
+                            <a href="/PBL-Lab-BA/admin/galeri/view.php?kategori=aktivitas">Galeri Aktivitas</a>
                         </li>
                         <li class="submenu-item <?php if(isset($_GET['kategori']) && $_GET['kategori']=='fasilitas') echo 'active'; ?>">
-                            <a href="/project-azenk/admin/galeri/view.php?kategori=fasilitas">Galeri Fasilitas</a>
+                            <a href="/PBL-Lab-BA/admin/galeri/view.php?kategori=fasilitas">Galeri Fasilitas</a>
                         </li>
                     </ul>
                 </li>
@@ -161,7 +161,7 @@ if (isset($_GET['halaman'])) {
 
                 <li class="sidebar-title">Pengaturan</li>
                 <li class="sidebar-item <?= $site_setting ? 'active' : '' ?>">
-                    <a href="/project-azenk/admin/site_setting/edit.php?halaman=site_setting" class="sidebar-link">
+                    <a href="/PBL-Lab-BA/admin/site_setting/edit.php?halaman=site_setting" class="sidebar-link">
                         <i class="bi bi-gear"></i>
                         <span>Site Setting</span>
                     </a>

@@ -11,11 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gambar = $galeri['gambar'];
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] == UPLOAD_ERR_OK) {
         $fileName = time() . '_' . basename($_FILES['gambar']['name']);
-        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/project-azenk/public/uploads';
+        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/PBL-Lab-BA/public/uploads';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-        $gambar = '/project-azenk/public/uploads/' . $fileName;
+        $gambar = '/PBL-Lab-BA/public/uploads/' . $fileName;
         $targetFile = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
         if (move_uploaded_file($_FILES['gambar']['tmp_name'], $targetFile)) {
             // $gambar sudah path relatif dari root web
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'kategori' => $_POST['kategori'],
     ];
     Galeri::update($id, $data);
-    $message = "<script>Swal.fire({title: 'Berhasil', text: 'Galeri berhasil diupdate!', icon: 'success', showConfirmButton: false, timer: 2000, timerProgressBar: true,}).then(() => {window.location.href = '/project-azenk/admin/galeri/view.php?halaman=galeri';})</script>";
+    $message = "<script>Swal.fire({title: 'Berhasil', text: 'Galeri berhasil diupdate!', icon: 'success', showConfirmButton: false, timer: 2000, timerProgressBar: true,}).then(() => {window.location.href = '/PBL-Lab-BA/admin/galeri/view.php?halaman=galeri';})</script>";
     $galeri = Galeri::find($id);
 }
 ?>

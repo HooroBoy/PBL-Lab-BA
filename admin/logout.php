@@ -1,5 +1,5 @@
 <?php
 session_start();
 session_destroy();
-header("Location: /project-azenk/public/login.php");
+header("Location: /PBL-Lab-BA/public/login.php");
 exit;
