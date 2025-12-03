@@ -5,13 +5,12 @@
                 <div class="flex flex-col lg:flex-row justify-between items-start space-y-10 lg:space-y-0">
                     
                     <div class="space-y-6 lg:w-1/4">
-                        <div class="flex items-center space-x-2">
-                            <img class="w-12 h-12 rounded-lg" src="<?php echo BASE_URL; ?>/assets/Logo/Logo2.png" alt="LBA" />
-                            <div class="flex flex-col">
-                                <span class="text-base font-semibold uppercase leading-tight">Laboratorium</span>
-                                <span class="text-sm font-bold uppercase leading-none text-white">Business Analytics</span>
-                                <span class="text-xs font-light uppercase leading-none">Transforming data into decision</span>
-                            </div>
+                        <!-- Partner logos (JTI & Polinema) -->
+                        <div class="flex items-center space-x-3">
+                            <img class="h-14 w-auto" src="<?php echo BASE_URL; ?>../assets/Logo/LogoPolinema.png" alt="Logo Polinema" />
+                            <img class="h-12 w-auto" src="<?php echo BASE_URL; ?>../assets/Logo/LogoJTI.png" alt="Logo JTI" />
+                            <img class="h-14 w-auto" src="<?php echo BASE_URL; ?>../assets/Logo/Logo2.png" alt="Logo BA" />
+                        
                         </div>
                         <div class="text-sm space-y-2">
                             <h4 class="text-base font-semibold">Punya Proyek yang Ingin Dibahas?</h4>
