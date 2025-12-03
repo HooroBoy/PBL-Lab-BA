@@ -1,9 +1,19 @@
 <?php
 // Set Judul Halaman
-$page_title = "Laboratory of Business Analytics";
+$page_title = "Laboratorium Business Analytics";
 // Memanggil Header (Navbar, <head>, <body>, <div id="main-content")
 include 'includes/header.php';
 ?>
+
+<style>
+/* --- Kustomisasi Fokus Riset Cards (Untuk index.php) --- */
+/* Card hover: change card background to lab primary and make text readable */
+/* Karena index.php memanggil header, kita bisa menaruh style di sini. */
+.research-card.group:hover { background-color: #124874 !important; color: #fff !important; }
+.research-card.group:hover h3, .research-card.group:hover p { color: #fff !important; }
+.research-card.group .group-icon { transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+.research-card.group:hover .group-icon { background-color: #fff !important; color: #124874 !important; border-color: transparent !important; }
+</style>
 
         <section class="w-full bg-white pt-16 pb-20 md:py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center lg:justify-between gap-12">
@@ -13,14 +23,14 @@ include 'includes/header.php';
                             Business Analytics
                         </span>
                         <h1 class="text-5xl md:text-6xl font-extrabold text-text-dark leading-tight md:leading-snug">
-                            Laboratory of Business Analytics
+                            Laboratorium Business Analytics
                         </h1>
                         <p class="text-lg text-medium leading-relaxed">
                             Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.
                         </p>
                     </div>
                     <a href="profile/VisiMisi.php" class="self-start px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl border-4 border-primary hover:bg-blue-800 transition duration-300 inline-block">
-                        Learn More
+                        Pelajari Selengkapnya
                     </a>
                 </div>
 
@@ -35,80 +45,104 @@ include 'includes/header.php';
         </section>
 
         <section class="w-full bg-white py-20 md:py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-                <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
-                    <h2 class="text-4xl md:text-5xl font-bold text-text-dark lg:w-2/3">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                    <h2 class="text-4xl md:text-5xl font-bold text-text-dark md:w-2/3">
                         Fokus Riset
                     </h2>
-                    <p class="text-lg text-medium lg:w-1/3">
-                        The Business Analytics Laboratory is committed to moving beyond theoretical review. We focus on applying cutting-edge research to build tangible, data-driven solutions that solve complex business challenges. Our primary research areas include:
+                    <p class="text-lg text-medium md:w-1/3">
+                        Laboratorium Business Analytics berkomitmen untuk bergerak melampaui tinjauan teoretis. Kami fokus menerapkan riset mutakhir untuk membangun solusi nyata berbasis data yang menyelesaikan tantangan bisnis yang kompleks. Area riset utama kami meliputi:
                     </p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="p-6 bg-primary text-white rounded-xl flex flex-col space-y-6">
-                        <div class="icon-box bg-primary border-2 border-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                        </div>
-                        <h3 class="text-xl font-bold">Business Intelligence</h3>
-                        <p class="text-sm opacity-90 flex-grow">
-                            We focus on transforming raw data into strategic assets. Our research explores advanced visualization and interactive dashboards to empower organizations with clear, actionable insights for better decision-making.
-                        </p>
-                        <a href="profile/research-focus.php#bi" class="flex items-center text-sm font-semibold hover:underline">
-                            Learn More 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                        </a>
-                    </div>
-
-                    <div class="p-6 bg-white shadow-lg border border-gray-300 rounded-xl flex flex-col space-y-6">
-                        <div class="icon-box bg-gray-50 border border-gray-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-text-dark">Data Analytics & NLP</h3>
-                        <p class="text-sm text-medium flex-grow">
-                            Our work combines statistical modeling with machine learning and Natural Language Processing. We analyze complex, unstructured datasets to uncover hidden patterns, forecast trends, and extract valuable meaning from text.
-                        </p>
-                        <a href="profile/research-focus.php#nlp" class="flex items-center text-sm font-semibold text-primary hover:underline">
-                            Learn More 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                        </a>
-                    </div>
+                <!-- START: Fokus Riset Cards (Disesuaikan dengan FokusRiset.php) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     
-                    <div class="p-6 bg-white shadow-lg border border-gray-300 rounded-xl flex flex-col space-y-6">
-                        <div class="icon-box bg-gray-50 border border-gray-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/></svg>
+                    <!-- Card 1: Business Intelligence -->
+                    <a href="profile/FokusRiset.php#bi" class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary hover:text-white">
+                        <div class="p-6 space-y-6 flex flex-col h-full">
+                            <!-- Icon Placeholder -->
+                            <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold leading-snug group-hover:text-white transition duration-150">
+                                Intelijen Bisnis
+                            </h3>
+                            <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
+                                Kami fokus mengubah data mentah menjadi aset strategis. Riset kami mengeksplorasi teknik visualisasi canggih dan dasbor interaktif untuk memberdayakan organisasi dengan wawasan yang jelas dan dapat ditindaklanjuti.
+                            </p>
                         </div>
-                        <h3 class="text-xl font-bold text-text-dark">Process Mining</h3>
-                        <p class="text-sm text-medium flex-grow">
-                            By analyzing digital event logs, our research maps and evaluates real-world business operations. We focus on identifying bottlenecks, discovering inefficiencies, and optimizing workflows to enhance operational performance.
-                        </p>
-                        <a href="profile/research-focus.php#pm" class="flex items-center text-sm font-semibold text-primary hover:underline">
-                            Learn More 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                        </a>
-                    </div>
+                    </a>
+                    
+                    <!-- Card 2: Data Analytics & NLP -->
+                    <a href="profile/FokusRiset.php#nlp" class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
+                        <div class="p-6 space-y-6 flex flex-col h-full">
+                            <!-- Icon Placeholder -->
+                            <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+                            </div>
 
-                    <div class="p-6 bg-white shadow-lg border border-gray-300 rounded-xl flex flex-col space-y-6">
-                        <div class="icon-box bg-gray-50 border border-gray-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3a2.85 2.85 0 0 0-5.69 0H2v2h1.33A2.85 2.85 0 0 0 7 8.85h.01A2.85 2.85 0 0 0 12.69 8.85H22v-2h-1.33A2.85 2.85 0 0 0 17 3zM7 7.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM2 12h1.33A2.85 2.85 0 0 0 7 15.85h.01A2.85 2.85 0 0 0 12.69 15.85H22v-2h-1.33A2.85 2.85 0 0 0 17 12zM7 16.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+                            <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
+                                Analisis Data & NLP
+                            </h3>
+                            <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
+                                Pekerjaan kami menggabungkan pemodelan statistik dengan pembelajaran mesin dan Pemrosesan Bahasa Alami (NLP). Kami menganalisis dataset kompleks dan tak terstruktur untuk menemukan pola tersembunyi, meramalkan tren, dan mengekstrak makna dari teks.
+                            </p>
                         </div>
-                        <h3 class="text-xl font-bold text-text-dark">Innovative Tools</h3>
-                        <p class="text-sm text-medium flex-grow">
-                            We bridge the gap between theory and practice. This area focuses on developing novel prototypes and functional applications, turning our research in BI, analytics, and process mining into practical, usable tools that deliver real-world value.
-                        </p>
-                        <a href="projects-demos/index.php" class="flex items-center text-sm font-semibold text-primary hover:underline">
-                            Learn More 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                        </a>
-                    </div>
+                    </a>
+
+                    <!-- Card 3: Process Mining (PM) -->
+                    <a href="profile/FokusRiset.php#pm" class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
+                        <div class="p-6 space-y-6 flex flex-col h-full">
+                            <!-- Icon Placeholder -->
+                            <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/></svg>
+                            </div>
+
+                            <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
+                                Penambangan Proses
+                            </h3>
+                            <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
+                                Dengan menganalisis log peristiwa digital, riset kami memetakan dan mengevaluasi operasi bisnis nyata. Kami fokus mengidentifikasi hambatan, menemukan ketidakefisienan, dan mengoptimalkan alur kerja untuk meningkatkan kinerja operasional.
+                            </p>
+                        </div>
+                    </a>
+                    
+                    <!-- Card 4: Innovative Tools -->
+                    <a href="profile/FokusRiset.php#tools" class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
+                        <div class="p-6 space-y-6 flex flex-col h-full">
+                            <!-- Icon Placeholder -->
+                            <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3a2.85 2.85 0 0 0-5.69 0H2v2h1.33A2.85 2.85 0 0 0 7 8.85h.01A2.85 2.85 0 0 0 12.69 8.85H22v-2h-1.33A2.85 2.85 0 0 0 17 3zM7 7.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM2 12h1.33A2.85 2.85 0 0 0 7 15.85h.01A2.85 2.85 0 0 0 12.69 15.85H22v-2h-1.33A2.85 2.85 0 0 0 17 12zM7 16.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+                            </div>
+
+                            <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
+                                Alat Inovatif
+                            </h3>
+                            <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
+                                Kami menjembatani jurang antara teori dan praktik. Area ini fokus pada pengembangan prototipe dan aplikasi fungsional, mengubah riset kami menjadi alat praktis yang memberikan nilai nyata.
+                            </p>
+                        </div>
+                    </a>
+                    
                 </div>
+                <!-- END: Fokus Riset Cards -->
+                
+                <!-- START: Explore Our Research Button (Centered) -->
+                <div class="flex justify-center w-full mt-12">
+                    <a href="profile/FokusRiset.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
+                        Jelajahi Riset Kami
+                    </a>
+                </div>
+                <!-- END: Explore Our Research Button (Centered) -->
             </div>
         </section>
 
         <section class="w-full bg-white py-20 md:py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 flex flex-col items-center">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 flex flex-col items-center">
                 <h2 class="text-4xl md:text-5xl font-bold text-text-dark text-center">
-                    Explore Our Work
+                    Jelajahi Karya Kami
                 </h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -120,14 +154,14 @@ include 'includes/header.php';
                         />
                         <div class="space-y-4">
                             <span class="inline-block px-3 py-1 bg-gray-50 text-text-dark text-xs font-medium rounded-full border border-gray-200">
-                                Live Demo
+                                Demo Langsung
                             </span>
-                            <h3 class="text-xl font-bold text-text-dark">Interactive Sales Forecasting Dashboard</h3>
+                            <h3 class="text-xl font-bold text-text-dark">Dasbor Interaktif Peramalan Penjualan</h3>
                             <p class="text-sm text-medium h-12 overflow-hidden">
-                                See our BI tools in action. This interactive demo uses time-series analysis to forecast sales trends and visualize key performance indicators.
+                                Lihat alat BI kami beraksi. Demo interaktif ini menggunakan analisis deret waktu untuk meramalkan tren penjualan dan memvisualisasikan indikator kinerja utama.
                             </p>
                             <a href="projects-demos/prototypes/sales-demo" class="flex items-center text-sm font-semibold text-primary hover:underline pt-4">
-                                Try the Demo 
+                                Coba Demo 
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
                             </a>
                         </div>
@@ -141,14 +175,14 @@ include 'includes/header.php';
                         />
                         <div class="space-y-4">
                             <span class="inline-block px-3 py-1 bg-gray-50 text-text-dark text-xs font-medium rounded-full border border-gray-200">
-                                Data Analytics Project
+                                Proyek Analisis Data
                             </span>
-                            <h3 class="text-xl font-bold text-text-dark">Sentiment Analysis of E-commerce Reviews</h3>
+                            <h3 class="text-xl font-bold text-text-dark">Analisis Sentimen Ulasan E-commerce</h3>
                             <p class="text-sm text-medium h-12 overflow-hidden">
-                                A deep-dive analysis using NLP to understand customer sentiment. This project helped identify key drivers of satisfaction and dissatisfaction.
+                                Analisis mendalam menggunakan NLP untuk memahami sentimen pelanggan. Proyek ini membantu mengidentifikasi faktor utama yang mempengaruhi kepuasan dan ketidakpuasan.
                             </p>
                             <a href="projects-demos/project-2.php" class="flex items-center text-sm font-semibold text-primary hover:underline pt-4">
-                                Read More 
+                                Baca Selengkapnya 
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
                             </a>
                         </div>
@@ -162,14 +196,14 @@ include 'includes/header.php';
                         />
                         <div class="space-y-4">
                             <span class="inline-block px-3 py-1 bg-gray-50 text-text-dark text-xs font-medium rounded-full border border-gray-200">
-                                Student Thesis
+                                Skripsi Mahasiswa
                             </span>
-                            <h3 class="text-xl font-bold text-text-dark">Optimizing Hospital Workflows with Process Mining</h3>
+                            <h3 class="text-xl font-bold text-text-dark">Mengoptimalkan Alur Kerja Rumah Sakit dengan Process Mining</h3>
                             <p class="text-sm text-medium h-12 overflow-hidden">
-                                This thesis applied process mining techniques to patient administration data, successfully identifying and recommending solutions for system bottlenecks.
+                                Tesis ini menerapkan teknik process mining pada data administrasi pasien, berhasil mengidentifikasi dan merekomendasikan solusi untuk kemacetan sistem.
                             </p>
                             <a href="projects-demos/project-3.php" class="flex items-center text-sm font-semibold text-primary hover:underline pt-4">
-                                Read More 
+                                Baca Selengkapnya 
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
                             </a>
                         </div>
@@ -177,7 +211,7 @@ include 'includes/header.php';
                 </div>
 
                 <a href="projects-demos/index.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
-                    Explore More The Work
+                    Jelajahi Karya Lainnya
                 </a>
 
             </div>
@@ -189,14 +223,14 @@ include 'includes/header.php';
                 <div class="w-full lg:w-7/12 flex flex-col space-y-12">
                     <div class="space-y-6">
                         <h2 class="text-4xl md:text-5xl font-bold text-text-dark leading-snug">
-                            Article
+                            Artikel
                         </h2>
                         <p class="text-lg text-medium leading-relaxed">
-                            We don't just research; we build solutions. Get hands-on with our interactive prototype and see how Business Intelligence and Data Analytics can transform raw data into strategic decisions. This demo is the tangible result of our research focus, giving you a real-time data analysis experience.
+                            Kami tidak hanya meneliti; kami membangun solusi. Cobalah prototipe interaktif kami dan lihat bagaimana Business Intelligence dan Analisis Data dapat mengubah data mentah menjadi keputusan strategis. Demo ini merupakan hasil nyata dari fokus riset kami, memberi Anda pengalaman analisis data waktu nyata.
                         </p>
                     </div>
                     <a href="resource/Article.php" class="self-start px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl border-4 border-primary hover:bg-blue-800 transition duration-300 inline-block">
-                        Learn Articles
+                        Pelajari Artikel
                     </a>
                 </div>
                 
@@ -204,7 +238,7 @@ include 'includes/header.php';
                     <div class="relative w-full max-w-sm lg:max-w-lg h-[400px] md:h-[600px] rounded-xl shadow-2xl bg-gray-700 bg-cover bg-center"
                         style="background-image: url('assets/images/interactive-demo.jpg');"> <span class="absolute top-6 left-6 inline-block px-4 py-2 bg-white text-text-dark text-sm font-semibold rounded-full border border-white shadow-md">
                             <span class="inline-block w-2 h-2 bg-[#427AD3] rounded-full mr-2"></span>
-                            Core Feature
+                            Fitur Utama
                         </span>
                     </div>
                 </div>
@@ -217,7 +251,7 @@ include 'includes/header.php';
                 
                 <div class="w-full flex justify-between items-center">
                     <h2 class="text-4xl md:text-5xl font-bold text-text-dark">
-                        Our Lab in Action
+                        Laboratorium Kami dalam Aksi
                     </h2>
                     <div x-data="{ active: 'activities' }" class="relative flex space-x-2 p-2 bg-white border border-gray-300 rounded-full">
                             <!-- Indicator (animated) -->
@@ -225,10 +259,10 @@ include 'includes/header.php';
                                 :class="{ 'translate-x-0': active === 'activities', 'translate-x-full': active === 'facility' }"></div>
 
                         <button @click="active = 'activities'" :class="active === 'activities' ? 'bg-primary text-white' : 'bg-transparent text-medium'" class="relative z-10 px-8 py-2 text-sm font-bold rounded-full transition duration-150">
-                            Activities
+                            Kegiatan
                         </button>
                         <button @click="active = 'facility'" :class="active === 'facility' ? 'bg-primary text-white' : 'bg-transparent text-medium'" class="relative z-10 px-8 py-2 text-sm font-medium rounded-full transition duration-150">
-                            Facility
+                            Fasilitas
                         </button>
                     </div>
                 </div>
@@ -285,7 +319,7 @@ include 'includes/header.php';
                 </div>
 
                 <a href="resource/ActivityGallery.php" class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full border border-blue hover:bg-blue-100 transition duration-300">
-                    View Full Gallery
+                    Lihat Galeri Lengkap
                 </a>
 
             </div>
