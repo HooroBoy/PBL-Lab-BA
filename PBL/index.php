@@ -140,82 +140,93 @@ include 'includes/header.php';
         </section>
 
         <section class="w-full bg-white py-20 md:py-24">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 flex flex-col items-center">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 flex flex-col items-center">
                 <h2 class="text-4xl md:text-5xl font-bold text-text-dark text-center">
-                    Jelajahi Karya Kami
+                    Tim Kami
                 </h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <div class="flex flex-col space-y-6">
-                        <img class="w-full h-80 object-cover rounded-xl shadow-lg" 
-                            src="assets/images/project-1-dashboard.jpg" 
-                            alt="Sales Forecasting Dashboard Mockup" 
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x500/F0F0F0/646464?text=Project+1';"
-                        />
-                        <div class="space-y-4">
-                            <span class="inline-block px-3 py-1 bg-gray-50 text-text-dark text-xs font-medium rounded-full border border-gray-200">
-                                Demo Langsung
-                            </span>
-                            <h3 class="text-xl font-bold text-text-dark">Dasbor Interaktif Peramalan Penjualan</h3>
-                            <p class="text-sm text-medium h-12 overflow-hidden">
-                                Lihat alat BI kami beraksi. Demo interaktif ini menggunakan analisis deret waktu untuk meramalkan tren penjualan dan memvisualisasikan indikator kinerja utama.
-                            </p>
-                            <a href="projects-demos/prototypes/sales-demo" class="flex items-center text-sm font-semibold text-primary hover:underline pt-4">
-                                Coba Demo 
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                            </a>
+                <!-- Team carousel: 9 cards -->
+                <div class="relative w-full max-w-5xl">
+                    <!-- Left / Right controls -->
+                    <button aria-label="Prev" onclick="teamScroll('left')" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                    </button>
+                    <button aria-label="Next" onclick="teamScroll('right')" class="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+                    </button>
+
+                    <div id="teamCarousel" class="overflow-x-auto scrollbar-hide py-6" style="scroll-behavior:smooth;">
+                        <div class="flex space-x-6 px-8" style="min-width:1200px;">
+                                <!-- 9 team cards -->
+                                <?php
+                                    $team = [
+                                        ['name'=>'Dr. Banni Satria Andoko, S.Kom., M.MSI','title'=>'Lead Laboratory','img'=>'assets/images/team-1.jpg'],
+                                        ['name'=>'Putra Prima Arhandi, S.T.,M.Kom.','title'=>'Lead Software Engineer','img'=>'assets/images/team-2.jpg'],
+                                        ['name'=>'Jane Smith','title'=>'Senior Researcher','img'=>'assets/images/team-3.jpg'],
+                                        ['name'=>'Lecturer 4','title'=>'Researcher','img'=>'assets/images/team-4.jpg'],
+                                        ['name'=>'Lecturer 5','title'=>'Data Scientist','img'=>'assets/images/team-5.jpg'],
+                                        ['name'=>'Lecturer 6','title'=>'Process Mining','img'=>'assets/images/team-6.jpg'],
+                                        ['name'=>'Lecturer 7','title'=>'NLP Specialist','img'=>'assets/images/team-7.jpg'],
+                                        ['name'=>'Lecturer 8','title'=>'BI Specialist','img'=>'assets/images/team-8.jpg'],
+                                        ['name'=>'Lecturer 9','title'=>'Visualization','img'=>'assets/images/team-9.jpg']
+                                    ];
+                                    foreach($team as $i => $member) {
+                                        echo '<a href="dosen.php#member'.($i+1).'" class="w-64 flex-shrink-0 bg-white rounded-xl shadow-lg overflow-hidden">';
+                                        echo '<div class="h-40 bg-gray-100 flex items-center justify-center">';
+                                        echo '<img src="'.htmlspecialchars($member['img']).'" alt="'.htmlspecialchars($member['name']).'" class="w-full h-full object-cover" onerror="this.onerror=null; this.src=\'https://placehold.co/360x260/EFEFEF/9A9A9A?text=Team\'">';
+                                        echo '</div>';
+                                        echo '<div class="p-4 text-center">';
+                                        echo '<h4 class="text-lg font-semibold text-text-dark mb-1">'.htmlspecialchars($member['name']).'</h4>';
+                                        echo '<p class="text-sm text-primary font-medium">'.htmlspecialchars($member['title']).'</p>';
+                                        echo '</div></a>';
+                                    }
+                                ?>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="flex flex-col space-y-6">
-                        <img class="w-full h-80 object-cover rounded-xl shadow-lg" 
-                            src="assets/images/project-2-nlp.jpg" 
-                            alt="Sentiment Analysis project illustration" 
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x500/F0F0F0/646464?text=Project+2';"
-                        />
-                        <div class="space-y-4">
-                            <span class="inline-block px-3 py-1 bg-gray-50 text-text-dark text-xs font-medium rounded-full border border-gray-200">
-                                Proyek Analisis Data
-                            </span>
-                            <h3 class="text-xl font-bold text-text-dark">Analisis Sentimen Ulasan E-commerce</h3>
-                            <p class="text-sm text-medium h-12 overflow-hidden">
-                                Analisis mendalam menggunakan NLP untuk memahami sentimen pelanggan. Proyek ini membantu mengidentifikasi faktor utama yang mempengaruhi kepuasan dan ketidakpuasan.
-                            </p>
-                            <a href="projects-demos/project-2.php" class="flex items-center text-sm font-semibold text-primary hover:underline pt-4">
-                                Baca Selengkapnya 
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col space-y-6">
-                        <img class="w-full h-80 object-cover rounded-xl shadow-lg" 
-                            src="assets/images/project-3-process-mining.jpg" 
-                            alt="Hospital Workflow process diagram" 
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x500/F0F0F0/646464?text=Project+3';"
-                        />
-                        <div class="space-y-4">
-                            <span class="inline-block px-3 py-1 bg-gray-50 text-text-dark text-xs font-medium rounded-full border border-gray-200">
-                                Skripsi Mahasiswa
-                            </span>
-                            <h3 class="text-xl font-bold text-text-dark">Mengoptimalkan Alur Kerja Rumah Sakit dengan Process Mining</h3>
-                            <p class="text-sm text-medium h-12 overflow-hidden">
-                                Tesis ini menerapkan teknik process mining pada data administrasi pasien, berhasil mengidentifikasi dan merekomendasikan solusi untuk kemacetan sistem.
-                            </p>
-                            <a href="projects-demos/project-3.php" class="flex items-center text-sm font-semibold text-primary hover:underline pt-4">
-                                Baca Selengkapnya 
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                            </a>
-                        </div>
+                    <div class="flex justify-center mt-8">
+                        <a href="profile/dosen.php" class="px-8 py-4 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+                            Lihat Tim Lengkap
+                        </a>
                     </div>
                 </div>
-
-                <a href="projects-demos/index.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
-                    Jelajahi Karya Lainnya
-                </a>
-
             </div>
         </section>
+
+        <script>
+        (function(){
+            var carousel = document.getElementById('teamCarousel');
+            var autoplayInterval = 1500; // ms
+            var cardWidth = 272; // approx card + gap
+            var timer = null;
+            function startAuto(){
+                stopAuto();
+                timer = setInterval(function(){
+                    if(!carousel) return;
+                    if(carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10){
+                        carousel.scrollTo({left:0, behavior:'smooth'});
+                    } else {
+                        carousel.scrollBy({left: cardWidth, behavior:'smooth'});
+                    }
+                }, autoplayInterval);
+            }
+            function stopAuto(){ if(timer) { clearInterval(timer); timer=null; } }
+            window.teamScroll = function(dir){
+                stopAuto();
+                if(!carousel) return;
+                var amount = dir === 'left' ? -cardWidth : cardWidth;
+                carousel.scrollBy({left: amount, behavior: 'smooth'});
+                // restart autoplay after interaction
+                setTimeout(startAuto, 2500);
+            }
+            if(carousel){
+                carousel.addEventListener('mouseenter', stopAuto);
+                carousel.addEventListener('mouseleave', startAuto);
+                startAuto();
+            }
+        })();
+        </script>
 
         <section class="w-full bg-white py-20 md:py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col-reverse lg:flex-row items-center lg:justify-between gap-12">
