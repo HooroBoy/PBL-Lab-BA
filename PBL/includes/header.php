@@ -49,7 +49,7 @@ require_once __DIR__ . '/config.php';
 
     <div id="main-content" class="min-h-screen flex flex-col items-center">
 
-        <header class="w-full border-b border-primary sticky top-0 bg-primary text-white z-10">
+        <header class="w-full border-b border-primary sticky top-0 bg-primary text-white z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                 <div class="flex items-center space-x-2">
                     <img class="w-10 h-10 rounded-lg" src="<?php echo BASE_URL; ?>/assets/Logo/logo2.png" alt="LBA"
@@ -57,7 +57,7 @@ require_once __DIR__ . '/config.php';
                     <div class="flex flex-col">
                         <span class="text-xs font-bold uppercase leading-tight text-white">Laboratorium</span>
                         <span class="text-sm font-bold uppercase leading-none text-white">Business Analytics</span>
-                        <span class="text-xs font-medium leading-none text-white mt-1">Transforming Data into Decisions</span>
+                        <span class="text-xs font-medium leading-none text-white mt">Transforming Data into Decisions</span>
                     </div>
                 </div>
 

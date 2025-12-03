@@ -125,21 +125,47 @@ include 'includes/header.php';
 .hero-carousel-nav.next {
   right: 1rem;
 }
+
+/* Scroll down button */
+.scroll-down-btn {
+    position: absolute;
+    left: 50%;
+    /* move button slightly higher to avoid overlapping sticky header */
+    bottom: 3.25rem;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    border: 2px solid rgba(255,255,255,0.18);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    z-index: 30;
+    transition: transform .18s ease, background .18s ease, opacity .18s ease;
+}
+.scroll-down-btn:hover { transform: translateX(-50%) translateY(-4px); background: rgba(0,0,0,0.5); }
+.scroll-down-btn svg { opacity: 0.95; }
+
+.scroll-down-btn.__bounce { animation: bounce 1.8s infinite; }
+@keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-6px); } }
 </style>
 
 <!-- Hero Carousel Section -->
-<section class="hero-carousel" style="height: 600px; md:height: 800px;">
+<section class="hero-carousel" style="min-height: 100vh;">
   <!-- Slide 1: Laboratorium Business Analytics (with Penguin) -->
   <div class="hero-carousel-slide active" style="background-image: url('assets/Logo/gedung.png'); background-color: #1a1a1a;">
     <div class="hero-carousel-content">
       <div class="hero-carousel-text">
-        <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-primary text-xs font-semibold rounded-full border border-gray-500 mb-4">
+        <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-primary text-xs font-semibold rounded-full border border-gray-300 mb-4">
           Business Analytics
         </span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight md:leading-snug mb-4">
           Laboratorium Business Analytics
         </h1>
-        <p class="text-base md:text-lg text-gray-100 leading-relaxed mb-6">
+        <p class="text-base md:text-lg text-gray-100 leading-relaxed mb-4">
           Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.
         </p>
         <a href="profile/VisiMisi.php" class="inline-block px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl hover:bg-blue-800 transition duration-300">
@@ -148,6 +174,10 @@ include 'includes/header.php';
       </div>
     </div>
   </div>
+    <!-- Scroll down button -->
+    <button aria-label="Scroll down" class="scroll-down-btn __bounce" onclick="scrollDown()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+    </button>
 </section>
 
 <script>
@@ -187,6 +217,14 @@ function resetAutoSlide() {
 
 // Auto-advance slides every 5 seconds
 resetAutoSlide();
+
+// Scroll down helper: scroll to the next section after hero
+function scrollDown() {
+    const hero = document.querySelector('.hero-carousel');
+    if (!hero) return;
+    const nextTop = hero.getBoundingClientRect().bottom + window.scrollY;
+    window.scrollTo({ top: nextTop, behavior: 'smooth' });
+}
 </script>
 
 
