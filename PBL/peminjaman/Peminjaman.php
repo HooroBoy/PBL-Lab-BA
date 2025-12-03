@@ -168,7 +168,9 @@ if (isset($_SESSION['flash'])) {
             </div>
 
             <div class="mt-2">
-              <button type="submit" class="w-full inline-flex justify-center items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium">Kirim Pengajuan</button>
+              <button type="submit" class="w-full inline-flex justify-center items-center px-6 py-3 bg-primary hover:bg-yellow-500 text-white rounded-md font-medium">
+                Kirim Pengajuan
+            </button>
             </div>
 
           </form>

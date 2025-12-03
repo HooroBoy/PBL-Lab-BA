@@ -13,36 +13,182 @@ include 'includes/header.php';
 .research-card.group:hover h3, .research-card.group:hover p { color: #fff !important; }
 .research-card.group .group-icon { transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
 .research-card.group:hover .group-icon { background-color: #fff !important; color: #124874 !important; border-color: transparent !important; }
+
+/* --- Hero Carousel Styles --- */
+.hero-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #1a1a1a;
+}
+
+.hero-carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-carousel-slide.active {
+  opacity: 1;
+}
+
+.hero-carousel-slide::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.hero-carousel-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: white;
+  padding: 0 2rem;
+}
+
+.hero-carousel-text {
+  max-width: 600px;
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.hero-carousel-controls {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 20;
+}
+
+.hero-carousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hero-carousel-dot.active {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.hero-carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  background-color: rgba(255, 255, 255, 0.2);
+  hover:background-color: rgba(255, 255, 255, 0.4);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hero-carousel-nav:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.hero-carousel-nav.prev {
+  left: 1rem;
+}
+
+.hero-carousel-nav.next {
+  right: 1rem;
+}
 </style>
 
-        <section class="w-full bg-white pt-16 pb-20 md:py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center lg:justify-between gap-12">
-                <div class="w-full lg:w-1/2 flex flex-col space-y-8">
-                    <div class="space-y-4">
-                        <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-primary text-xs font-semibold rounded-full border border-gray-500">
-                            Business Analytics
-                        </span>
-                        <h1 class="text-5xl md:text-6xl font-extrabold text-text-dark leading-tight md:leading-snug">
-                            Laboratorium Business Analytics
-                        </h1>
-                        <p class="text-lg text-medium leading-relaxed">
-                            Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.
-                        </p>
-                    </div>
-                    <a href="profile/VisiMisi.php" class="self-start px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl border-4 border-primary hover:bg-blue-800 transition duration-300 inline-block">
-                        Pelajari Selengkapnya
-                    </a>
-                </div>
+<!-- Hero Carousel Section -->
+<section class="hero-carousel" style="height: 600px; md:height: 800px;">
+  <!-- Slide 1: Laboratorium Business Analytics (with Penguin) -->
+  <div class="hero-carousel-slide active" style="background-image: url('assets/Logo/gedung.png'); background-color: #1a1a1a;">
+    <div class="hero-carousel-content">
+      <div class="hero-carousel-text">
+        <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-primary text-xs font-semibold rounded-full border border-gray-500 mb-4">
+          Business Analytics
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight md:leading-snug mb-4">
+          Laboratorium Business Analytics
+        </h1>
+        <p class="text-base md:text-lg text-gray-100 leading-relaxed mb-6">
+          Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.
+        </p>
+        <a href="profile/VisiMisi.php" class="inline-block px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl hover:bg-blue-800 transition duration-300">
+          Pelajari Selengkapnya
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
-                <div class="w-full lg:w-5/12 flex justify-center">
-                    <img class="w-full max-w-sm lg:max-w-lg h-auto rounded-xl" 
-                         src="assets/Logo/Penguin.png" 
-                         alt="Penguin Mascot representing Data Analytics" 
-                         onerror="this.onerror=null; this.src='https://placehold.co/510x600/124874/FFFFFF?text=Analytics+Lab';"
-                    />
-                </div>
-            </div>
-        </section>
+<script>
+let currentSlideIndex = 1;
+let autoSlideTimer = null;
+
+function changeSlide(n) {
+  showSlide(currentSlideIndex += n);
+  resetAutoSlide();
+}
+
+function currentSlide(n) {
+  showSlide(currentSlideIndex = n);
+  resetAutoSlide();
+}
+
+function showSlide(n) {
+  let slides = document.querySelectorAll('.hero-carousel-slide');
+  let dots = document.querySelectorAll('.hero-carousel-dot');
+  
+  if (n > slides.length) { currentSlideIndex = 1; }
+  if (n < 1) { currentSlideIndex = slides.length; }
+  
+  slides.forEach(slide => slide.classList.remove('active'));
+  dots.forEach(dot => dot.classList.remove('active'));
+  
+  slides[currentSlideIndex - 1].classList.add('active');
+  dots[currentSlideIndex - 1].classList.add('active');
+}
+
+function resetAutoSlide() {
+  if (autoSlideTimer) clearInterval(autoSlideTimer);
+  autoSlideTimer = setInterval(() => {
+    changeSlide(1);
+  }, 5000);
+}
+
+// Auto-advance slides every 5 seconds
+resetAutoSlide();
+</script>
+
 
         <section class="w-full bg-white py-20 md:py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
