@@ -105,7 +105,7 @@ include 'includes/header.php';
   transform: translateY(-50%);
   z-index: 20;
   background-color: rgba(255, 255, 255, 0.2);
-  hover:background-color: rgba(255, 255, 255, 0.4);
+  hover:background-color = rgba(255, 255, 255, 0.4);
   border: none;
   color: white;
   font-size: 2rem;
