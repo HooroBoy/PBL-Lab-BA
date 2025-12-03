@@ -63,11 +63,13 @@ require_once __DIR__ . '/config.php';
 
                 <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium">
                     
-                    <a href="<?php echo BASE_URL; ?>/index.php" class="text-white hover:text-blue-200 transition duration-150">Home</a>
+                    <a href="<?php echo BASE_URL; ?>/index.php" class="text-white hover:text-blue-200 transition duration-150">
+                        Beranda
+                    </a>
                     
                     <div class="relative" x-data="{ open: false }" @click.outside="open = false">
                         <button @click="open = !open" type="button" class="text-white hover:text-blue-200 transition duration-150 flex items-center focus:outline-none px-3 py-2">
-                            Profile 
+                            Profil
                             <svg :class="{'rotate-180': open}" class="w-4 h-4 ml-1 transform transition duration-200" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
                         </button>
 
@@ -90,22 +92,22 @@ require_once __DIR__ . '/config.php';
                     </div>
                     
                     <a href="<?php echo BASE_URL; ?>/projects-demos/index.php" class="text-white hover:text-blue-200 transition duration-150">
-                        Articles
+                        Artikel
                     </a>
                     
                     <div class="relative" x-data="{ open: false }" @click.outside="open = false">
                         <button @click="open = !open" type="button" class="text-white hover:text-blue-200 transition duration-150 flex items-center focus:outline-none px-3 py-2">
-                            Resources 
+                            Aktivitas
                             <svg :class="{'rotate-180': open}" class="w-4 h-4 ml-1 transform transition duration-200" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
                         </button>
 
                         <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 origin-top-left">
                             <div class="py-1">
                                 <a href="<?php echo BASE_URL; ?>/resource/ActivityGallery.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
-                                    Activity Gallery
+                                    Galeri Kegiatan
                                 </a>
                                 <a href="<?php echo BASE_URL; ?>/resource/Article.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
-                                    Article
+                                    Fasilitas
                                 </a>
                             </div>
                         </div>
@@ -117,7 +119,7 @@ require_once __DIR__ . '/config.php';
                     <!-- Desktop booking button (visible on lg and up) -->
                         <div class="hidden lg:block">
                         <button class="px-6 py-2 bg-white text-primary text-sm font-bold rounded-full shadow-lg hover:bg-blue-100 transition duration-300">
-                            Booking
+                            Peminjaman
                         </button>
                     </div>
 
@@ -132,12 +134,12 @@ require_once __DIR__ . '/config.php';
 
                         <div x-show="openMobileMenu" @click.outside="openMobileMenu=false" x-transition class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white text-black z-30 origin-top-right">
                             <a href="<?php echo BASE_URL; ?>/index.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                                Home
+                                Beranda
                             </a>
 
                             <div x-data="{ profileOpen: false }">
                                 <button @click="profileOpen = !profileOpen" class="flex items-center justify-between w-full px-4 py-2 text-sm hover:bg-gray-100">
-                                    Profile
+                                    Profil
                                     <svg :class="profileOpen ? 'rotate-180' : ''" class="w-4 h-4 ml-2 transform transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
                                 </button>
                                 <div x-show="profileOpen" x-transition class="pl-4">
@@ -148,21 +150,21 @@ require_once __DIR__ . '/config.php';
                                 </div>
                             </div>
                             <a href="<?php echo BASE_URL; ?>/projects-demos/index.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                                Articles
+                                Artikel
                             </a>
                             <div x-data="{ resourcesOpen: false }">
                                 <button @click="resourcesOpen = !resourcesOpen" class="flex items-center justify-between w-full px-4 py-2 text-sm hover:bg-gray-100">
-                                    Resources
+                                    Aktivitas
                                     <svg :class="resourcesOpen ? 'rotate-180' : ''" class="w-4 h-4 ml-2 transform transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
                                 </button>
                                 <div x-show="resourcesOpen" x-transition class="pl-4">
-                                    <a href="<?php echo BASE_URL; ?>/resource/ActivityGallery.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Activity Gallery</a>
-                                    <a href="<?php echo BASE_URL; ?>/resource/Article.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Article</a>
+                                    <a href="<?php echo BASE_URL; ?>/resource/ActivityGallery.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Galeri Kegiatan</a>
+                                    <a href="<?php echo BASE_URL; ?>/resource/Article.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Fasilitas</a>
                                 </div>
                             </div>
 
                             <div class="border-t border-gray-100"></div>
-                            <a href="<?php echo BASE_URL; ?>/peminjaman/" class="block px-4 py-2 text-sm hover:bg-gray-100">Booking</a>
+                            <a href="<?php echo BASE_URL; ?>/peminjaman/" class="block px-4 py-2 text-sm hover:bg-gray-100">Peminjaman</a>
                         </div>
                     </div>
                 </div>
