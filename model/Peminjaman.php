@@ -2,8 +2,6 @@
 require_once '../config/database.php';
 
 class Peminjaman{
-    private $pdo;
-
     public static function getAll(){
         global $pdo;
         $sql = "SELECT * FROM peminjaman ORDER BY 
@@ -15,8 +13,15 @@ class Peminjaman{
         $stmt = $pdo->query($sql);
         return $stmt->fetchAll();
     }
-    public static function create($nama, $no_induk, $tanggal_mulai,$tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan) {
+
+    public static function create($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan) {
         global $pdo;
+
+        // Trim input minimal
+        $nama = trim($nama);
+        $no_induk = trim($no_induk);
+        $keperluan = trim($keperluan);
+
         $sql = "INSERT INTO peminjaman (
                     nama_peminjam, 
                     no_induk, 
@@ -26,17 +31,22 @@ class Peminjaman{
                     jam_selesai, 
                     keperluan
                 ) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        
+
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            $nama, 
-            $no_induk, 
-            $tanggal_mulai,  
-            $tanggal_selesai,   
-            $jam_mulai, 
-            $jam_selesai, 
-            $keperluan
-        ]);
+        try {
+            return $stmt->execute([
+                $nama, 
+                $no_induk, 
+                $tanggal_mulai,  
+                $tanggal_selesai,   
+                $jam_mulai, 
+                $jam_selesai, 
+                $keperluan
+            ]);
+        } catch (Exception $e) {
+            // Optional: log $e->getMessage()
+            return false;
+        }
     }
   
     public static function delete($id){
@@ -45,13 +55,12 @@ class Peminjaman{
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
     }
+
     public static function setStatus($id, $status){
         global $pdo;
         $sql = "UPDATE peminjaman SET status = ?,updated_at = NOW() WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$status, $id]);
-    }
-    
+    } 
 }
-
 ?>
