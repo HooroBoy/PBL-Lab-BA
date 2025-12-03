@@ -19,9 +19,9 @@ include 'includes/header.php';
                             Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.
                         </p>
                     </div>
-                    <button class="self-start px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl border-4 border-primary hover:bg-blue-800 transition duration-300">
+                    <a href="profile/VisiMisi.php" class="self-start px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl border-4 border-primary hover:bg-blue-800 transition duration-300 inline-block">
                         Learn More
-                    </button>
+                    </a>
                 </div>
 
                 <div class="w-full lg:w-5/12 flex justify-center">
@@ -195,7 +195,7 @@ include 'includes/header.php';
                             We don't just research; we build solutions. Get hands-on with our interactive prototype and see how Business Intelligence and Data Analytics can transform raw data into strategic decisions. This demo is the tangible result of our research focus, giving you a real-time data analysis experience.
                         </p>
                     </div>
-                    <a href="projects-demos/prototypes/index.php" class="self-start px-8 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-100 transition duration-300">
+                    <a href="resource/Article.php" class="self-start px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl border-4 border-primary hover:bg-blue-800 transition duration-300 inline-block">
                         Learn Articles
                     </a>
                 </div>
@@ -284,7 +284,7 @@ include 'includes/header.php';
                     </div>
                 </div>
 
-                <a href="resources/activity-gallery.php" class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full border border-blue hover:bg-blue-100 transition duration-300">
+                <a href="resource/ActivityGallery.php" class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full border border-blue hover:bg-blue-100 transition duration-300">
                     View Full Gallery
                 </a>
 
