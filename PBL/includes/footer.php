@@ -28,33 +28,37 @@
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 lg:gap-16 text-sm font-light">
                         
                         <div class="space-y-3">
-                            <h4 class="text-base font-semibold mb-2">Home</h4>
+                            <h4 class="text-base font-semibold mb-2">Beranda</h4>
+                            <ul class="space-y-2">
+                                <li><a href="<?php echo BASE_URL; ?>../index.php" class="opacity-70 hover:opacity-100 transition duration-150">Beranda</a></li>
+
+                            </ul>                        
                         </div>
                         
                         <div class="space-y-3">
-                            <h4 class="text-base font-semibold mb-2">Profile</h4>
+                            <h4 class="text-base font-semibold mb-2">Profil</h4>
                             <ul class="space-y-2">
                                 <li><a href="<?php echo BASE_URL; ?>/profile/VisiMisi.php" class="opacity-70 hover:opacity-100 transition duration-150">Visi & Misi</a></li>
                                 <li><a href="<?php echo BASE_URL; ?>/profile/SO.php" class="opacity-70 hover:opacity-100 transition duration-150">Struktur Organisasi</a></li>
                                 <li><a href="<?php echo BASE_URL; ?>/profile/FokusRiset.php" class="opacity-70 hover:opacity-100 transition duration-150">Fokus Riset</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/profile/Dosen.php" class="opacity-70 hover:opacity-100 transition duration-150">Dosen</a></li>
+
                             </ul>
                         </div>
                         
                         <div class="space-y-3">
-                            <h4 class="text-base font-semibold mb-2">Projects & Demo</h4>
+                            <h4 class="text-base font-semibold mb-2">Artikel</h4>
                             <ul class="space-y-2">
-                                <li><a href="<?php echo BASE_URL; ?>/projects-demos/index.php" class="opacity-70 hover:opacity-100 transition duration-150">All Projects</a></li>
-                                <li><a href="<?php echo BASE_URL; ?>/projects-demos/prototypes/demo-project-A" class="opacity-70 hover:opacity-100 transition duration-150">Live Demo Prototipe</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/resource/Article.php" class="opacity-70 hover:opacity-100 transition duration-150">Artikel</a></li>
+
                             </ul>
                         </div>
                         
                         <div class="space-y-3">
-                            <h4 class="text-base font-semibold mb-2">Resources</h4>
+                            <h4 class="text-base font-semibold mb-2">Aktivitas</h4>
                             <ul class="space-y-2">
-                                <li><a href="<?php echo BASE_URL; ?>/resources/lab-lecturers.php" class="opacity-70 hover:opacity-100 transition duration-150">Lab Lecturer</a></li>
-                                <li><a href="<?php echo BASE_URL; ?>/resources/facilities-borrowing.php" class="opacity-70 hover:opacity-100 transition duration-150">Facilities & Borrowing</a></li>
-                                <li><a href="<?php echo BASE_URL; ?>/resources/activity-gallery.php" class="opacity-70 hover:opacity-100 transition duration-150">Activity Gallery</a></li>
-                                <li><a href="<?php echo BASE_URL; ?>/resources/downloads.php" class="opacity-70 hover:opacity-100 transition duration-150">Unduhan (Presentasi)</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/resources/ActivityGallery.php" class="opacity-70 hover:opacity-100 transition duration-150">Galeri Kegiatan</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/resources/Fasilitas.php" class="opacity-70 hover:opacity-100 transition duration-150">Fasilitas</a></li>
                             </ul>
                         </div>
                     </div>
