@@ -197,7 +197,7 @@ include 'includes/header.php';
         <script>
         (function(){
             var carousel = document.getElementById('teamCarousel');
-            var autoplayInterval = 1500; // ms
+            var autoplayInterval = 2000; // ms
             var cardWidth = 272; // approx card + gap
             var timer = null;
             function startAuto(){
