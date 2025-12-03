@@ -281,7 +281,6 @@ resetAutoSlide();
                         Jelajahi Riset Kami
                     </a>
                 </div>
-                <!-- END: Explore Our Research Button (Centered) -->
             </div>
         </section>
 
