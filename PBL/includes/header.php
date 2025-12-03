@@ -118,9 +118,9 @@ require_once __DIR__ . '/config.php';
                 <div class="flex items-center space-x-2">
                     <!-- Desktop booking button (visible on lg and up) -->
                         <div class="hidden lg:block">
-                        <button class="px-6 py-2 bg-white text-primary text-sm font-bold rounded-full shadow-lg hover:bg-blue-100 transition duration-300">
+                        <a href="<?php echo BASE_URL; ?>/peminjaman/Peminjaman.php" class="inline-flex items-center px-6 py-2 bg-white text-primary text-sm font-bold rounded-full shadow-lg hover:bg-blue-100 transition duration-300">
                             Peminjaman
-                        </button>
+                        </a>
                     </div>
 
                     <!-- Mobile three-dot menu (visible on small/medium widths) -->
@@ -163,7 +163,9 @@ require_once __DIR__ . '/config.php';
                             </div>
 
                             <div class="border-t border-gray-100"></div>
-                            <a href="<?php echo BASE_URL; ?>/peminjaman/" class="block px-4 py-2 text-sm hover:bg-gray-100">Peminjaman</a>
+                            <a href="<?php echo BASE_URL; ?>/peminjaman/Peminjaman.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                Peminjaman
+                            </a>
                         </div>
                     </div>
                 </div>
