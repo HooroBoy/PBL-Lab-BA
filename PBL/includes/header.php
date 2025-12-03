@@ -158,7 +158,7 @@ require_once __DIR__ . '/config.php';
                                 </button>
                                 <div x-show="resourcesOpen" x-transition class="pl-4">
                                     <a href="<?php echo BASE_URL; ?>/resource/ActivityGallery.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Galeri Kegiatan</a>
-                                    <a href="<?php echo BASE_URL; ?>/resource/Article.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Fasilitas</a>
+                                    <a href="<?php echo BASE_URL; ?>/resource/Fasilitas.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Fasilitas</a>
                                 </div>
                             </div>
 
