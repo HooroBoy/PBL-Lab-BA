@@ -209,7 +209,7 @@ if (isset($_SESSION['flash'])) {
         <?php else: ?>
           <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
+              <thead class="bg-blue-50">
                 <tr>
                   <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
                   <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">No. Induk</th>
