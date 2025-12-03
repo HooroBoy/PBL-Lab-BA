@@ -1,66 +1,103 @@
-<?php 
-include_once '../model/Peminjaman.php';
+    <?php
+    include_once '../model/Peminjaman.php';
 
-class PeminjamanController {
+    class PeminjamanController
+    {
 
-    // Mengembalikan array pesan (type,msg)
-    public static function insertJadwal($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan) {
+        // Mengembalikan array pesan (type,msg)
+        public static function insertJadwal($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan)
+        {
 
-        // Server-side validation dasar
-        if (!$nama || !$no_induk || !$tanggal_mulai || !$tanggal_selesai || !$jam_mulai || !$jam_selesai || !$keperluan) {
-            return ['type' => 'danger', 'msg' => 'Semua field wajib diisi.'];
+            // Server-side validation dasar
+            if (!$nama || !$no_induk || !$tanggal_mulai || !$tanggal_selesai || !$jam_mulai || !$jam_selesai || !$keperluan) {
+                return ['type' => 'danger', 'msg' => 'Semua field wajib diisi.'];
+            }
+
+            // pastikan tanggal/jam masuk akal
+            $startDatetime = $tanggal_mulai . ' ' . $jam_mulai;
+            $endDatetime   = $tanggal_selesai . ' ' . $jam_selesai;
+            $startTimeInt = strtotime($jam_mulai);
+            $endTimeInt   = strtotime($jam_selesai);
+
+            // Jika jam tidak valid
+            if ($startTimeInt === false || $endTimeInt === false) {
+                return [
+                    'type' => 'danger',
+                    'msg'  => 'Jam mulai atau jam selesai tidak valid.'
+                ];
+            }
+
+            // VALIDASI TANGGAL & JAM (SIMPLE)
+            if ($tanggal_selesai < $tanggal_mulai) {
+                return [
+                    'type' => 'danger',
+                    'msg'  => 'Tanggal selesai tidak boleh lebih kecil dari tanggal mulai.'
+                ];
+            }
+
+            // 1. Jika tanggal sama → endTime > startTime
+            if ($tanggal_mulai === $tanggal_selesai) {
+                if ($endTimeInt <= $startTimeInt) {
+                    return [
+                        'type' => 'danger',
+                        'msg'  => 'Jam selesai harus lebih besar dari jam mulai pada tanggal yang sama.'
+                    ];
+                }
+            }
+
+            // 2. Jika tanggal berbeda → jam selesai tidak boleh lebih kecil dari jam mulai
+            if ($tanggal_selesai > $tanggal_mulai) {
+                if ($endTimeInt < $startTimeInt) {
+                    return [
+                        'type' => 'danger',
+                        'msg'  => 'Jam selesai tidak boleh lebih kecil dari jam mulai meskipun tanggal berbeda.'
+                    ];
+                }
+            }
+
+            // Cek ketersediaan slot
+            if (!self::isSlotAvailable($tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai)) {
+                return ['type' => 'danger', 'msg' => 'Gagal! Jadwal bertabrakan (overlap) dengan peminjaman lain.'];
+            }
+
+            // Simpan
+            $ok = Peminjaman::create($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan);
+
+            if ($ok) {
+                return ['type' => 'success', 'msg' => 'Pengajuan berhasil dikirim!'];
+            } else {
+                return ['type' => 'danger', 'msg' => 'Terjadi kesalahan saat menyimpan data.'];
+            }
         }
 
-        // pastikan tanggal/jam masuk akal
-        $startDatetime = $tanggal_mulai . ' ' . $jam_mulai;
-        $endDatetime   = $tanggal_selesai . ' ' . $jam_selesai;
-        if (strtotime($startDatetime) === false || strtotime($endDatetime) === false) {
-            return ['type' => 'danger', 'msg' => 'Format tanggal/jam tidak valid.'];
-        }
-        if (strtotime($startDatetime) >= strtotime($endDatetime)) {
-            return ['type' => 'danger', 'msg' => 'Waktu mulai harus lebih kecil dari waktu selesai.'];
-        }
+        // Cek overlap dengan rule: existing_start < new_end AND existing_end > new_start
+        public static function isSlotAvailable($tgl_mulai, $tgl_selesai, $jam_mulai, $jam_selesai)
+        {
+            global $pdo;
 
-        // Cek ketersediaan slot
-        if (!self::isSlotAvailable($tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai)) {
-            return ['type' => 'danger', 'msg' => 'Gagal! Jadwal bertabrakan (overlap) dengan peminjaman lain.'];
-        }
-
-        // Simpan
-        $ok = Peminjaman::create($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan);
-
-        if ($ok) {
-            return ['type' => 'success', 'msg' => 'Pengajuan berhasil dikirim!'];
-        } else {
-            return ['type' => 'danger', 'msg' => 'Terjadi kesalahan saat menyimpan data.'];
-        }
-    }
-
-    // Cek overlap dengan rule: existing_start < new_end AND existing_end > new_start
-    public static function isSlotAvailable($tgl_mulai, $tgl_selesai, $jam_mulai, $jam_selesai) {
-        global $pdo;
-
-        // Kita akan membandingkan timestamp: (tanggal + jam)
-        $sql = "
-            SELECT COUNT(*) FROM peminjaman
+            $sql = "
+            SELECT COUNT(*)
+            FROM peminjaman
             WHERE status IN ('diterima','menunggu')
+            
+            -- Tanggal HARUS sama untuk dianggap bertabrakan
+            AND tanggal_mulai = :tanggal
+            
+            -- Cek jam overlap
             AND (
-                ( (tanggal_mulai + jam_mulai) < ( :new_end::date + :new_end_time::time ) )
-                AND
-                ( (tanggal_selesai + jam_selesai) > ( :new_start::date + :new_start_time::time ) )
+                    jam_mulai < :jam_selesai
+                AND jam_selesai > :jam_mulai
             );
         ";
 
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ':new_start'      => $tgl_mulai,
-            ':new_start_time' => $jam_mulai,
-            ':new_end'        => $tgl_selesai,
-            ':new_end_time'   => $jam_selesai
-        ]);
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':tanggal'      => $tgl_mulai,   // hanya cek untuk tanggal mulai
+                ':jam_mulai'    => $jam_mulai,
+                ':jam_selesai'  => $jam_selesai
+            ]);
 
-        $count = (int) $stmt->fetchColumn();
-        return $count === 0;
+            return $stmt->fetchColumn() == 0;
+        }
     }
-}
-?>
+    ?>
