@@ -126,6 +126,13 @@ include 'includes/header.php';
   right: 1rem;
 }
 
+/* Team carousel: show 1/2/3 cards responsively, hide native scrollbar */
+#teamCarousel { overflow: hidden; }
+.carousel-track { display: flex; gap: 2rem; padding: 1rem 2rem; align-items: stretch; }
+.carousel-track > a { flex: 0 0 320px; max-width: 320px; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
 /* Scroll down button */
 .scroll-down-btn {
     position: absolute;
@@ -329,7 +336,7 @@ function scrollDown() {
                 </h2>
                 
                 <!-- Team carousel: 9 cards -->
-                <div class="relative w-full max-w-5xl">
+                <div class="relative w-full">
                     <!-- Left / Right controls -->
                     <button aria-label="Prev" onclick="teamScroll('left')" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
@@ -338,8 +345,8 @@ function scrollDown() {
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
                     </button>
 
-                    <div id="teamCarousel" class="overflow-x-auto scrollbar-hide py-6" style="scroll-behavior:smooth;">
-                        <div class="flex space-x-6 px-8" style="min-width:1200px;">
+                    <div id="teamCarousel" class="py-6 scrollbar-hide" style="scroll-behavior:smooth;">
+                        <div class="carousel-track" role="list">
                                 <!-- 9 team cards -->
                                 <?php
                                     $team = [
@@ -354,14 +361,19 @@ function scrollDown() {
                                         ['name'=>'Lecturer 9','title'=>'Visualization','img'=>'assets/images/team-9.jpg']
                                     ];
                                     foreach($team as $i => $member) {
-                                        echo '<a href="dosen.php#member'.($i+1).'" class="w-64 flex-shrink-0 bg-white rounded-xl shadow-lg overflow-hidden">';
-                                        echo '<div class="h-40 bg-gray-100 flex items-center justify-center">';
-                                        echo '<img src="'.htmlspecialchars($member['img']).'" alt="'.htmlspecialchars($member['name']).'" class="w-full h-full object-cover" onerror="this.onerror=null; this.src=\'https://placehold.co/360x260/EFEFEF/9A9A9A?text=Team\'">';
+                                        echo '<div class="w-80 flex-shrink-0 bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between">';
+                                        echo '<div class="h-64 bg-gray-100 flex items-center justify-center">';
+                                        echo '<img src="'.htmlspecialchars($member['img']).'" alt="'.htmlspecialchars($member['name']).'" class="w-full h-full object-cover" onerror="this.onerror=null; this.src=\'https://placehold.co/540x360/EFEFEF/9A9A9A?text=Team\'">';
                                         echo '</div>';
-                                        echo '<div class="p-4 text-center">';
+                                        echo '<div class="p-6 text-center">';
                                         echo '<h4 class="text-lg font-semibold text-text-dark mb-1">'.htmlspecialchars($member['name']).'</h4>';
-                                        echo '<p class="text-sm text-primary font-medium">'.htmlspecialchars($member['title']).'</p>';
-                                        echo '</div></a>';
+                                        echo '<p class="text-sm text-primary font-medium mb-4">'.htmlspecialchars($member['title']).'</p>';
+                                        echo '<div class="flex items-center justify-center gap-4">';
+                                        echo '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
+                                        echo '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0H5C3.9 0 3 .9 3 2v20l7-3 7 3V2c0-1.1-.9-2-2-2z"/></svg>';
+                                        echo '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-1 4l-7 4-7-4V6l7 4 7-4v2z"/></svg>';
+                                        echo '</div>';
+                                        echo '</div></div>'; // Ditutup dengan </div>
                                     }
                                 ?>
                             </div>
@@ -380,32 +392,53 @@ function scrollDown() {
         <script>
         (function(){
             var carousel = document.getElementById('teamCarousel');
+            var track = carousel ? carousel.querySelector('.carousel-track') : null;
             var autoplayInterval = 2000; // ms
-            var cardWidth = 272; // approx card + gap
+            var cardWidth = 272; // fallback
             var timer = null;
+
+            function updateCardWidth(){
+                if(!track) return;
+                var firstCard = track.querySelector('div'); // Diubah dari 'a' ke 'div'
+                if(!firstCard) return;
+                var gap = parseFloat(getComputedStyle(track).gap) || 24;
+                cardWidth = Math.round(firstCard.getBoundingClientRect().width + gap);
+            }
+
             function startAuto(){
                 stopAuto();
+                updateCardWidth();
                 timer = setInterval(function(){
                     if(!carousel) return;
-                    if(carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10){
+                    // when reaching end, go back to start
+                    if(carousel.scrollLeft + carousel.clientWidth >= track.scrollWidth - 10){
                         carousel.scrollTo({left:0, behavior:'smooth'});
                     } else {
                         carousel.scrollBy({left: cardWidth, behavior:'smooth'});
                     }
                 }, autoplayInterval);
             }
+
             function stopAuto(){ if(timer) { clearInterval(timer); timer=null; } }
+
             window.teamScroll = function(dir){
                 stopAuto();
+                updateCardWidth();
                 if(!carousel) return;
                 var amount = dir === 'left' ? -cardWidth : cardWidth;
                 carousel.scrollBy({left: amount, behavior: 'smooth'});
                 // restart autoplay after interaction
-                setTimeout(startAuto, 2500);
+                setTimeout(startAuto, 2000);
             }
-            if(carousel){
+
+            if(carousel && track){
+                // ensure track width fits its content and allow scroll calculations
                 carousel.addEventListener('mouseenter', stopAuto);
-                carousel.addEventListener('mouseleave', startAuto);
+                carousel.addEventListener('mouseleave', function(){ setTimeout(startAuto, 300); });
+                // recalc sizes on resize
+                window.addEventListener('resize', updateCardWidth);
+                // initial measurements and start
+                updateCardWidth();
                 startAuto();
             }
         })();
