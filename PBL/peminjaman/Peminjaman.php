@@ -1,108 +1,40 @@
 <?php
-// Page: Peminjaman Alat & Ruang
+session_start();
 $page_title = 'Peminjaman Alat & Ruang';
+require_once '../controller/PeminjamanController.php';
+$message = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Ambil dan trim
+  $nama = isset($_POST['nama']) ? trim($_POST['nama']) : '';
+  $no_induk = isset($_POST['no_induk']) ? trim($_POST['no_induk']) : '';
+  $tanggal_mulai = $_POST['tanggal_mulai'] ?? '';
+  $tanggal_selesai = $_POST['tanggal_selesai'] ?? '';
+  $jam_mulai = $_POST['mulai'] ?? '';
+  $jam_selesai = $_POST['selesai'] ?? '';
+  $keperluan = $_POST['keperluan'] ;
+  
+  // Panggil controller yang sudah melakukan validasi & cek overlap
+  $result = PeminjamanController::insertJadwal(
+    $nama,
+    $no_induk,
+    $tanggal_mulai,
+    $tanggal_selesai,
+    $jam_mulai,
+    $jam_selesai,
+    $keperluan
+  );
+  
+  // Set flash message ke session dan redirect (PRG)
+  $message = $result;
+  // Redirect ke halaman yang sama (hindari resubmit)
+  header(header: 'Location: ' . $_SERVER['PHP_SELF']);
+  exit;
+}
+
 include '../includes/header.php';
 
-// Local helper: validate, check overlap, and save peminjaman to CSV
-function insertJadwal($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan) {
-    $nama = trim((string)$nama);
-    $no_induk = trim((string)$no_induk);
-    $keperluan = trim((string)$keperluan);
-
-    // Basic validation
-    if ($nama === '' || $no_induk === '' || $tanggal_mulai === '' || $tanggal_selesai === '' || $jam_mulai === '' || $jam_selesai === '') {
-        return ['type' => 'danger', 'msg' => 'Semua field wajib diisi.'];
-    }
-
-    $start = DateTime::createFromFormat('Y-m-d H:i', $tanggal_mulai . ' ' . $jam_mulai);
-    $end = DateTime::createFromFormat('Y-m-d H:i', $tanggal_selesai . ' ' . $jam_selesai);
-    if (!$start || !$end) {
-        return ['type' => 'danger', 'msg' => 'Format tanggal/jam tidak valid.'];
-    }
-    if ($end <= $start) {
-        return ['type' => 'danger', 'msg' => 'Waktu selesai harus lebih besar dari waktu mulai.'];
-    }
-
-    $dataFile = __DIR__ . '/peminjaman_data.csv';
-
-    // Ensure file exists and has header
-    if (!file_exists($dataFile)) {
-        $h = fopen($dataFile, 'w');
-        if ($h) {
-            fputcsv($h, ['id','nama','no_induk','start','end','keperluan','created_at']);
-            fclose($h);
-        }
-    }
-
-    // Check overlap
-    if (($h = fopen($dataFile, 'r')) !== false) {
-        // skip header
-        $header = fgetcsv($h);
-        while (($row = fgetcsv($h)) !== false) {
-            // Expecting at least 5 columns (id, nama, no_induk, start, end, ...)
-            if (count($row) < 5) continue;
-            $existingStart = DateTime::createFromFormat('Y-m-d H:i', $row[3]);
-            $existingEnd = DateTime::createFromFormat('Y-m-d H:i', $row[4]);
-            if ($existingStart && $existingEnd) {
-                // overlap if newStart < existingEnd AND newEnd > existingStart
-                if ($start < $existingEnd && $end > $existingStart) {
-                    fclose($h);
-                    return ['type' => 'danger', 'msg' => 'Gagal: terdapat jadwal yang bertabrakan dengan peminjaman lain.'];
-                }
-            }
-        }
-        fclose($h);
-    }
-
-    // Append new booking
-    $id = time();
-    $created_at = (new DateTime())->format('Y-m-d H:i');
-    if (($h = fopen($dataFile, 'a')) === false) {
-        return ['type' => 'danger', 'msg' => 'Gagal menyimpan data. Periksa permission file.'];
-    }
-    $row = [$id, $nama, $no_induk, $start->format('Y-m-d H:i'), $end->format('Y-m-d H:i'), $keperluan, $created_at];
-    fputcsv($h, $row);
-    fclose($h);
-
-    return ['type' => 'success', 'msg' => 'Pengajuan berhasil dikirim.'];
-}
-
-$message = null;
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil dan trim
-    $nama = isset($_POST['nama']) ? trim($_POST['nama']) : '';
-    $no_induk = isset($_POST['no_induk']) ? trim($_POST['no_induk']) : '';
-    $tanggal_mulai = $_POST['tanggal_mulai'] ?? '';
-    $tanggal_selesai = $_POST['tanggal_selesai'] ?? '';
-    $jam_mulai = $_POST['mulai'] ?? '';
-    $jam_selesai = $_POST['selesai'] ?? '';
-    $keperluan = isset($_POST['keperluan']) ? trim($_POST['keperluan']) : '';
-
-    // Panggil fungsi lokal yang melakukan validasi & cek overlap
-    $result = insertJadwal(
-        $nama,
-        $no_induk,
-        $tanggal_mulai,
-        $tanggal_selesai,
-        $jam_mulai,
-        $jam_selesai,
-        $keperluan
-    );
-
-    // Set flash message ke session dan redirect (PRG)
-    $_SESSION['flash'] = $result;
-    // Redirect ke halaman yang sama (hindari resubmit)
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit;
-}
-
-// Ambil pesan dari session (jika ada) — tampilkan sekali
-if (isset($_SESSION['flash'])) {
-    $message = $_SESSION['flash'];
-    unset($_SESSION['flash']);
-}
 ?>
+
 
 <section class="w-full bg-white pt-12 pb-6">
   <div class="max-w-3xl mx-auto px-4 text-center">
@@ -126,6 +58,19 @@ if (isset($_SESSION['flash'])) {
         </div>
 
         <div class="p-6">
+          <?php 
+          if ($message != null): die(1); ?>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="alert alert-<?= htmlspecialchars($message['type']) ?> alert-dismissible fade show" role="alert">
+                        <?= htmlspecialchars($message['msg']) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+          <?php endif; 
+          
+          ?>
           <form method="POST" action="" class="space-y-4">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -179,33 +124,13 @@ if (isset($_SESSION['flash'])) {
     </div>
 </section>
 
-  <!-- Daftar peminjaman (mengambil data dari CSV) -->
-  <?php
-  $dataFile = __DIR__ . '/peminjaman_data.csv';
-  $bookings = [];
-  if (file_exists($dataFile) && ($h = fopen($dataFile, 'r')) !== false) {
-      // read header
-      $hdr = fgetcsv($h);
-      while (($row = fgetcsv($h)) !== false) {
-          $bookings[] = [
-              'id' => $row[0] ?? '',
-              'nama' => $row[1] ?? '',
-              'no_induk' => $row[2] ?? '',
-              'start' => $row[3] ?? '',
-              'end' => $row[4] ?? '',
-              'keperluan' => $row[5] ?? '',
-              'created_at' => $row[6] ?? '',
-          ];
-      }
-      fclose($h);
-  }
-  ?>
-
   <section class="w-full pb-20">
-    <div class="max-w-3xl mx-auto px-4">
+    <div class="max-w-5xl mx-auto px-4">
       <div class="bg-white rounded-2xl shadow overflow-hidden p-4">
         <h3 class="text-lg font-bold mb-4">Informasi Peminjaman</h3>
-
+        <?php 
+        $bookings = PeminjamanController::fetchAll();
+        ?>
         <?php if (empty($bookings)): ?>
           <p class="text-sm text-medium">Belum ada data peminjaman.</p>
         <?php else: ?>
@@ -215,8 +140,10 @@ if (isset($_SESSION['flash'])) {
                 <tr>
                   <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
                   <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">No. Induk</th>
-                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Mulai</th>
-                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Selesai</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Mulai</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Selesai</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Jam Mulai</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Jam Selesai</th>
                   <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Keperluan</th>
                   <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                 </tr>
@@ -225,32 +152,31 @@ if (isset($_SESSION['flash'])) {
                 <?php
                 $now = new DateTime();
                 foreach ($bookings as $b):
-                    $start = DateTime::createFromFormat('Y-m-d H:i', $b['start']);
-                    $end = DateTime::createFromFormat('Y-m-d H:i', $b['end']);
-                    $status = '-';
-                    if ($start && $end) {
-                        if ($now < $start) {
-                            $status = 'Pending';
-                            $statusClass = 'bg-yellow-100 text-yellow-800';
-                        } elseif ($now >= $start && $now <= $end) {
-                            $status = 'Sedang Dipinjam';
-                            $statusClass = 'bg-blue-100 text-blue-800';
-                        } else {
-                            $status = 'Selesai';
-                            $statusClass = 'bg-green-100 text-green-800';
-                        }
-                    } else {
-                        $status = 'Tidak diketahui';
-                        $statusClass = 'bg-gray-100 text-gray-800';
-                    }
                 ?>
                   <tr>
-                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['nama']); ?></td>
+                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['nama_peminjam']); ?></td>
                     <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['no_induk']); ?></td>
-                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['start']); ?></td>
-                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['end']); ?></td>
+                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars(string: $b['tanggal_mulai']); ?></td>
+                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars(string: $b['tanggal_selesai']); ?></td>
+                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars(string: $b['jam_mulai']); ?></td>
+                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars(string: $b['jam_selesai']); ?></td>
                     <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['keperluan']); ?></td>
-                    <td class="px-4 py-3 text-sm"><span class="inline-block px-3 py-1 rounded-full text-xs font-semibold <?php echo $statusClass; ?>"><?php echo $status; ?></span></td>
+                    <td class="px-4 py-3 text-sm">
+                    <?php 
+                    if($b['status'] == 'menunggu'){                    
+                    ?>  
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 <?php echo $statusClass; ?>"><?php echo $b['status']; ?></span></td>
+                    <?php }; ?>
+                    <?php 
+                    if($b['status'] == 'diterima'){                    
+                    ?>  
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 <?php echo $statusClass; ?>"><?php echo $b['status']; ?></span></td>
+                    <?php }; ?>
+                    <?php 
+                    if($b['status'] == 'ditolak'){                    
+                    ?>  
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-white-800 <?php echo $statusClass; ?>"><?php echo $b['status']; ?></span></td>
+                    <?php }; ?>
                   </tr>
                 <?php endforeach; ?>
               </tbody>
