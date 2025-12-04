@@ -106,46 +106,134 @@
     }
     ?>
     <script src="assets/static/js/initTheme.js"></script>
-    <div id="auth">
-        <div class="row h-100">
-            <div class="col-lg-5 col-12">
-                <div id="auth-left">
-                    <div class="auth-logo">
-                        <a href="login.php"><img src="./assets/compiled/svg/logo.svg" alt="Logo" /></a>
-                    </div>
-                    <h1 class="auth-title">Masuk.</h1>
-                    <p class="auth-subtitle mb-5">
-                        Masuk dengan data yang sudah anda daftarkan pada halaman register.
-                    </p>
-
-                    <form action="" method="post">
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" class="form-control form-control-xl" placeholder="Username" name="username" required />
-                            <div class="form-control-icon">
-                                <i class="bi bi-person"></i>
-                            </div>
-                        </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password" class="form-control form-control-xl" placeholder="Password" name="password" required />
-                            <div class="form-control-icon">
-                                <i class="bi bi-shield-lock"></i>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" name="login">
-                            Masuk
-                        </button>
-                    </form>
-                    <div class="text-center mt-5 text-lg fs-4">
-                        <p class="text-gray-600">
-                            Belom punya akun?
-                            <a href="register.php" class="font-bold">Daftar</a>.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-7 d-none d-lg-block">
-                <div id="auth-right"></div>
-                
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #124874 0%, #2563eb 100%);
+        }
+        .center-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(60,72,88,0.16);
+            padding: 48px 40px 40px 40px;
+            min-width: 340px;
+            max-width: 520px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .maskot-img {
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            margin-bottom: 28px;
+            margin-top: -10px;
+            border-radius: 50%;
+            background: #f3f6fa;
+            box-shadow: 0 2px 8px rgba(60,72,88,0.10);
+        }
+        .login-card h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1e293b;
+            text-align: center;
+        }
+        .login-card p {
+            color: #64748b;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .login-card input {
+            border-radius: 10px;
+            border: 1.5px solid #e2e8f0;
+            padding: 18px;
+            width: 100%;
+            margin-bottom: 24px;
+            font-size: 1.15rem;
+            background: #f8fafc;
+        }
+        .login-card button {
+            width: 100%;
+            padding: 18px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.10);
+            margin-top: 12px;
+            transition: background 0.2s;
+        }
+        .login-card button:hover {
+            background: #1d4ed8;
+        }
+        .login-card .register-link {
+            margin-top: 24px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 1.08rem;
+        }
+        .login-card .register-link a {
+            color: #2563eb;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .login-card {
+                min-width: 90vw;
+                max-width: 95vw;
+                border-radius: 12px;
+                padding: 18px 6vw 12px 6vw;
+            }
+            .maskot-img {
+                width: 56px;
+                height: 56px;
+                margin-bottom: 10px;
+            }
+            .login-card h1 {
+                font-size: 1.1rem;
+            }
+            .login-card p {
+                font-size: 0.95rem;
+                margin-bottom: 12px;
+            }
+            .login-card input {
+                font-size: 0.95rem;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            .login-card button {
+                font-size: 0.95rem;
+                padding: 10px;
+            }
+            .login-card .register-link {
+                font-size: 0.92rem;
+                margin-top: 8px;
+            }
+        }
+    </style>
+    <div class="center-container">
+        <div class="login-card">
+            <img src="./assets/compiled/png/maskot.png" alt="Logo Maskot" class="maskot-img" />
+            <h1>Halo, Admin!</h1>
+            <p>Masuk dengan data yang sudah anda daftarkan pada halaman register.</p>
+            <form action="" method="post" style="width:100%">
+                <input type="text" placeholder="Username" name="username" required />
+                <input type="password" placeholder="Password" name="password" required />
+                <button type="submit" name="login">Masuk</button>
+            </form>
+            <div class="register-link">
+                Belum punya akun? <a href="register.php">Daftar</a>.
             </div>
         </div>
     </div>

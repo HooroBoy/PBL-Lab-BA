@@ -5,25 +5,47 @@ include "../../public/layouts-admin/header-admin.php";
 include "../../app/controllers/SiteSettingController.php";
 
 $setting = SiteSettingController::get();
+if (!$setting || !is_array($setting)) {
+    // Jika setting tidak ditemukan, gunakan nilai default kosong
+    $setting = [
+        'id' => '',
+        'landing_badge' => '',
+        'landing_title' => '',
+        'landing_description' => '',
+        'landing_hero_image' => '',
+        'footer_box_title' => '',
+        'footer_email' => '',
+        'footer_phone' => '',
+        'footer_address' => '',
+        'social_linkedin' => '',
+        'social_instagram' => '',
+        'social_youtube' => '',
+        'footer_copyright_text' => '',
+    ];
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = [
-        'id' => $setting['id'],
-        'landing_badge' => $_POST['landing_badge'],
-        'landing_title' => $_POST['landing_title'],
-        'landing_description' => $_POST['landing_description'],
-        'landing_hero_image' => $_POST['landing_hero_image'],
-        'footer_box_title' => $_POST['footer_box_title'],
-        'footer_email' => $_POST['footer_email'],
-        'footer_phone' => $_POST['footer_phone'],
-        'footer_address' => $_POST['footer_address'],
-        'social_linkedin' => $_POST['social_linkedin'],
-        'social_instagram' => $_POST['social_instagram'],
-        'social_youtube' => $_POST['social_youtube'],
-        'footer_copyright_text' => $_POST['footer_copyright_text'],
+        'id' => isset($setting['id']) ? $setting['id'] : null,
+        'landing_badge' => $_POST['landing_badge'] ?? '',
+        'landing_title' => $_POST['landing_title'] ?? '',
+        'landing_description' => $_POST['landing_description'] ?? '',
+        'landing_hero_image' => $_POST['landing_hero_image'] ?? '',
+        'footer_box_title' => $_POST['footer_box_title'] ?? '',
+        'footer_email' => $_POST['footer_email'] ?? '',
+        'footer_phone' => $_POST['footer_phone'] ?? '',
+        'footer_address' => $_POST['footer_address'] ?? '',
+        'social_linkedin' => $_POST['social_linkedin'] ?? '',
+        'social_instagram' => $_POST['social_instagram'] ?? '',
+        'social_youtube' => $_POST['social_youtube'] ?? '',
+        'footer_copyright_text' => $_POST['footer_copyright_text'] ?? '',
     ];
-    SiteSettingController::update($data);
-    $setting = SiteSettingController::get();
-    $message = "<script>Swal.fire({title: 'Berhasil', text: 'Site setting berhasil diupdate!', icon: 'success', showConfirmButton: false, timer: 2000, timerProgressBar: true,}).then(() => {window.location.href = 'edit.php';})</script>";
+    if (!empty($data['id'])) {
+        SiteSettingController::update($data);
+        $setting = SiteSettingController::get();
+        $message = "<script>Swal.fire({title: 'Berhasil', text: 'Site setting berhasil diupdate!', icon: 'success', showConfirmButton: false, timer: 2000, timerProgressBar: true,}).then(() => {window.location.href = 'edit.php';})</script>";
+    } else {
+        $message = '<div class="alert alert-danger">Gagal update: Data setting belum tersedia di database.</div>';
+    }
 }
 ?>
 <body>
@@ -67,7 +89,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <label class="form-label">Hero Image URL</label>
                                             <input type="text" name="landing_hero_image" class="form-control" value="<?php echo htmlspecialchars($setting['landing_hero_image']); ?>">
                                         </div>
-                                        <hr>
+                                        <div class="mb-3 text-end">
+                                            <button type="submit" class="btn btn-primary">Simpan Landing Page</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card Footer Setting -->
+                        <div class="col-12">
+                            <div class="card shadow-sm mb-4 w-100">
+                                <div class="card-body">
+                                    <form method="post">
                                         <h5 class="mb-3">Footer</h5>
                                         <div class="mb-3">
                                             <label class="form-label">Footer Box Title</label>
@@ -102,8 +135,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <input type="text" name="footer_copyright_text" class="form-control" value="<?php echo htmlspecialchars($setting['footer_copyright_text']); ?>">
                                         </div>
                                         <div class="mb-3 text-end">
-                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                            <button type="submit" class="btn btn-primary">Simpan Footer</button>
                                         </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                                     </form>
                                 </div>
                             </div>

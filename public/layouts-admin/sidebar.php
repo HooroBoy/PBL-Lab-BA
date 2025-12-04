@@ -11,6 +11,8 @@ $ubah_kategori_riset = false;
 $dosen = false;
 $tambah_dosen = false;
 $ubah_dosen = false;
+$bidang_keahlian = false;
+$artikel = false;
 $site_setting = false;
 
 
@@ -47,6 +49,12 @@ if (isset($_GET['halaman'])) {
         case 'ubah_dosen':
             $ubah_dosen = true;
             break;
+        case 'bidang_keahlian':
+            $bidang_keahlian = true;
+            break;
+        case 'artikel':
+            $artikel = true;
+            break;
         case 'site_setting':
             $site_setting = true;
             break;
@@ -61,6 +69,10 @@ if (isset($_GET['halaman'])) {
             $dosen = false;
             $tambah_dosen = false;
             $ubah_dosen = false;
+            $bidang_keahlian = false;
+            $tambah_bidang_keahlian = false;
+            $ubah_bidang_keahlian = false;
+            $artikel = false;
             $site_setting = false;
     }
 } else {
@@ -124,12 +136,6 @@ if (isset($_GET['halaman'])) {
 
 
                 <li class="sidebar-title">Data</li>
-                <li class="sidebar-item <?= $kontak || $tambah || $ubah ? 'active' : '' ?>">
-                    <a href="index.php?halaman=kontak" class="sidebar-link">
-                        <i class="bi bi-person-fill"></i>
-                        <span>Kontak</span>
-                    </a>
-                </li>
                 <li class="sidebar-item <?= $kategori_riset || $tambah_kategori_riset || $ubah_kategori_riset ? 'active' : '' ?>">
                     <a href="/PBL-Lab-BA/admin/kategori_riset/view.php?halaman=kategori_riset" class="sidebar-link">
                         <i class="bi bi-book"></i>
@@ -140,6 +146,18 @@ if (isset($_GET['halaman'])) {
                     <a href="/PBL-Lab-BA/admin/dosen/view.php?halaman=dosen" class="sidebar-link">
                         <i class="bi bi-person-workspace"></i>
                         <span>Dosen</span>
+                    </a>
+                </li>
+                <li class="sidebar-item <?= $bidang_keahlian ? 'active' : '' ?>">
+                    <a href="/PBL-Lab-BA/admin/bidang_keahlian/view.php?halaman=bidang_keahlian" class="sidebar-link">
+                        <i class="bi bi-layers"></i>
+                        <span>Bidang Keahlian</span>
+                    </a>
+                </li>
+                <li class="sidebar-item <?= $artikel ? 'active' : '' ?>">
+                    <a href="/PBL-Lab-BA/admin/artikel/view.php?halaman=artikel" class="sidebar-link">
+                        <i class="bi bi-newspaper"></i>
+                        <span>Artikel</span>
                     </a>
                 </li>
 
