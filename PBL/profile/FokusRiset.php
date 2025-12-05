@@ -39,10 +39,10 @@ a.group:hover .group-icon { background-color: #fff !important; color: #124874 !i
                     </div>
                     
                     <h3 class="text-xl font-bold leading-snug group-hover:text-white transition duration-150">
-                        Intelijen Bisnis
+                        Intelijen Proses Bisnis & Keunggulan Operasional
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        Kami fokus mengubah data mentah menjadi aset strategis. Riset kami mengeksplorasi visualisasi canggih dan dasbor interaktif untuk memberdayakan organisasi dengan wawasan yang jelas dan dapat ditindaklanjuti untuk pengambilan keputusan yang lebih baik.
+                        Mengoptimalkan proses bisnis internal (manufaktur, logistik, layanan) melalui process mining, peramalan, dan analisis operasional.
                     </p>
                     
                     <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
@@ -61,10 +61,10 @@ a.group:hover .group-icon { background-color: #fff !important; color: #124874 !i
                     </div>
 
                     <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                        Analisis Data & NLP
+                        Intelijen Pelanggan & Analitik Pemasaran
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        Pekerjaan kami menggabungkan pemodelan statistik dengan pembelajaran mesin dan Pemrosesan Bahasa Alami. Kami menganalisis dataset kompleks dan tak terstruktur untuk menemukan pola tersembunyi, meramalkan tren, dan mengekstrak makna berharga dari teks.
+                        Memahami Pelanggan untuk meningkatkan strategi pemasaran dan penjualan.
                     </p>
 
                     <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
@@ -83,10 +83,10 @@ a.group:hover .group-icon { background-color: #fff !important; color: #124874 !i
                     </div>
 
                     <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                        Penambangan Proses
+                        Analitik Produk Digital & Platform
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        Dengan menganalisis log peristiwa digital, riset kami memetakan dan mengevaluasi operasi bisnis dunia nyata. Kami fokus mengidentifikasi hambatan, menemukan ketidakefisienan, dan mengoptimalkan alur kerja untuk meningkatkan kinerja operasional.
+                        Menganalisis data dari produk digital (aplikasi, website, IoT) untuk inovasi.
                     </p>
                     
                     <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
@@ -105,10 +105,10 @@ a.group:hover .group-icon { background-color: #fff !important; color: #124874 !i
                     </div>
 
                     <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                        Alat Inovatif
+                        Analitik Teks & NLP Terapan
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        Kami menjembatani jurang antara teori dan praktik. Area ini fokus pada pengembangan prototipe inovatif dan aplikasi fungsional, mengubah riset kami dalam BI, analitik, dan penambangan proses menjadi alat praktis yang memberikan nilai nyata.
+                        Mengembangkan solusi cerdas dari data tidak terstruktur seperti teks.
                     </p>
 
                     <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
