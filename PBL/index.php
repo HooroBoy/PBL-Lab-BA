@@ -350,15 +350,15 @@ function scrollDown() {
                                 <!-- 9 team cards -->
                                 <?php
                                     $team = [
-                                        ['name'=>'Dr. Banni Satria Andoko, S.Kom., M.MSI','title'=>'Lead Laboratory','img'=>'assets/images/team-1.jpg'],
-                                        ['name'=>'Putra Prima Arhandi, S.T.,M.Kom.','title'=>'Lead Software Engineer','img'=>'assets/images/team-2.jpg'],
-                                        ['name'=>'Jane Smith','title'=>'Senior Researcher','img'=>'assets/images/team-3.jpg'],
-                                        ['name'=>'Lecturer 4','title'=>'Researcher','img'=>'assets/images/team-4.jpg'],
-                                        ['name'=>'Lecturer 5','title'=>'Data Scientist','img'=>'assets/images/team-5.jpg'],
-                                        ['name'=>'Lecturer 6','title'=>'Process Mining','img'=>'assets/images/team-6.jpg'],
-                                        ['name'=>'Lecturer 7','title'=>'NLP Specialist','img'=>'assets/images/team-7.jpg'],
-                                        ['name'=>'Lecturer 8','title'=>'BI Specialist','img'=>'assets/images/team-8.jpg'],
-                                        ['name'=>'Lecturer 9','title'=>'Visualization','img'=>'assets/images/team-9.jpg']
+                                        ['name'=>'Dr. Rakhmat Arianto, S.ST., M.Kom.','title'=>'Kepala Lab','img'=>'assets/Dosen/Rakhmat-Arianto.jpg'],
+                                        ['name'=>'Rokhimatul Wakhidah, S.Pd., M.T.','title'=>'Peneliti','img'=>'assets/images/team-2.jpg'],
+                                        ['name'=>'Ir. Rudy Ariyanto, S.T., M.Cs.','title'=>'Peneliti','img'=>'assets/images/team-3.jpg'],
+                                        ['name'=>'Ahmadi Yuli Ananta, ST., M.M.','title'=>'Peneliti','img'=>'assets/images/team-4.jpg'],
+                                        ['name'=>'Candra Bella Vista, S.Kom., MT.','title'=>'Peneliti','img'=>'assets/images/team-5.jpg'],
+                                        ['name'=>'Endah Septa Sintiya, S.Pd., M.Kom','title'=>'Peneliti','img'=>'assets/images/team-6.jpg'],
+                                        ['name'=>'Dhebys Suryani, S.Kom., MT','title'=>'Peneliti','img'=>'assets/images/team-7.jpg'],
+                                        ['name'=>'Farid Angga Pribadi, S.Kom.,M.Kom.','title'=>'Peneliti','img'=>'assets/images/team-8.jpg'],
+                                        ['name'=>'Hendra Pradibta, S.E., M.Sc.','title'=>'Peneliti','img'=>'assets/images/team-9.jpg']
                                     ];
                                     foreach($team as $i => $member) {
                                         echo '<div class="w-80 flex-shrink-0 bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between">';
@@ -376,7 +376,6 @@ function scrollDown() {
                             </div>
                         </div>
                     </div>
-
                     <div class="flex justify-center mt-8">
                         <a href="profile/dosen.php" class="px-8 py-4 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
                             Lihat Tim Lengkap
