@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Set flash message ke session dan redirect (PRG)
   $message = $result;
   // Redirect ke halaman yang sama (hindari resubmit)
-  header(header: 'Location: ' . $_SERVER['PHP_SELF']);
+  header('Location: ' . $_SERVER['PHP_SELF']);
   exit;
 }
 
@@ -58,19 +58,17 @@ include '../includes/header.php';
         </div>
 
         <div class="p-6">
-          <?php 
-          if ($message != null): die(1); ?>
+            <?php 
+            if ($message != null): ?>
             <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="alert alert-<?= htmlspecialchars($message['type']) ?> alert-dismissible fade show" role="alert">
-                        <?= htmlspecialchars($message['msg']) ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+              <div class="col-md-6">
+                <div class="alert alert-<?= htmlspecialchars($message['type']) ?> alert-dismissible fade show" role="alert">
+                  <?= htmlspecialchars($message['msg']) ?>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+              </div>
             </div>
-          <?php endif; 
-          
-          ?>
+            <?php endif; ?>
           <form method="POST" action="" class="space-y-4">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -156,10 +154,10 @@ include '../includes/header.php';
                   <tr>
                     <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['nama_peminjam']); ?></td>
                     <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['no_induk']); ?></td>
-                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars(string: $b['tanggal_mulai']); ?></td>
-                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars(string: $b['tanggal_selesai']); ?></td>
-                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars(string: $b['jam_mulai']); ?></td>
-                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars(string: $b['jam_selesai']); ?></td>
+                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['tanggal_mulai']); ?></td>
+                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['tanggal_selesai']); ?></td>
+                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['jam_mulai']); ?></td>
+                    <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['jam_selesai']); ?></td>
                     <td class="px-4 py-3 text-sm text-text-dark"><?php echo htmlspecialchars($b['keperluan']); ?></td>
                     <td class="px-4 py-3 text-sm">
                     <?php 

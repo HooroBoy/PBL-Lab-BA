@@ -55,14 +55,56 @@ include 'includes/header.php';
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   color: white;
-  padding: 0 2rem;
+  padding: 2rem 3rem;
+  gap: 3rem;
 }
 
 .hero-carousel-text {
   max-width: 600px;
   animation: slideInLeft 0.8s ease-out forwards;
+  flex: 1;
+}
+
+.hero-carousel-pinguin {
+  display: none;
+  flex-shrink: 0;
+  animation: slideInRight 0.8s ease-out forwards, float 3s ease-in-out infinite 0.8s;
+}
+
+.hero-carousel-pinguin img {
+  max-width: 580px;
+  height: auto;
+  width: 100%;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animasi pinguin */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-carousel-pinguin {
+    display: block;
+  }
 }
 
 @keyframes slideInLeft {
@@ -161,12 +203,12 @@ include 'includes/header.php';
 </style>
 
 <!-- Hero Carousel Section -->
-<section class="hero-carousel" style="min-height: 100vh;">
+<section class="hero-carousel" style="min-height: 90vh;">
   <!-- Slide 1: Laboratorium Business Analytics (with Penguin) -->
   <div class="hero-carousel-slide active" style="background-image: url('assets/Logo/gedung.png'); background-color: #1a1a1a;">
     <div class="hero-carousel-content">
       <div class="hero-carousel-text">
-        <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-primary text-xs font-semibold rounded-full border border-gray-300 mb-4">
+        <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-white text-xs font-semibold rounded-full border border-gray-300 mb-4">
           Business Analytics
         </span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight md:leading-snug mb-4">
@@ -178,6 +220,9 @@ include 'includes/header.php';
         <a href="profile/VisiMisi.php" class="inline-block px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl hover:bg-blue-800 transition duration-300">
           Pelajari Selengkapnya
         </a>
+      </div>
+      <div class="hero-carousel-pinguin">
+        <img src="assets/Logo/Pinguin.png" alt="Pinguin Mascot" />
       </div>
     </div>
   </div>
@@ -237,11 +282,11 @@ function scrollDown() {
 
         <section class="w-full bg-white py-20 md:py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-                <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
-                    <h2 class="text-4xl md:text-5xl font-bold text-text-dark md:w-2/3">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 flex flex-col items-center">
+                    <h2 class="text-4xl md:text-5xl font-bold text-text-dark text-center">
                         Fokus Riset
                     </h2>
-                    <p class="text-lg text-medium md:w-1/3">
+                    <p class="text-lg text-medium md:text-center max-w-3xl">
                         Laboratorium Business Analytics berkomitmen untuk bergerak melampaui tinjauan teoretis. Kami fokus menerapkan riset mutakhir untuk membangun solusi nyata berbasis data yang menyelesaikan tantangan bisnis yang kompleks. Area riset utama kami meliputi:
                     </p>
                 </div>
