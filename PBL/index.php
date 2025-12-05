@@ -291,7 +291,7 @@ function scrollDown() {
                     </p>
                 </div>
                 
-                <!-- START: Fokus Riset Cards (Disesuaikan dengan FokusRiset.php) -->
+                <!-- START: Fokus Riset Cards (sesuaikan dengan FokusRiset.php) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     
                     <!-- Card 1: Business Intelligence -->
