@@ -295,7 +295,7 @@ function scrollDown() {
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     
                     <!-- Card 1: Business Intelligence -->
-                    <a href="profile/FokusRiset.php#bi" class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary hover:text-white">
+                    <a class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary hover:text-white">
                         <div class="p-6 space-y-6 flex flex-col h-full">
                             <!-- Icon Placeholder -->
                             <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
@@ -303,16 +303,16 @@ function scrollDown() {
                             </div>
                             
                             <h3 class="text-xl font-bold leading-snug group-hover:text-white transition duration-150">
-                                Intelijen Bisnis
+                                Intelijen Proses Bisnis & Keunggulan Operasional
                             </h3>
                             <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                                Kami fokus mengubah data mentah menjadi aset strategis. Riset kami mengeksplorasi teknik visualisasi canggih dan dasbor interaktif untuk memberdayakan organisasi dengan wawasan yang jelas dan dapat ditindaklanjuti.
+                                Mengoptimalkan proses bisnis internal (manufaktur, logistik, layanan) melalui process mining, peramalan, dan analisis operasional.
                             </p>
                         </div>
                     </a>
                     
                     <!-- Card 2: Data Analytics & NLP -->
-                    <a href="profile/FokusRiset.php#nlp" class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
+                    <a class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
                         <div class="p-6 space-y-6 flex flex-col h-full">
                             <!-- Icon Placeholder -->
                             <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
@@ -320,16 +320,16 @@ function scrollDown() {
                             </div>
 
                             <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                                Analisis Data & NLP
+                                Intelijen Pelanggan & Analitik Pemasaran
                             </h3>
                             <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                                Pekerjaan kami menggabungkan pemodelan statistik dengan pembelajaran mesin dan Pemrosesan Bahasa Alami (NLP). Kami menganalisis dataset kompleks dan tak terstruktur untuk menemukan pola tersembunyi, meramalkan tren, dan mengekstrak makna dari teks.
+                                Memahami Pelanggan untuk meningkatkan strategi pemasaran dan penjualan.
                             </p>
                         </div>
                     </a>
 
                     <!-- Card 3: Process Mining (PM) -->
-                    <a href="profile/FokusRiset.php#pm" class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
+                    <a class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
                         <div class="p-6 space-y-6 flex flex-col h-full">
                             <!-- Icon Placeholder -->
                             <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
@@ -337,16 +337,16 @@ function scrollDown() {
                             </div>
 
                             <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                                Penambangan Proses
+                                Analitik Produk Digital & Platform
                             </h3>
                             <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                                Dengan menganalisis log peristiwa digital, riset kami memetakan dan mengevaluasi operasi bisnis nyata. Kami fokus mengidentifikasi hambatan, menemukan ketidakefisienan, dan mengoptimalkan alur kerja untuk meningkatkan kinerja operasional.
+                                Menganalisis data dari produk digital (aplikasi, website, IoT) untuk inovasi.
                             </p>
                         </div>
                     </a>
                     
                     <!-- Card 4: Innovative Tools -->
-                    <a href="profile/FokusRiset.php#tools" class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
+                    <a class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
                         <div class="p-6 space-y-6 flex flex-col h-full">
                             <!-- Icon Placeholder -->
                             <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
@@ -354,10 +354,10 @@ function scrollDown() {
                             </div>
 
                             <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                                Alat Inovatif
+                                Analitik Teks & NLP Terapan
                             </h3>
                             <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                                Kami menjembatani jurang antara teori dan praktik. Area ini fokus pada pengembangan prototipe dan aplikasi fungsional, mengubah riset kami menjadi alat praktis yang memberikan nilai nyata.
+                                Mengembangkan solusi cerdas dari data tidak terstruktur seperti teks.
                             </p>
                         </div>
                     </a>
@@ -395,15 +395,15 @@ function scrollDown() {
                                 <!-- 9 team cards -->
                                 <?php
                                     $team = [
-                                        ['name'=>'Dr. Banni Satria Andoko, S.Kom., M.MSI','title'=>'Lead Laboratory','img'=>'assets/images/team-1.jpg'],
-                                        ['name'=>'Putra Prima Arhandi, S.T.,M.Kom.','title'=>'Lead Software Engineer','img'=>'assets/images/team-2.jpg'],
-                                        ['name'=>'Jane Smith','title'=>'Senior Researcher','img'=>'assets/images/team-3.jpg'],
-                                        ['name'=>'Lecturer 4','title'=>'Researcher','img'=>'assets/images/team-4.jpg'],
-                                        ['name'=>'Lecturer 5','title'=>'Data Scientist','img'=>'assets/images/team-5.jpg'],
-                                        ['name'=>'Lecturer 6','title'=>'Process Mining','img'=>'assets/images/team-6.jpg'],
-                                        ['name'=>'Lecturer 7','title'=>'NLP Specialist','img'=>'assets/images/team-7.jpg'],
-                                        ['name'=>'Lecturer 8','title'=>'BI Specialist','img'=>'assets/images/team-8.jpg'],
-                                        ['name'=>'Lecturer 9','title'=>'Visualization','img'=>'assets/images/team-9.jpg']
+                                        ['name'=>'Dr. Rakhmat Arianto, S.ST., M.Kom.','title'=>'Kepala Lab','img'=>'assets/Dosen/Rakhmat-Arianto.jpg'],
+                                        ['name'=>'Rokhimatul Wakhidah, S.Pd., M.T.','title'=>'Peneliti','img'=>'assets/images/team-2.jpg'],
+                                        ['name'=>'Ir. Rudy Ariyanto, S.T., M.Cs.','title'=>'Peneliti','img'=>'assets/images/team-3.jpg'],
+                                        ['name'=>'Ahmadi Yuli Ananta, ST., M.M.','title'=>'Peneliti','img'=>'assets/images/team-4.jpg'],
+                                        ['name'=>'Candra Bella Vista, S.Kom., MT.','title'=>'Peneliti','img'=>'assets/images/team-5.jpg'],
+                                        ['name'=>'Endah Septa Sintiya, S.Pd., M.Kom','title'=>'Peneliti','img'=>'assets/images/team-6.jpg'],
+                                        ['name'=>'Dhebys Suryani, S.Kom., MT','title'=>'Peneliti','img'=>'assets/images/team-7.jpg'],
+                                        ['name'=>'Farid Angga Pribadi, S.Kom.,M.Kom.','title'=>'Peneliti','img'=>'assets/images/team-8.jpg'],
+                                        ['name'=>'Hendra Pradibta, S.E., M.Sc.','title'=>'Peneliti','img'=>'assets/images/team-9.jpg']
                                     ];
                                     foreach($team as $i => $member) {
                                         echo '<div class="w-80 flex-shrink-0 bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between">';
@@ -414,9 +414,6 @@ function scrollDown() {
                                         echo '<h4 class="text-lg font-semibold text-text-dark mb-1">'.htmlspecialchars($member['name']).'</h4>';
                                         echo '<p class="text-sm text-primary font-medium mb-4">'.htmlspecialchars($member['title']).'</p>';
                                         echo '<div class="flex items-center justify-center gap-4">';
-                                        echo '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
-                                        echo '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0H5C3.9 0 3 .9 3 2v20l7-3 7 3V2c0-1.1-.9-2-2-2z"/></svg>';
-                                        echo '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-1 4l-7 4-7-4V6l7 4 7-4v2z"/></svg>';
                                         echo '</div>';
                                         echo '</div></div>'; // Ditutup dengan </div>
                                     }
@@ -424,7 +421,6 @@ function scrollDown() {
                             </div>
                         </div>
                     </div>
-
                     <div class="flex justify-center mt-8">
                         <a href="profile/dosen.php" class="px-8 py-4 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
                             Lihat Tim Lengkap
