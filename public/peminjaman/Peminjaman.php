@@ -1,7 +1,7 @@
 <?php
 session_start();
 $page_title = 'Peminjaman Alat & Ruang';
-require_once '../controller/PeminjamanController.php';
+require_once '../../app/controllers/PeminjamanController.php';
 $message = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Ambil dan trim
@@ -25,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   );
   
   // Set flash message ke session dan redirect (PRG)
-  $message = $result;
-  // Redirect ke halaman yang sama (hindari resubmit)
+  $_SESSION['alerts'] = $result;
+  $_POST = array(); // Clear POST data to prevent resubmission
   header('Location: ' . $_SERVER['PHP_SELF']);
   exit;
 }

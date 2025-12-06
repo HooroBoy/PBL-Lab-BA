@@ -16,7 +16,7 @@
 
 <body>
     <?php
-    include "../app/config/connection.php";
+    include_once __DIR__ .'/../config/database.php';
     session_start();
 
     if (isset($_SESSION['nama'])) {
