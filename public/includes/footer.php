@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4 pt-8 border-t border-blue-800">
+        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4 pt-8 border-t border-white-800">
             <p class="text-sm opacity-70">
                 &copy; <?php echo date("Y"); ?> Laboratorium Business Analytics. Semua hak dilindungi.
             </p>

@@ -283,7 +283,7 @@ function scrollDown() {
         <section class="w-full bg-white py-20 md:py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 flex flex-col items-center">
-                    <h2 class="text-4xl md:text-5xl font-bold text-text-dark text-center">
+                    <h2 class="text-4xl md:text-5xl font-bold text-text-darktext-center">
                         Fokus Riset
                     </h2>
                     <p class="text-lg text-medium md:text-center max-w-3xl">
@@ -486,29 +486,17 @@ function scrollDown() {
         </script>
 
         <section class="w-full bg-white py-20 md:py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col-reverse lg:flex-row items-center lg:justify-between gap-12">
-                
-                <div class="w-full lg:w-7/12 flex flex-col space-y-12">
-                    <div class="space-y-6">
-                        <h2 class="text-4xl md:text-5xl font-bold text-text-dark leading-snug">
-                            Artikel
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 flex flex-col items-center">
+                    <h2 class="text-4xl md:text-5xl font-bold text-text-darktext-center">
+                        Artikel
                         </h2>
-                        <p class="text-lg text-medium leading-relaxed">
+                        <p class="text-lg text-medium md:text-center max-w-5xl">
                             Kami tidak hanya meneliti; kami membangun solusi. Cobalah prototipe interaktif kami dan lihat bagaimana Business Intelligence dan Analisis Data dapat mengubah data mentah menjadi keputusan strategis. Demo ini merupakan hasil nyata dari fokus riset kami, memberi Anda pengalaman analisis data waktu nyata.
                         </p>
-                    </div>
-                    <a href="resource/Article.php" class="self-start px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl border-4 border-primary hover:bg-blue-800 transition duration-300 inline-block">
+                    <a href="resource/Article.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
                         Pelajari Artikel
                     </a>
-                </div>
-                
-                <div class="w-full lg:w-5/12 flex justify-center">
-                    <div class="relative w-full max-w-sm lg:max-w-lg h-[400px] md:h-[600px] rounded-xl shadow-2xl bg-gray-700 bg-cover bg-center"
-                        style="background-image: url('assets/images/interactive-demo.jpg');"> <span class="absolute top-6 left-6 inline-block px-4 py-2 bg-white text-text-dark text-sm font-semibold rounded-full border border-white shadow-md">
-                            <span class="inline-block w-2 h-2 bg-[#427AD3] rounded-full mr-2"></span>
-                            Fitur Utama
-                        </span>
-                    </div>
                 </div>
             </div>
         </section>
