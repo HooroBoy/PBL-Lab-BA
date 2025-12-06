@@ -1,5 +1,5 @@
     <?php
-    include_once '../model/Peminjaman.php';
+include_once __DIR__ . '/../models/Peminjaman.php';
 
     class PeminjamanController
     {
@@ -10,7 +10,7 @@
 
             // Server-side validation dasar
             if (!$nama || !$no_induk || !$tanggal_mulai || !$tanggal_selesai || !$jam_mulai || !$jam_selesai || !$keperluan) {
-                return ['type' => 'danger', 'msg' => 'Semua field wajib diisi.'];
+                return ['type' => 'danger', 'msg' => 'Se    mua field wajib diisi.'];
             }
 
             // pastikan tanggal/jam masuk akal

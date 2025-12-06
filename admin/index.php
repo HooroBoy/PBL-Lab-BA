@@ -44,7 +44,7 @@ if ($now > $_SESSION['timeout']) {
             <?php require("../public/layouts-admin/header.php") ?>
             <!-- End Header -->
             <div id="main-content">
-                <?php require("../app/config/menu.php") ?>
+                <?php require_once __DIR__ . '/../config/menu.php' ?>
             </div>
             <!-- Start Footer -->
             <?php require("../public/layouts-admin/footer.php") ?>

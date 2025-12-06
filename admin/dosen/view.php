@@ -2,10 +2,7 @@
 session_start();
 require_once __DIR__ . "/../../app/models/Dosen.php";
 
-$dosen = Dosen::all();
-if (!is_array($dosen) || $dosen === false) {
-    $dosen = [];
-}
+$dosenall = Dosen::all();
 
 $title = 'Data Dosen';
 include "../../public/layouts-admin/header-admin.php";
@@ -58,8 +55,7 @@ include "../../public/layouts-admin/header-admin.php";
                                         <tbody>
                                             <?php 
                                             $i = 1;
-                                            if (is_array($dosen) && !empty($dosen)):
-                                                foreach ($dosen as $row): ?>
+                                                foreach ($dosenall as $row): ?>
                                                     <tr>
                                                         <td><?= $i++ ?></td>
                                                         <td><?= $row['nama'] ?></td>
@@ -75,8 +71,7 @@ include "../../public/layouts-admin/header-admin.php";
                                                             <a class="btn btn-danger btn-sm" href="delete.php?halaman=hapus_dosen&id=<?= $row['id'] ?>" onclick="return confirm('Hapus dosen ini?')">Hapus</a>
                                                         </td>
                                                     </tr>
-                                                <?php endforeach; 
-                                            endif; ?>
+                                                <?php endforeach;?>
 
                                         </tbody>
                                     </table>

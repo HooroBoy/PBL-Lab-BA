@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <div class="mb-3">
                                             <label class="form-label">Judul <span class="text-danger">*</span></label>
                                             <input type="text" name="judul" class="form-control" required>
-                                            <input type="hidden" name="admin_id" value="<?= $_SESSION['user_id'] ?>">
+                                            <input type="hidden" name="admin_id" value="<?= $_SESSION['id'] ?>">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Tanggal <span class="text-danger">*</span></label>

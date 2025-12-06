@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../config/connection.php';
+require_once __DIR__ . '/../../config/database.php';
 class Galeri {
     public static function all($kategori = null) {
         global $pdo;

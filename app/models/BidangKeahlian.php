@@ -1,6 +1,6 @@
 <?php
 // app/models/Kategori.php
-require_once __DIR__ . '/../config/connection.php';
+require_once __DIR__ . '/../../config/database.php';
 // include "../config/connection.php";
 
 function createSlug(string $text): string
