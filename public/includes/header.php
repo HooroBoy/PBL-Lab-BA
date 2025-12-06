@@ -49,7 +49,7 @@ require_once __DIR__ . '/config.php';
 
     <div id="main-content" class="min-h-screen flex flex-col items-center">
 
-        <header class="w-full border-b border-primary sticky top-0 bg-primary text-white z-10">
+        <header class="w-full border-b border-primary sticky top-0 bg-primary text-white z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                 <div class="flex items-center space-x-2">
                     <img class="w-10 h-10 rounded-lg" src="<?php echo BASE_URL; ?>/assets/Logo/logo2.png" alt="LBA"
@@ -57,7 +57,7 @@ require_once __DIR__ . '/config.php';
                     <div class="flex flex-col">
                         <span class="text-xs font-bold uppercase leading-tight text-white">Laboratorium</span>
                         <span class="text-sm font-bold uppercase leading-none text-white">Business Analytics</span>
-                        <span class="text-xs font-medium leading-none text-white mt-1">Transforming Data into Decisions</span>
+                        <span class="text-xs font-medium leading-none text-white mt">Transforming Data into Decisions</span>
                     </div>
                 </div>
 
@@ -91,7 +91,7 @@ require_once __DIR__ . '/config.php';
                         </div>
                     </div>
                     
-                    <a href="<?php echo BASE_URL; ?>/projects-demos/index.php" class="text-white hover:text-blue-200 transition duration-150">
+                    <a href="<?php echo BASE_URL; ?>/resource/Article.php" class="text-white hover:text-blue-200 transition duration-150">
                         Artikel
                     </a>
                     
@@ -106,7 +106,7 @@ require_once __DIR__ . '/config.php';
                                 <a href="<?php echo BASE_URL; ?>/resource/ActivityGallery.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
                                     Galeri Kegiatan
                                 </a>
-                                <a href="<?php echo BASE_URL; ?>/resource/Article.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
+                                <a href="<?php echo BASE_URL; ?>/resource/Fasilitas.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
                                     Fasilitas
                                 </a>
                             </div>
@@ -158,7 +158,7 @@ require_once __DIR__ . '/config.php';
                                 </button>
                                 <div x-show="resourcesOpen" x-transition class="pl-4">
                                     <a href="<?php echo BASE_URL; ?>/resource/ActivityGallery.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Galeri Kegiatan</a>
-                                    <a href="<?php echo BASE_URL; ?>/resource/Article.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Fasilitas</a>
+                                    <a href="<?php echo BASE_URL; ?>/resource/Fasilitas.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Fasilitas</a>
                                 </div>
                             </div>
 
