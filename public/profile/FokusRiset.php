@@ -28,101 +28,107 @@ a.group:hover .group-icon { background-color: #fff !important; color: #124874 !i
         </header>
 
         <!-- Research Activities Grid (4 columns on desktop) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Grid diubah menjadi 4 kolom responsive -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
-            <!-- Card 1: Business Intelligence (WHITE default -> BLUE Hover) -->
-            <a href="#bi" class="group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary hover:text-white">
+            <!-- Card 1: Anomaly Detection -->
+            <a class="group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary hover:text-white">
                 <div class="p-6 space-y-6 flex flex-col h-full">
-                    <!-- Icon Placeholder -->
-                    <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                    </div>
-                    
                     <h3 class="text-xl font-bold leading-snug group-hover:text-white transition duration-150">
-                        Intelijen Proses Bisnis & Keunggulan Operasional
+                        Anomaly Detection 
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        Mengoptimalkan proses bisnis internal (manufaktur, logistik, layanan) melalui process mining, peramalan, dan analisis operasional.
+                        Product Surveilance, Prediction Maintenance, Manufacturing Yield Optimization
                     </p>
-                    
-                    <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
-                        Pelajari Lebih Lanjut 
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                    </div>
                 </div>
             </a>
             
-            <!-- Card 2: Data Analytics & NLP (Light Theme -> Hover Blue) -->
-            <a href="#nlp" class="group block bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
+            <!-- Card 2: Identity Theft -->
+            <a class="group block bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
                 <div class="p-6 space-y-6 flex flex-col h-full">
-                    <!-- Icon Placeholder -->
-                    <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
-                    </div>
-
                     <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                        Intelijen Pelanggan & Analitik Pemasaran
+                        Identity Theft
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        Memahami Pelanggan untuk meningkatkan strategi pemasaran dan penjualan.
+                        Early detection of Identity theft, Identity theft scheme analysis, Multi-factor Authentication, vulnerability of personal data, and data governance framework.
                     </p>
-
-                    <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
-                        Pelajari Lebih Lanjut 
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                    </div>
                 </div>
             </a>
 
-            <!-- Card 3: Process Mining (PM) (Light Theme -> Hover Blue) -->
-            <a href="#pm" class="group block bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
+            <!-- Card 3: Fraud Detection -->
+            <a class="group block bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
                 <div class="p-6 space-y-6 flex flex-col h-full">
-                    <!-- Icon Placeholder -->
-                    <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/></svg>
-                    </div>
-
                     <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                        Analitik Produk Digital & Platform
+                        Fraud Detection
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        Menganalisis data dari produk digital (aplikasi, website, IoT) untuk inovasi.
+                        Fake Information Detection for Text, Video, Audio , and Image.
                     </p>
-                    
-                    <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
-                        Pelajari Lebih Lanjut 
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                    </div>
                 </div>
             </a>
             
-            <!-- Card 4: Innovative Tools (Light Theme -> Hover Blue) -->
+            <!-- Card 4: Brand Image Analysis -->
             <a href="#tools" class="group block bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
                 <div class="p-6 space-y-6 flex flex-col h-full">
-                    <!-- Icon Placeholder -->
-                    <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3a2.85 2.85 0 0 0-5.69 0H2v2h1.33A2.85 2.85 0 0 0 7 8.85h.01A2.85 2.85 0 0 0 12.69 8.85H22v-2h-1.33A2.85 2.85 0 0 0 17 3zM7 7.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM2 12h1.33A2.85 2.85 0 0 0 7 15.85h.01A2.85 2.85 0 0 0 12.69 15.85H22v-2h-1.33A2.85 2.85 0 0 0 17 12zM7 16.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
-                    </div>
-
                     <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                        Analitik Teks & NLP Terapan
+                        Brand Image Analysis
                     </h3>
                     <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                        Mengembangkan solusi cerdas dari data tidak terstruktur seperti teks.
+                        Sentiment analysis, Competitor benchmarking, and Campaign effectiveness tracking.
                     </p>
-
-                    <div class="text-sm font-semibold text-primary flex items-center pt-2 group-hover:text-white group-hover:underline">
-                        Pelajari Lebih Lanjut 
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                    </div>
                 </div>
             </a>
 
-                             </span>
+            <!-- Card 5: Customer Analytics -->
+            <a class="group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary hover:text-white">
+                <div class="p-6 space-y-6 flex flex-col h-full">
+                    <h3 class="text-xl font-bold leading-snug group-hover:text-white transition duration-150">
+                        Costumer Analytics
+                    </h3>
+                    <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
+                        Customer Relationship Management, Churn Analysis & prevention, Customer Satisfaction, Marketing cross-sell & up-sell. Promotional effects tracking and competitive response for pricing. And also Business process analysis for management and Supply chain management for pipeline tracking. 
+                    </p>
+                </div>
             </a>
 
-        </div>
+            <!-- Card 6: Competitive Monitoring -->
+            <a class="group block bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
+                <div class="p-6 space-y-6 flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
+                        Competitive Monitoring
+                    </h3>
+                    <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
+                        Market trend forcasting and competitor strategy mapping.
+                    </p>
+                </div>
+            </a>
 
+            <!-- Card 7: New Product Developtment -->
+            <a class="group block bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
+                <div class="p-6 space-y-6 flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
+                        New Product Development
+                    </h3>
+                    <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
+                        Idea generation & screening, and Market feasibility study.
+                    </p>
+                </div>
+            </a>
+
+            <!-- Card 8: Digital Marketing Analysis -->
+            <a class="group block bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
+                <div class="p-6 space-y-6 flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
+                        Digital Marketing Analysis
+                    </h3>
+                    <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
+                        Pattern analysis and Content Analysis.
+                    </p>
+                </div>
+            </a>
+            
+        </div>
+        <!-- END: 8 Research Activities Grid -->
     </div>
 </div>
 
