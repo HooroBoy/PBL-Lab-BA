@@ -38,6 +38,7 @@
                 if (password_verify($password, $data['password'])) {
                     $_SESSION['nama'] = $data['nama'];
                     $_SESSION["timeout"] = time() + (24 * 60 * 60);
+                    $_SESSION['id'] = $data['id'];
                     // Update last_login
                     $updateLogin = $pdo->prepare("UPDATE admin SET last_login = NOW() WHERE id = :id");
                     $updateLogin->execute([':id' => $data['id']]);

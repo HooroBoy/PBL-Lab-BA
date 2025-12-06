@@ -1,6 +1,6 @@
 <?php
 // app/models/Dosen.php
-require_once __DIR__ . '/../config/connection.php';
+require_once __DIR__ . '/../../config/database.php';
 
 class Dosen
 {

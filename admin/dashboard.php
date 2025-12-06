@@ -1,24 +1,6 @@
 <?php
-include "../app/config/connection.php";
+include_once "../config/database.php";
 
-// try {
-//     $query = mysqli_query($connection, "SELECT nama FROM kontak");
-//     $data = mysqli_fetch_all($query);
-//     $count = count($data);
-// } catch (\Throwable $th) {
-//     echo "
-//         <script>
-//         Swal.fire({
-//             title: 'Gagal',
-//             text: 'Server error!',
-//             icon: 'error',
-//             showConfirmButton: false,
-//             timer: 2000,
-//             timerProgressBar: true,
-//         })
-//         </script>
-//         ";
-// }
 ?>
 
 <div class="page-heading">

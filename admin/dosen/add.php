@@ -117,10 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <input type="text" name="google_scholar_id" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Admin ID</label>
-                                            <input type="number" name="admin_id" class="form-control">
-                                        </div>
+                                            <input type="hidden" name="admin_id" class="form-control" value="<?php echo $_SESSION['id']; ?>">
                                         <div class="mb-3">
                                             <label class="form-label">Riwayat Pendidikan</label>
                                             <div id="pendidikan-list">
