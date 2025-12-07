@@ -4,7 +4,12 @@ $page_title = "Fasilitas & Peralatan - Laboratory of Business Analytics";
 // Memanggil Header (Header will include HTML setup and Navbar)
 require_once '../includes/header.php';
 
-// --- Data Fasilitas (Simulasi) ---
+// --- Impor Model Galeri ---
+// PERBAIKAN: Mengubah path menjadi '../../app/models/Galeri.php'
+// Ini mengasumsikan Galeri.php berada di [Project Root]/app/models/
+require_once '../../app/models/Galeri.php'; 
+
+// --- Data Fasilitas (Simulasi untuk Kartu Informasi, DIBIARKAN STATIS) ---
 $facilities_data = [
     [
         'title' => 'Ruang Laboratorium',
@@ -28,19 +33,20 @@ $facilities_data = [
     ]
 ];
 
-// Data Galeri Foto
-$gallery_photos = [
-    ['path' => '../assets/Fasilitas/Fasilitas1.jpg', 'alt' => 'Interior Ruang Lab 1'],
-    ['path' => '../assets/Fasilitas/Fasilitas2.jpg', 'alt' => 'Perangkat Komputer'],
-    ['path' => '../assets/Fasilitas/Fasilitas3.jpg', 'alt' => 'Area Diskusi'],
-    ['path' => '../assets/Fasilitas/Fasilitas4.jpg', 'alt' => 'Server dan Jaringan']
-];
+// --- Ambil Data Galeri Fasilitas DARI DATABASE ---
+try {
+    // Memanggil method all dengan kategori 'fasilitas'.
+    $gallery_photos = Galeri::all('fasilitas');
+} catch (Exception $e) {
+    // Jika terjadi error (misal koneksi DB gagal), inisialisasi array kosong
+    $gallery_photos = []; 
+    // Anda bisa tambahkan logging error di sini jika perlu
+}
 ?>
 
 <div class="w-full bg-white pt-8 pb-20 md:pt-16 md:pb-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
-        <!-- Header dan Breadcrumb -->
         <header class="text-center space-y-3 pb-8 border-b border-gray-200">
             <nav class="text-sm font-medium text-gray-500 mb-4 inline-block" aria-label="Breadcrumb">
                 <ol class="list-none p-0 inline-flex">
@@ -59,28 +65,31 @@ $gallery_photos = [
             </p>
         </header>
 
-        <!-- Galeri Foto (4 Foto) -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <?php foreach ($gallery_photos as $photo): ?>
-                    <div class="relative overflow-hidden rounded-xl shadow-md">
-                        <img class="w-full h-48 object-cover" 
-                             src="<?php echo $photo['path']; ?>" 
-                             alt="<?php echo $photo['alt']; ?>"
-                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/124874/FFFFFF?text=<?php echo urlencode($photo['alt']); ?>';"
-                        />
-                        <div class="absolute inset-0 bg-black bg-opacity-30 flex items-end p-3 md:p-4">
-                            <p class="text-white text-xs font-semibold opacity-80"><?php echo $photo['alt']; ?></p>
+        <?php if (!empty($gallery_photos)): ?>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <?php foreach ($gallery_photos as $photo): ?>
+                        <div class="relative overflow-hidden rounded-xl shadow-md">
+                            <img class="w-full h-48 object-cover" 
+                                 src="<?php echo $photo['gambar']; ?>" 
+                                 alt="<?php echo $photo['judul']; ?>"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/400x300/124874/FFFFFF?text=<?php echo urlencode($photo['judul']); ?>';"
+                            />
+                            <div class="absolute inset-0 bg-black bg-opacity-30 flex items-end p-3 md:p-4">
+                                <p class="text-white text-xs font-semibold opacity-80"><?php echo $photo['judul']; ?></p>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-        </div>
+                    <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="text-center py-10 text-gray-500">
+                <p>Tidak ada foto fasilitas yang tersedia saat ini.</p>
+            </div>
+        <?php endif; ?>
 
-        <!-- Kartu Fasilitas (4 Cards) -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-10">
             <?php foreach ($facilities_data as $facility): ?>
                 <div class="block bg-white rounded-xl shadow-lg border border-gray-200">
                     <div class="p-6 space-y-6 flex flex-col h-full">
-                        <!-- Icon Placeholder -->
                         <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-icon">
                             <?php echo $facility['icon_svg']; ?>
                         </div>
@@ -96,7 +105,6 @@ $gallery_photos = [
             <?php endforeach; ?>
         </div>
 
-        <!-- Call to Action Footer -->
         <div class="flex justify-center w-full mt-12 pt-8 border-t border-gray-100">
             <a href="/resources/facilities-borrowing.php" class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
                 Ajukan Peminjaman Fasilitas
