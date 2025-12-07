@@ -504,7 +504,7 @@ function scrollDown() {
                   <em>end-to-end</em>—mulai dari data mentah, pemodelan analitik, hingga rekomendasi keputusan strategis.
                 </p>
 
-                <a href="aktivitas/artikel.php"
+                <a href="artikel/artikel.php"
                   class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
                   Pelajari Artikel
                 </a>
