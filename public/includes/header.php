@@ -133,10 +133,10 @@ require_once __DIR__ . '/config.php';
 
                         <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 origin-top-left">
                             <div class="py-1">
-                                <a href="<?php echo BASE_URL; ?>/aktivitas/GaleriKegiatan.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
+                                <a href="<?php echo BASE_URL; ?>/galeri/galerikegiatan.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
                                     Kegiatan
                                 </a>
-                                <a href="<?php echo BASE_URL; ?>/aktivitas/Fasilitas.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
+                                <a href="<?php echo BASE_URL; ?>/galeri/Fasilitas.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
                                     Fasilitas
                                 </a>
                             </div>
@@ -180,19 +180,26 @@ require_once __DIR__ . '/config.php';
                                     <a href="<?php echo BASE_URL; ?>/profile/Dosen.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Dosen</a>
                                 </div>
                             </div>
+                            <a href="<?php echo BASE_URL; ?>/publikasi/Publikasi.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                Publikasi
+                            </a>
                             <a href="<?php echo BASE_URL; ?>/projects-demos/index.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
                                 Artikel
                             </a>
                             <div x-data="{ resourcesOpen: false }">
                                 <button @click="resourcesOpen = !resourcesOpen" class="flex items-center justify-between w-full px-4 py-2 text-sm hover:bg-gray-100">
-                                    Aktivitas
+                                    Galeri
                                     <svg :class="resourcesOpen ? 'rotate-180' : ''" class="w-4 h-4 ml-2 transform transition duration-150" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M7 10l5 5 5-5z" />
                                     </svg>
                                 </button>
                                 <div x-show="resourcesOpen" x-transition class="pl-4">
-                                    <a href="<?php echo BASE_URL; ?>/resource/ActivityGallery.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Galeri Kegiatan</a>
-                                    <a href="<?php echo BASE_URL; ?>/resource/Fasilitas.php" class="block px-4 py-2 text-sm hover:bg-gray-100">Fasilitas</a>
+                                    <a href="<?php echo BASE_URL; ?>/galeri/galerikegiatan.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                        Kegiatan
+                                    </a>
+                                    <a href="<?php echo BASE_URL; ?>/galeri/fasilitas.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                        Fasilitas
+                                    </a>
                                 </div>
                             </div>
 
