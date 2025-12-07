@@ -5,17 +5,9 @@ $page_title = "Fasilitas & Peralatan - Laboratory of Business Analytics";
 require_once '../includes/header.php';
 
 // --- Impor Model Galeri ---
-<<<<<<< HEAD:public/aktivitas/fasilitas.php
-require_once '../../app/models/Galeri.php'; 
+require_once '../../app/models/Galeri.php';
 
 // --- Data Fasilitas Statis (Icon & Deskripsi) ---
-=======
-// PERBAIKAN: Mengubah path menjadi '../../app/models/Galeri.php'
-// Ini mengasumsikan Galeri.php berada di [Project Root]/app/models/
-require_once '../../app/models/Galeri.php'; 
-
-// --- Data Fasilitas (Simulasi untuk Kartu Informasi, DIBIARKAN STATIS) ---
->>>>>>> 6a408528edc6df4fc61d9b0a24d925a5925c1d31:public/galeri/fasilitas.php
 $facilities_data = [
     [
         'title' => 'Ruang Laboratorium',
@@ -43,12 +35,12 @@ $facilities_data = [
 try {
     $gallery_photos = Galeri::all('fasilitas');
 } catch (Exception $e) {
-    $gallery_photos = []; 
+    $gallery_photos = [];
     // Memanggil method all dengan kategori 'fasilitas'.
     $gallery_photos = Galeri::all('fasilitas');
 } catch (Exception $e) {
     // Jika terjadi error (misal koneksi DB gagal), inisialisasi array kosong
-    $gallery_photos = []; 
+    $gallery_photos = [];
     // Anda bisa tambahkan logging error di sini jika perlu
 }
 ?>
@@ -61,7 +53,9 @@ try {
                 <ol class="list-none p-0 inline-flex">
                     <li class="flex items-center">
                         <a href="/index.php" class="text-primary hover:text-blue-700">Home</a>
-                        <svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10l-3.293-3.293a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                        <svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10l-3.293-3.293a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
                     </li>
                     <li class="text-primary">Fasilitas</li>
                 </ol>
@@ -76,91 +70,59 @@ try {
 
         <?php if (!empty($gallery_photos)): ?>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-<<<<<<< HEAD:public/aktivitas/fasilitas.php
-                <?php foreach ($gallery_photos as $photo): 
-                    // --- PERBAIKAN LOGIKA PATH GAMBAR ---
-                    $raw_path = $photo['gambar'];
-
-                    // 1. Bersihkan path jika database menyimpan 'assets/fasilitas/nama.jpg'
-                    // Kita hapus folder path agar kita bisa menyusun ulang dengan benar
-                    $clean_filename = str_replace(['assets/fasilitas/', 'assets/fasilitas\\'], '', $raw_path);
-                    $clean_filename = ltrim($clean_filename, '/');
-
-                    // 2. Susun path lengkap dengan nama folder project
-                    // Pastikan folder ini benar: /PBL-Lab-BA/public/assets/fasilitas/
-                    $final_src = '/PBL-Lab-BA/public/assets/fasilitas/' . $clean_filename;
-                ?>
-                    <div class="relative overflow-hidden rounded-xl shadow-md group">
-                        <img class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110" 
-                             src="<?php echo $final_src; ?>" 
-                             alt="<?php echo htmlspecialchars($photo['judul']); ?>"
-                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/124874/FFFFFF?text=Image+Error';"
-                        />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 flex items-end p-3 md:p-4">
-                            <p class="text-white text-xs md:text-sm font-semibold"><?php echo htmlspecialchars($photo['judul']); ?></p>
+                <?php foreach ($gallery_photos as $photo): ?>
+                    <div class="relative overflow-hidden rounded-xl shadow-md">
+                        <img class="w-full h-48 object-cover"
+                            src="<?php echo $photo['gambar']; ?>"
+                            alt="<?php echo $photo['judul']; ?>"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x300/124874/FFFFFF?text=<?php echo urlencode($photo['judul']); ?>';" />
+                        <div class="absolute inset-0 bg-black bg-opacity-30 flex items-end p-3 md:p-4">
+                            <p class="text-white text-xs font-semibold opacity-80"><?php echo $photo['judul']; ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
-            <div class="text-center py-10 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-                <p class="text-gray-500">Tidak ada foto fasilitas yang tersedia saat ini.</p>
-=======
-                <?php foreach ($gallery_photos as $photo): ?>
-                        <div class="relative overflow-hidden rounded-xl shadow-md">
-                            <img class="w-full h-48 object-cover" 
-                                 src="<?php echo $photo['gambar']; ?>" 
-                                 alt="<?php echo $photo['judul']; ?>"
-                                 onerror="this.onerror=null; this.src='https://placehold.co/400x300/124874/FFFFFF?text=<?php echo urlencode($photo['judul']); ?>';"
-                            />
-                            <div class="absolute inset-0 bg-black bg-opacity-30 flex items-end p-3 md:p-4">
-                                <p class="text-white text-xs font-semibold opacity-80"><?php echo $photo['judul']; ?></p>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-            </div>
-        <?php else: ?>
             <div class="text-center py-10 text-gray-500">
                 <p>Tidak ada foto fasilitas yang tersedia saat ini.</p>
->>>>>>> 6a408528edc6df4fc61d9b0a24d925a5925c1d31:public/galeri/fasilitas.php
             </div>
         <?php endif; ?>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-10">
             <?php foreach ($facilities_data as $facility): ?>
-<<<<<<< HEAD:public/aktivitas/fasilitas.php
-                <div class="block bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                <<<<<<< HEAD:public/aktivitas/fasilitas.php
+                    <div class="block bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
                     <div class="p-6 space-y-4 flex flex-col h-full">
                         <div class="w-12 h-12 p-3 rounded-full bg-blue-50 text-primary flex items-center justify-center border border-blue-100">
-=======
-                <div class="block bg-white rounded-xl shadow-lg border border-gray-200">
-                    <div class="p-6 space-y-6 flex flex-col h-full">
-                        <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-icon">
->>>>>>> 6a408528edc6df4fc61d9b0a24d925a5925c1d31:public/galeri/fasilitas.php
-                            <?php echo $facility['icon_svg']; ?>
+                            =======
+                            <div class="block bg-white rounded-xl shadow-lg border border-gray-200">
+                                <div class="p-6 space-y-6 flex flex-col h-full">
+                                    <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-icon">
+                                        >>>>>>> 6a408528edc6df4fc61d9b0a24d925a5925c1d31:public/galeri/fasilitas.php
+                                        <?php echo $facility['icon_svg']; ?>
+                                    </div>
+
+                                    <h3 class="text-xl font-bold text-text-dark leading-snug">
+                                        <?php echo $facility['title']; ?>
+                                    </h3>
+                                    <p class="text-sm text-gray-600 flex-grow leading-relaxed">
+                                        <?php echo $facility['description']; ?>
+                                    </p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                         </div>
-                        
-                        <h3 class="text-xl font-bold text-text-dark leading-snug">
-                            <?php echo $facility['title']; ?>
-                        </h3>
-                        <p class="text-sm text-gray-600 flex-grow leading-relaxed">
-                            <?php echo $facility['description']; ?>
-                        </p>
+
+                        <div class="flex justify-center w-full mt-12 pt-8 border-t border-gray-100">
+                            <a href="/resources/facilities-borrowing.php" class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300 transform hover:-translate-y-1">
+                                Ajukan Peminjaman Fasilitas
+                            </a>
+                        </div>
+
                     </div>
-                </div>
-            <?php endforeach; ?>
         </div>
 
-        <div class="flex justify-center w-full mt-12 pt-8 border-t border-gray-100">
-            <a href="/resources/facilities-borrowing.php" class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300 transform hover:-translate-y-1">
-                Ajukan Peminjaman Fasilitas
-            </a>
-        </div>
-
-    </div>
-</div>
-
-<?php
-// Memanggil Footer
-require_once '../includes/footer.php';
-?>
+        <?php
+        // Memanggil Footer
+        require_once '../includes/footer.php';
+        ?>
