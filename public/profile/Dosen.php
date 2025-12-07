@@ -66,11 +66,17 @@ include '../includes/header.php';
     <h1 class="text-3xl font-extrabold text-text-dark mb-8">Daftar Dosen Pengampu</h1>
 
     <?php if (!empty($dosenList)): ?>
+    <?php if (!empty($dosenList)): ?>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <?php foreach ($dosenList as $d):
         // Menggunakan kolom 'foto' dari database untuk path gambar
         $img = dosen_image_or_placeholder($d['foto'] ?? '');
+      <?php foreach ($dosenList as $d):
+        // Menggunakan kolom 'foto' dari database untuk path gambar
+        $img = dosen_image_or_placeholder($d['foto'] ?? '');
       ?>
+        <!-- Setiap kartu dosen kini menggunakan data dari database -->
+        <a href="LihatDosen.php?id=<?php echo urlencode($d['id']); ?>" class="block bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition">
         <!-- Setiap kartu dosen kini menggunakan data dari database -->
         <a href="LihatDosen.php?id=<?php echo urlencode($d['id']); ?>" class="block bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition">
           <div class="flex flex-col items-center text-center">
@@ -81,10 +87,16 @@ include '../includes/header.php';
             <h3 class="text-lg font-semibold text-text-dark mb-1"><?php echo htmlspecialchars($d['nama']); ?></h3>
             <div class="text-sm text-medium">NIDN: <?php echo htmlspecialchars($d['nidn'] ?? '-'); ?></div>
             <div class="text-sm text-medium mt-1"><?php echo htmlspecialchars($d['program_studi'] ?? 'Tenaga Pengajar'); ?></div>
+            <h3 class="text-lg font-semibold text-text-dark mb-1"><?php echo htmlspecialchars($d['nama']); ?></h3>
+            <div class="text-sm text-medium">NIDN: <?php echo htmlspecialchars($d['nidn'] ?? '-'); ?></div>
+            <div class="text-sm text-medium mt-1"><?php echo htmlspecialchars($d['program_studi'] ?? 'Tenaga Pengajar'); ?></div>
           </div>
         </a>
       <?php endforeach; ?>
     </div>
+    <?php else: ?>
+    <p class="text-center text-lg text-medium py-10">Data dosen tidak ditemukan atau gagal dimuat dari database.</p>
+    <?php endif; ?>
     <?php else: ?>
     <p class="text-center text-lg text-medium py-10">Data dosen tidak ditemukan atau gagal dimuat dari database.</p>
     <?php endif; ?>
