@@ -82,7 +82,7 @@ include '../includes/header.php';
           <div class="flex flex-col items-center text-center">
             <div class="w-40 h-40 rounded-lg overflow-hidden mb-4">
               <img src="<?php echo $img; ?>" alt="<?php echo htmlspecialchars($d['nama']); ?>" class="w-full h-full object-cover" 
-                   onerror="this.onerror=null; this.src='<?php echo dosen_image_or_placeholder('default'); ?>';" />
+                  onerror="this.onerror=null; this.src='<?php echo dosen_image_or_placeholder('default'); ?>';" />
             </div>
             <h3 class="text-lg font-semibold text-text-dark mb-1"><?php echo htmlspecialchars($d['nama']); ?></h3>
             <div class="text-sm text-medium">NIDN: <?php echo htmlspecialchars($d['nidn'] ?? '-'); ?></div>
