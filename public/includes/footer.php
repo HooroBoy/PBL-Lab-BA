@@ -77,27 +77,20 @@
             </div>
         </div>
 
-        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4 pt-8 border-t border-blue-800">
+        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4 pt-8 border-t border-white-800">
             <p class="text-sm opacity-70">
                 &copy; <?php echo date("Y"); ?> Laboratorium Business Analytics. Semua hak dilindungi.
             </p>
             <div class="flex space-x-3">
-                <a href="#" class="w-10 h-10 flex items-center justify-center bg-transparent rounded-full text-white hover:bg-white/10 transition duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.529-4 0v5.604h-3v-11h3v1.765c1.398-3.097 7-2.723 7 3.328v5.907z" />
-                    </svg>
-                </a>
-                <a href="#" class="w-10 h-10 flex items-center justify-center bg-transparent rounded-full text-white hover:bg-white/10 transition duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07c3.275.143 4.417 1.285 4.56 4.56.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.143 3.276-1.285 4.418-4.56 4.56-.058.003-.07.006-.07.006s-.003.006-.07.006h-.005c-1.266 0-1.646-.012-4.85-.07-3.275-.143-4.417-1.285-4.56-4.56-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.143-3.276 1.285-4.418 4.56-4.56.058-.003.07-.006.07-.006s.003-.006.07-.006h.005zM12 3.864c-3.142 0-3.525.013-4.757.07c-2.715.12-3.81 1.215-3.93 3.93-.057 1.232-.07 1.615-.07 4.757s.013 3.525.07 4.757c.12 2.715 1.215 3.81 3.93 3.93.002.001.005.002.008.002h.005c1.232.057 1.615.07 4.757.07s3.525-.013 4.757-.07c2.715-.12 3.81-1.215 3.93-3.93.057-1.232.07-1.615.07-4.757s-.013-3.525-.07-4.757c-.12-2.715-1.215-3.81-3.93-3.93-.003-.001-.005-.002-.008-.002h-.005c-1.232-.057-1.615-.07-4.757-.07zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm5.75-9.15c0-.735-.596-1.332-1.33-1.332s-1.33.597-1.33 1.332.597 1.33 1.33 1.33 1.33-.597 1.33-1.33z" />
-                    </svg>
-                </a>
-                <a href="#" class="w-10 h-10 flex items-center justify-center bg-transparent rounded-full text-white hover:bg-white/10 transition duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19.615 3.184c-3.665-.308-5.836-.452-9.615-.452s-5.951.144-9.615.452c-2.31.194-3.465 1.35-3.659 3.659-.308 3.665-.452 5.836-.452 9.615s.144 5.951.452 9.615c.194 2.31 1.35 3.465 3.659 3.659 3.665.308 5.836.452 9.615.452s5.951-.144 9.615-.452c2.31-.194 3.465-1.35 3.659-3.659.308-3.665.452-5.836.452-9.615s-.144-5.951-.452-9.615c-.194-2.31-1.35-3.465-3.659-3.659zM9.545 15.597v-7.194l6.09 3.597-6.09 3.597z" />
-                    </svg>
-                </a>
-            </div>
+                        <a href="https://www.instagram.com/jtipolinema/" class="w-10 h-10 flex items-center justify-center bg-transparent rounded-full text-white hover:bg-white/10 transition duration-200">
+                             <img src="<?php echo BASE_URL; ?>../assets/Logo/Instagram.png" alt="Instagram Icon" class="w-5 h-5"
+                                  onerror="this.onerror=null; this.src='https://placehold.co/20x20/FFFFFF/124874?text=IG';" />
+                        </a>
+                        <a href="https://www.youtube.com/@jtipolinema367" class="w-10 h-10 flex items-center justify-center bg-transparent rounded-full text-white hover:bg-white/10 transition duration-200">
+                             <img src="<?php echo BASE_URL; ?>../assets/Logo/Youtube.png" alt="Youtube Icon" class="w-5 h-5"
+                                  onerror="this.onerror=null; this.src='https://placehold.co/20x20/FFFFFF/124874?text=YT';" />
+                        </a>
+                    </div>
         </div>
     </div>
 </footer>
@@ -139,20 +132,3 @@ $_SESSION['alerts']['type'] = null;
 </body>
 
 </html>
-                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4 pt-8 border-t border-blue-800">
-                        <p class="text-sm opacity-70">
-                        &copy; <?php echo date("Y"); ?> Laboratorium Business Analytics. Semua hak dilindungi.
-                    </p>
-                    <div class="flex space-x-3">
-                        <a href="https://www.instagram.com/jtipolinema/" class="w-10 h-10 flex items-center justify-center bg-transparent rounded-full text-white hover:bg-white/10 transition duration-200">
-                             <img src="<?php echo BASE_URL; ?>../assets/Logo/Instagram.png" alt="Instagram Icon" class="w-5 h-5"
-                                  onerror="this.onerror=null; this.src='https://placehold.co/20x20/FFFFFF/124874?text=IG';" />
-                        </a>
-                        <a href="https://www.youtube.com/@jtipolinema367" class="w-10 h-10 flex items-center justify-center bg-transparent rounded-full text-white hover:bg-white/10 transition duration-200">
-                             <img src="<?php echo BASE_URL; ?>../assets/Logo/Youtube.png" alt="Youtube Icon" class="w-5 h-5"
-                                  onerror="this.onerror=null; this.src='https://placehold.co/20x20/FFFFFF/124874?text=YT';" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </footer>

@@ -289,7 +289,12 @@ include '../includes/header.php';
                 </div>
             </div>
         </div>
-        
+
+        <div class="flex justify-center mt-8">
+            <a href="../index.php" class="px-5 py-4 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+                Kembali ke Beranda
+            </a>
+        </div>
     </div>
 </section>
 
