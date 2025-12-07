@@ -62,16 +62,16 @@
                 <div class="space-y-3">
                     <h4 class="text-base font-semibold mb-2">Artikel</h4>
                     <ul class="space-y-2">
+                        <li><a href="<?php echo BASE_URL; ?>/artikel/artikel.php" class="opacity-70 hover:opacity-100 transition duration-150">Artikel</a></li>
                         <li><a href="<?php echo BASE_URL; ?>/publikasi/Publikasi.php" class="opacity-70 hover:opacity-100 transition duration-150">Publikasi</a></li>
-
                     </ul>
                 </div>
 
                 <div class="space-y-3">
-                    <h4 class="text-base font-semibold mb-2">Aktivitas</h4>
+                    <h4 class="text-base font-semibold mb-2">Galeri</h4>
                     <ul class="space-y-2">
-                        <li><a href="<?php echo BASE_URL; ?>/resources/ActivityGallery.php" class="opacity-70 hover:opacity-100 transition duration-150">Galeri Kegiatan</a></li>
-                        <li><a href="<?php echo BASE_URL; ?>/resources/Fasilitas.php" class="opacity-70 hover:opacity-100 transition duration-150">Fasilitas</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>/galeri/galerikegiatan.php" class="opacity-70 hover:opacity-100 transition duration-150">Kegiatan</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>/galeri/fasilitas.php" class="opacity-70 hover:opacity-100 transition duration-150">Fasilitas</a></li>
                     </ul>
                 </div>
             </div>
