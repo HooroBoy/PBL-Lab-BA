@@ -486,19 +486,86 @@ function scrollDown() {
         </script>
 
         <section class="w-full bg-white py-20 md:py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 flex flex-col items-center">
-                    <h2 class="text-4xl md:text-5xl font-bold text-text-darktext-center">
-                        Artikel
-                        </h2>
-                        <p class="text-lg text-medium md:text-center max-w-5xl">
-                            Kami tidak hanya meneliti; kami membangun solusi. Cobalah prototipe interaktif kami dan lihat bagaimana Business Intelligence dan Analisis Data dapat mengubah data mentah menjadi keputusan strategis. Demo ini merupakan hasil nyata dari fokus riset kami, memberi Anda pengalaman analisis data waktu nyata.
-                        </p>
-                    <a href="resource/Article.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
-                        Pelajari Artikel
-                    </a>
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              
+              <!-- KIRI: TEKS -->
+              <div class="space-y-6">
+                <h2 class="text-4xl md:text-5xl font-bold text-text-dark">
+                  Artikel
+                </h2>
+
+                <p class="text-lg text-gray-600 max-w-xl leading-relaxed">
+                  Kami tidak hanya melakukan analisis data, tetapi menghadirkan 
+                  solusi cerdas berbasis data yang berdampak nyata.
+                  Melalui artikel dan prototipe interaktif yang kami kembangkan,
+                  <span class="font-bold">Laboratorium Business Analytics</span> menunjukkan bagaimana 
+                  <em>Business Intelligence</em> dan <em>Business Analytics</em> diterapkan secara 
+                  <em>end-to-end</em>—mulai dari data mentah, pemodelan analitik, hingga rekomendasi keputusan strategis.
+                </p>
+
+                <a href="aktivitas/artikel.php"
+                  class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
+                  Pelajari Artikel
+                </a>
+              </div>
+
+              <!-- KANAN: CARD ARTIKEL -->
+              <div class="relative max-w-md mx-auto rounded-2xl bg-white shadow-xl overflow-hidden">
+
+                <!-- Badge Fitur -->
+                <span class="absolute -top-4 left-6 bg-white text-primary text-sm font-semibold px-4 py-1 rounded-full shadow">
+                  Fitur Utama
+                </span>
+
+                <!-- Header Card -->
+                <div class="relative bg-blue-50 h-44 flex items-center justify-center">
+                  
+                  <!-- Tanggal -->
+                  <span class="absolute top-4 right-4 bg-primary text-white text-sm font-semibold px-4 py-1 rounded-full shadow">
+                    25 November 2025
+                  </span>
+
+                  <!-- Kategori -->
+                  <h3 class="text-xl font-semibold text-primary text-center px-6">
+                    Artikel AI di Bidang Pendidikan
+                  </h3>
                 </div>
+
+                <!-- Body Card -->
+                <div class="p-6 space-y-4">
+                  <h4 class="text-2xl font-bold text-gray-900">
+                    AI di Bidang Pendidikan
+                  </h4>
+
+                  <p class="text-gray-600 leading-relaxed">
+                    Eksplorasi penggunaan kecerdasan buatan dalam pembelajaran
+                    yang dipersonalisasi dan adaptif.
+                  </p>
+
+                  <!-- Author -->
+                  <div class="flex items-center gap-2 text-primary text-sm font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Dr. Bima Sakti
+                  </div>
+
+                  <!-- Link -->
+                  <a href="#"
+                    class="inline-flex items-center gap-1 text-primary font-semibold hover:underline">
+                    Baca Selengkapnya
+                    <span></span>
+                  </a>
+                </div>
+
+              </div>
+
             </div>
+          </div>
         </section>
 
 

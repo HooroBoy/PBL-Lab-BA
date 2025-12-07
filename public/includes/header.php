@@ -114,8 +114,8 @@ require_once __DIR__ . '/config.php';
                         </div>
                     </div>
 
-                    <a href="<?php echo BASE_URL; ?>/artikel/artikel.php" class="text-white hover:text-blue-200 transition duration-150">
-                        Artikel
+                    <a href="<?php echo BASE_URL; ?>/publikasi/Publikasi.php" class="text-white hover:text-blue-200 transition duration-150">
+                        Publikasi
                     </a>
 
                     <div class="relative" x-data="{ open: false }" @click.outside="open = false">
@@ -133,6 +133,9 @@ require_once __DIR__ . '/config.php';
                                 </a>
                                 <a href="<?php echo BASE_URL; ?>/aktivitas/Fasilitas.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
                                     Fasilitas
+                                </a>
+                                <a href="<?php echo BASE_URL; ?>/aktivitas/artikel.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
+                                    Artikel
                                 </a>
                             </div>
                         </div>

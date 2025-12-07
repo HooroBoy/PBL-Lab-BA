@@ -2,7 +2,7 @@
 $host = 'localhost';
 $dbname = 'PBL';  // Ganti sesuai nama DB PostgreSQL kamu
 $user = 'postgres';       // Default user PostgreSQL
-$pass = '123';  // Sesuaikan dengan password PostgreSQL
+$pass = '1234';  // Sesuaikan dengan password PostgreSQL
 $port = '5432'; // Sesuaikan dengan port PostgreSQL jika perlu
 try {
     // DSN untuk PostgreSQL

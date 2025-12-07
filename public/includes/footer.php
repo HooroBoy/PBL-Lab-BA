@@ -62,7 +62,7 @@
                 <div class="space-y-3">
                     <h4 class="text-base font-semibold mb-2">Artikel</h4>
                     <ul class="space-y-2">
-                        <li><a href="<?php echo BASE_URL; ?>/resource/Article.php" class="opacity-70 hover:opacity-100 transition duration-150">Artikel</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>/publikasi/Publikasi.php" class="opacity-70 hover:opacity-100 transition duration-150">Publikasi</a></li>
 
                     </ul>
                 </div>
