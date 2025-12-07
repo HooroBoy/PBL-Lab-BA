@@ -1,4 +1,5 @@
 <?php
+session_start();
 $page_title = $page_title ?? "Laboratory of Business Analytics";
 // Load base path/url helpers so assets and links resolve correctly from any include location
 require_once __DIR__ . '/config.php';

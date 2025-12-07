@@ -97,7 +97,7 @@
 
 </div>
 
-//notifikasi untuk peminjaman
+<!-- notifikasi untuk peminjaman -->
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -109,7 +109,9 @@ if ($_SESSION['alerts']['type'] == 'danger' && isset($_SESSION['alerts']['type']
             title: 'Error!',
             text: '<?= $_SESSION['alerts']['msg']  ?>',
             icon: 'warning',
-        })
+        }).then(() => {
+        window.location.reload(); // auto refresh
+    });
     </script>
 <?php  
 $_SESSION['alerts']['type'] = null;
@@ -123,7 +125,9 @@ if ($_SESSION['alerts']['type'] == 'success' && isset($_SESSION['alerts']['type'
             title: 'Berhasil!',
             text: '<?= $_SESSION['alerts']['msg']  ?>',
             icon: 'success',
-        })
+        }).then(() => {
+        window.location.reload(); // auto refresh
+    });
     </script>
 <?php  
 
