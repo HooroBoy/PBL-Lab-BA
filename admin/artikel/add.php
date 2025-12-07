@@ -8,11 +8,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $thumbnail = '';
     if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] == UPLOAD_ERR_OK) {
         $fileName = time() . '_' . basename($_FILES['thumbnail']['name']);
-        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/PBL-Lab-BA/public/uploads';
+        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/PBL-Lab-BA/public/assets/artikel';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-        $thumbnail = 'uploads/' . $fileName;
+        $thumbnail = 'assets/artikel/' . $fileName;
         $targetFile = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
         if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $targetFile)) {
             // $thumbnail sudah path relatif dari root web

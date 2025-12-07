@@ -4,51 +4,22 @@ $page_title = "Daftar Artikel - Laboratory of Business Analytics";
 // Memanggil Header (Header will include HTML setup and Navbar)
 require_once '../includes/header.php';
 
-// --- Data Artikel (Simulasi dari Database/Array) ---
-$articles = [
-    [
-        'title' => 'AI di Bidang Pendidikan',
-        'date' => '25 November 2025',
-        'author' => 'Dr. Bima Sakti',
-        'description' => 'Eksplorasi penggunaan kecerdasan buatan dalam pembelajaran yang dipersonalisasi dan adaptif.',
-        'image_path' => '/assets/images/articles/article-ai-education.jpg'
-    ],
-    [
-        'title' => 'Data Analytics untuk Peningkatan Hasil Belajar',
-        'date' => '18 November 2025',
-        'author' => 'Prof. Angkasa Raya',
-        'description' => 'Menggunakan data besar untuk mengidentifikasi pola dan intervensi demi hasil belajar yang lebih baik.',
-        'image_path' => '/assets/images/articles/article-data-analytics.jpg'
-    ],
-    [
-        'title' => 'Apa itu TEL? Pembelajaran Berbasis Teknologi',
-        'date' => '10 November 2025',
-        'author' => 'Lina Dewi S.Kom., M.T.',
-        'description' => 'Kompromi antara pemetaan konsep semi-otomatis dan generasi konsep otomatis penuh dalam TEL.',
-        'image_path' => '/assets/images/articles/article-tel.jpg'
-    ],
-    [
-        'title' => 'Mengoptimalkan Proses Bisnis dengan Process Mining',
-        'date' => '05 November 2025',
-        'author' => 'Rizky Pratama',
-        'description' => 'Studi kasus implementasi Process Mining untuk efisiensi alur kerja di sektor layanan.',
-        'image_path' => '/assets/images/articles/article-process-mining.jpg'
-    ],
-    [
-        'title' => 'Peran Cloud Computing dalam Data Warehouse Modern',
-        'date' => '29 Oktober 2025',
-        'author' => 'Sinta Amelia',
-        'description' => 'Bagaimana AWS, Azure, dan GCP mendukung kebutuhan skalabilitas data analytics saat ini.',
-        'image_path' => '/assets/images/articles/article-cloud.jpg'
-    ],
-    [
-        'title' => 'Tren Terbaru dalam Data Storytelling',
-        'date' => '22 Oktober 2025',
-        'author' => 'Bambang Irawan',
-        'description' => 'Cara efektif mengomunikasikan insight data kepada audiens non-teknis melalui narasi.',
-        'image_path' => '/assets/images/articles/article-storytelling.jpg'
-    ],
-];
+// --- Menggunakan Model Artikel untuk Mengambil Data Dinamis ---
+// Asumsi: File model Artikel.php terletak di lokasi yang dapat diakses (misalnya, di folder ../app/models/)
+// Kita harus menggunakan path yang tepat untuk memuat model, tergantung di mana file ini (artikel.php) berada.
+// Asumsi path: Model berada di /app/models/Artikel.php
+require_once __DIR__ . '/../../app/models/Artikel.php';
+
+// Mengambil semua data artikel dari database menggunakan Model Artikel
+try {
+    $articles = Artikel::all();
+} catch (PDOException $e) {
+    // Tangani kesalahan jika koneksi database gagal atau tabel tidak ditemukan
+    $articles = []; // Set array kosong untuk menghindari error loop
+    echo "<p class='text-center text-red-600'>Gagal memuat artikel dari database: " . $e->getMessage() . "</p>";
+}
+// --- Akhir Pengambilan Data ---
+
 ?>
 
 <div class="w-full bg-white pt-8 pb-20 md:pt-16 md:pb-24">
@@ -56,6 +27,20 @@ $articles = [
 
         <!-- Header dan Breadcrumb -->
         <header class="text-center space-y-3 pb-8 border-b border-gray-200">
+            <nav class="text-sm font-medium text-gray-500 mb-4 inline-block" aria-label="Breadcrumb">
+                <ol class="list-none p-0 inline-flex">
+                    <li class="flex items-center">
+                        <a href="/index.php" class="text-primary hover:text-blue-700">Home</a>
+                        <svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                            aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10l-3.293-3.293a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </li>
+                    <li class="text-primary">Artikel</li>
+                </ol>
+            </nav>
             <h1 class="text-4xl md:text-5xl font-extrabold text-text-dark leading-tight">
                 Koleksi Artikel Kami
             </h1>
@@ -65,49 +50,65 @@ $articles = [
         </header>
 
         <!-- Article Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <?php if (!empty($articles)): ?>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            <?php foreach ($articles as $article): ?>
-                <a href="#" class="group bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 transform hover:scale-[1.02] border border-gray-200">
-                    <!-- Foto Artikel -->
-                    <div class="relative overflow-hidden">
-                        <img class="w-full h-56 object-cover transition duration-500 group-hover:opacity-90" 
-                             src="<?php echo $article['image_path']; ?>" 
-                             alt="<?php echo $article['title']; ?>"
-                             onerror="this.onerror=null; this.src='https://placehold.co/500x350/ECF2FB/124874?text=<?php echo urlencode('Artikel ' . $article['title']); ?>';"
-                        />
-                        <!-- Overlay Tanggal -->
-                        <div class="absolute top-3 right-3 bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                            <?php echo $article['date']; ?>
+                <?php foreach ($articles as $article): ?>
+                    <!-- Tautan menuju halaman detail artikel (gunakan slug) -->
+                    <a href="/artikel-detail/<?php echo htmlspecialchars($article['slug']); ?>"
+                        class="group bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 transform hover:scale-[1.02] border border-gray-200">
+                        <!-- Foto Artikel -->
+                        <div class="relative overflow-hidden">
+                            <img class="w-full h-56 object-cover transition duration-500 group-hover:opacity-90"
+                                src="/PBL-Lab-BA/public/<?php echo htmlspecialchars($article['thumbnail']); ?>"
+                                alt="<?php echo htmlspecialchars($article['judul']); ?>"
+                                onerror="this.onerror=null; this.src='https://placehold.co/500x350/ECF2FB/124874?text=<?php echo urlencode('Artikel ' . $article['judul']); ?>';" />
+                            <!-- Overlay Tanggal -->
+                            <div
+                                class="absolute top-3 right-3 bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                                <?php echo date('d F Y', strtotime($article['tanggal'])); ?>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!-- Keterangan Artikel -->
-                    <div class="p-6 space-y-3">
-                        <h3 class="text-xl font-bold text-text-dark group-hover:text-primary transition duration-150">
-                            <?php echo $article['title']; ?>
-                        </h3>
-                        
-                        <p class="text-sm text-medium leading-relaxed h-12 overflow-hidden">
-                            <?php echo $article['description']; ?>
-                        </p>
 
-                        <div class="flex items-center text-sm font-medium text-gray-500 pt-2">
-                             <!-- Author -->
-                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                             <span><?php echo $article['author']; ?></span>
-                        </div>
-                        
-                        <!-- Link Read More -->
-                        <div class="text-sm font-semibold text-primary flex items-center pt-3 hover:underline">
-                            Baca Selengkapnya
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                        </div>
-                    </div>
-                </a>
-            <?php endforeach; ?>
+                        <!-- Keterangan Artikel -->
+                        <div class="p-6 space-y-3">
+                            <h3 class="text-xl font-bold text-text-dark group-hover:text-primary transition duration-150">
+                                <?php echo htmlspecialchars($article['judul']); ?>
+                            </h3>
 
-        </div>
+                            <p class="text-sm text-medium leading-relaxed h-12 overflow-hidden">
+                                <?php echo substr(strip_tags($article['isi']), 0, 150) . (strlen(strip_tags($article['isi'])) > 150 ? '...' : ''); ?>
+                            </p>
+
+                            <div class="flex items-center text-sm font-medium text-gray-500 pt-2">
+                                <!-- Author -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 text-primary" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path
+                                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                                </svg>
+                                <!-- Karena tabel artikel tidak memiliki kolom 'author' dan hanya 'admin_id', kita tampilkan ID atau nama admin jika tersedia. Di sini menggunakan placeholder 'Admin ID: X' -->
+                                <span>Admin ID: <?php echo htmlspecialchars($article['admin_id']); ?></span>
+                            </div>
+
+                            <!-- Link Read More -->
+                            <div class="text-sm font-semibold text-primary flex items-center pt-3 hover:underline">
+                                Baca Selengkapnya
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150"
+                                    viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+
+            </div>
+        <?php else: ?>
+            <p class="text-center text-lg text-medium">Belum ada artikel yang tersedia saat ini.</p>
+        <?php endif; ?>
+
     </div>
 </div>
 

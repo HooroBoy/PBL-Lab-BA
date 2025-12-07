@@ -1,4 +1,5 @@
 <?php
+session_start();
 $page_title = $page_title ?? "Laboratory of Business Analytics";
 // Load base path/url helpers so assets and links resolve correctly from any include location
 require_once __DIR__ . '/config.php';
@@ -114,13 +115,17 @@ require_once __DIR__ . '/config.php';
                         </div>
                     </div>
 
+                    <a href="<?php echo BASE_URL; ?>/publikasi/Publikasi.php" class="text-white hover:text-blue-200 transition duration-150">
+                        Publikasi
+                    </a>
+
                     <a href="<?php echo BASE_URL; ?>/artikel/artikel.php" class="text-white hover:text-blue-200 transition duration-150">
                         Artikel
                     </a>
 
                     <div class="relative" x-data="{ open: false }" @click.outside="open = false">
                         <button @click="open = !open" type="button" class="text-white hover:text-blue-200 transition duration-150 flex items-center focus:outline-none px-3 py-2">
-                            Aktivitas
+                            Galeri
                             <svg :class="{'rotate-180': open}" class="w-4 h-4 ml-1 transform transition duration-200" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M7 10l5 5 5-5z" />
                             </svg>
@@ -129,7 +134,7 @@ require_once __DIR__ . '/config.php';
                         <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 origin-top-left">
                             <div class="py-1">
                                 <a href="<?php echo BASE_URL; ?>/aktivitas/GaleriKegiatan.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
-                                    Galeri Kegiatan
+                                    Kegiatan
                                 </a>
                                 <a href="<?php echo BASE_URL; ?>/aktivitas/Fasilitas.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
                                     Fasilitas
