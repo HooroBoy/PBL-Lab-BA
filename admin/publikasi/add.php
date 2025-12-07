@@ -5,7 +5,7 @@ session_start();
 $title = 'Tambah Publikasi';
 include "../../public/layouts-admin/header-admin.php";
 include "../../app/models/Publikasi.php";
-include "../../app/models/Dosen.php";
+include "../../app/models/Dosencontroller.php";
 include "../../app/models/Kategori.php";
 
 $dataDosen = Dosen::all();

@@ -8,11 +8,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gambar = '';
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] == UPLOAD_ERR_OK) {
         $fileName = time() . '_' . basename($_FILES['gambar']['name']);
-        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/PBL-Lab-BA/public/assets/kegiatan';
+        $kategori = $_POST['kategori'] ?? 'aktivitas';
+        if ($kategori === 'fasilitas') {
+            $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/PBL-Lab-BA/public/assets/fasilitas';
+            $gambar = 'assets/fasilitas/' . $fileName;
+        } else {
+            $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/PBL-Lab-BA/public/assets/kegiatan';
+            $gambar = 'assets/kegiatan/' . $fileName;
+        }
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-        $gambar = 'assets/kegiatan/' . $fileName;
         $targetFile = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
         if (move_uploaded_file($_FILES['gambar']['tmp_name'], $targetFile)) {
             // $gambar sudah path relatif dari root web

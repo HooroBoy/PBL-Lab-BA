@@ -13,6 +13,7 @@ $ubah_dosen = false;
 $bidang_keahlian = false;
 $artikel = false;
 $peminjaman = false;
+$publikasi = false;
 $site_setting = false;
 
 
@@ -58,6 +59,9 @@ if (isset($_GET['halaman'])) {
         case 'peminjaman':
             $peminjaman = true;
             break;
+        case 'publikasi':
+            $publikasi = true;
+            break;
         case 'site_setting':
             $site_setting = true;
             break;
@@ -77,6 +81,7 @@ if (isset($_GET['halaman'])) {
             $ubah_bidang_keahlian = false;
             $artikel = false;
             $peminjaman = false;
+            $publikasi = false;
             $site_setting = false;
     }
 } else {
@@ -191,6 +196,13 @@ if (isset($_GET['halaman'])) {
                     <a href="/PBL-Lab-BA/admin/artikel/view.php?halaman=artikel" class="sidebar-link">
                         <i class="bi bi-newspaper"></i>
                         <span>Artikel</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item <?= $publikasi ? 'active' : '' ?>">
+                    <a href="/PBL-Lab-BA/admin/publikasi/view.php?halaman=publikasi" class="sidebar-link">
+                        <i class="bi bi-filetype-doc"></i>
+                        <span>Publikasi</span>
                     </a>
                 </li>
 

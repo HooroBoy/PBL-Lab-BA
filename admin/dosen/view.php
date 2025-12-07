@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . "/../../app/models/Dosen.php";
+require_once __DIR__ . "/../../app/models/Dosencontroller.php";
 
 $dosenall = Dosen::all();
 

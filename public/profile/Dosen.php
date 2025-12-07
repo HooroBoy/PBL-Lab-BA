@@ -72,7 +72,7 @@ include '../includes/header.php';
         $img = dosen_image_or_placeholder($d['foto'] ?? '');
       ?>
         <!-- Setiap kartu dosen kini menggunakan data dari database -->
-        <a href="LihatDosen.php?id=<?php echo urlencode($d['id']); ?>" class="block bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition">
+        <a href="LihatDosen.php?id=<?php echo urlencode($d['id']); ?>" class="block bg-white rounded-2xl p-4 shadow-gray hover:shadow-md transition">
           <div class="flex flex-col items-center text-center">
             <div class="w-40 h-40 rounded-lg overflow-hidden mb-4">
               <img src="<?php echo $img; ?>" alt="<?php echo htmlspecialchars($d['nama']); ?>" class="w-full h-full object-cover" 
