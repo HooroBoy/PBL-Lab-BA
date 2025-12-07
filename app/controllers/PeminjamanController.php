@@ -3,14 +3,12 @@ include_once __DIR__ . '/../models/Peminjaman.php';
 
     class PeminjamanController
     {
-
         // Mengembalikan array pesan (type,msg)
-        public static function insertJadwal($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan)
+        public static function insertJadwal($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan, $no_wa)
         {
-
             // Server-side validation dasar
-            if (!$nama || !$no_induk || !$tanggal_mulai || !$tanggal_selesai || !$jam_mulai || !$jam_selesai || !$keperluan) {
-                return ['type' => 'danger', 'msg' => 'Se    mua field wajib diisi.'];
+            if (!$nama || !$no_induk || !$tanggal_mulai || !$tanggal_selesai || !$jam_mulai || !$jam_selesai || !$keperluan || !$no_wa) {
+                return ['type' => 'danger', 'msg' => 'Semua field wajib diisi.'];
             }
 
             // pastikan tanggal/jam masuk akal
@@ -61,7 +59,7 @@ include_once __DIR__ . '/../models/Peminjaman.php';
             }
 
             // Simpan
-            $ok = Peminjaman::create($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan);
+            $ok = Peminjaman::create($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan, $no_wa);
 
             if ($ok) {
                 return ['type' => 'success', 'msg' => 'Pengajuan berhasil dikirim!'];
@@ -102,6 +100,13 @@ include_once __DIR__ . '/../models/Peminjaman.php';
             $stmt =  $pdo->query($query)->fetchAll();
             return $stmt;
         }
+
+        public static function find($id){
+            global $pdo;
+            $stmt = $pdo->prepare('SELECT * FROM peminjaman WHERE id = ?');
+            $stmt->execute([$id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
         
         public static function addJadwalTidakTersedia($tanggal, $jam, $keterangan, $admin_id)
         {
@@ -121,8 +126,8 @@ include_once __DIR__ . '/../models/Peminjaman.php';
                 return ['type' => 'danger', 'msg' => 'Gagal menyimpan: ' . $e->getMessage()];
             }
         }
-        public static function SetStatus($id,$status){
-            Peminjaman::setStatus($id,$status);
+        public static function SetStatus($id,$status,$alasan){
+            Peminjaman::setStatus($id,$status,$alasan);
         }
     }
     ?>

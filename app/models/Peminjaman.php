@@ -15,7 +15,7 @@ class Peminjaman{
         return $stmt->fetchAll();
     }
 
-    public static function create($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan) {
+    public static function create($nama, $no_induk, $tanggal_mulai, $tanggal_selesai, $jam_mulai, $jam_selesai, $keperluan, $no_wa) {
         global $pdo;
 
         // Trim input minimal
@@ -30,8 +30,9 @@ class Peminjaman{
                     tanggal_selesai, 
                     jam_mulai, 
                     jam_selesai, 
-                    keperluan
-                ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    keperluan,
+                    no_wa
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $pdo->prepare($sql);
         try {
@@ -42,7 +43,8 @@ class Peminjaman{
                 $tanggal_selesai,   
                 $jam_mulai, 
                 $jam_selesai, 
-                $keperluan
+                $keperluan,
+                $no_wa
             ]);
         } catch (Exception $e) {
             // Optional: log $e->getMessage()
@@ -57,11 +59,11 @@ class Peminjaman{
         $stmt->execute([$id]);
     }
 
-    public static function setStatus($id, $status){
+    public static function setStatus($id, $status, $alasan){
         global $pdo;
-        $sql = "UPDATE peminjaman SET status = ?,updated_at = NOW() WHERE id = ?";
+        $sql = "UPDATE peminjaman SET status = ?, alasan_penolakan = ?, updated_at = NOW() WHERE id = ?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$status, $id]);
+        $stmt->execute([$status, $alasan, $id]);
     } 
 }
 ?>

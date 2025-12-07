@@ -7,11 +7,14 @@ include "../../app/models/Dosen.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $foto = '';
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == UPLOAD_ERR_OK) {
-        $targetDir = '../../uploads/';
+        $targetDir = '../../public/assets/Dosen/';
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0777, true);
+        }
         $fileName = basename($_FILES['foto']['name']);
         $targetFile = $targetDir . time() . '_' . $fileName;
         if (move_uploaded_file($_FILES['foto']['tmp_name'], $targetFile)) {
-            $foto = str_replace('../../', '/', $targetFile); // Simpan path relatif
+            $foto = str_replace('../../public', '', $targetFile); // Simpan path relatif dari /public
         }
     }
     // Pastikan input JSON tidak null, jika kosong set sebagai array JSON kosong '[]'
@@ -76,6 +79,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card shadow-sm mb-4 w-100">
                                 <div class="card-body">
                                     <form method="post" enctype="multipart/form-data" id="dosenForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Foto Dosen</label>
+                                            <input type="file" name="foto" class="form-control" accept="image/*">
+                                        </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label class="form-label">Nama <span
@@ -282,6 +289,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="../../public/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../../public/assets/compiled/js/app.js"></script>
     <script src="../../public/assets/static/js/pages/sweetalert2.js"></script>
+    
+    <?=$message ?>
 </body>
 
 </html>

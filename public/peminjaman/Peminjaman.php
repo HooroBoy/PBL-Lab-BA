@@ -1,4 +1,29 @@
 <?php
+function tgl_indo($tanggal){
+	$bulan = array (
+		1 =>   'Januari',
+		'Februari',
+		'Maret',
+		'April',
+		'Mei',
+		'Juni',
+		'Juli',
+		'Agustus',
+		'September',
+		'Oktober',
+		'November',
+		'Desember'
+	);
+	$pecahkan = explode('-', $tanggal);
+	
+	// variabel pecahkan 0 = tanggal
+	// variabel pecahkan 1 = bulan
+	// variabel pecahkan 2 = tahun
+ 
+	return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+}
+?>
+<?php
 session_start();
 $page_title = 'Peminjaman Alat & Ruang';
 require_once '../../app/controllers/PeminjamanController.php';
@@ -11,7 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $tanggal_selesai = $_POST['tanggal_selesai'] ?? '';
   $jam_mulai = $_POST['mulai'] ?? '';
   $jam_selesai = $_POST['selesai'] ?? '';
-  $keperluan = $_POST['keperluan'] ;
+  $keperluan = $_POST['keperluan'];
+  $no_wa = $_POST['no_wa'];
   
   // Panggil controller yang sudah melakukan validasi & cek overlap
   $result = PeminjamanController::insertJadwal(
@@ -21,14 +47,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tanggal_selesai,
     $jam_mulai,
     $jam_selesai,
-    $keperluan
+    $keperluan,
+    $no_wa
   );
-  
-  // Set flash message ke session dan redirect (PRG)
-  $_SESSION['alerts'] = $result;
-  $_POST = array(); // Clear POST data to prevent resubmission
-  header('Location: ' . $_SERVER['PHP_SELF']);
-  exit;
+
+  if ($result['type'] != 'success') {
+    $_SESSION['alerts'] = $result;
+    $_POST = array(); // Clear POST data to prevent resubmission
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+  } else {
+    $_SESSION['alerts'] = $result;
+    $_POST = array(); // Clear POST data to prevent resubmission
+    header('Location: https://api.whatsapp.com/send?phone=6285183192045&text=Halo%20Admin,%20saya%20'.$nama.'%20ingin%20melakukan%20peminjaman%20pada%20tanggal%20'.tgl_indo($tanggal_mulai).'%20s.d%20tanggal%20'.tgl_indo($tanggal_selesai).'%20untuk%20'.$keperluan.'%20Mohon%20disetujui.');
+    exit;
+  }
 }
 
 include '../includes/header.php';
@@ -106,14 +139,22 @@ include '../includes/header.php';
             </div>
 
             <div>
+              <label class="block text-sm font-medium text-text-dark mb-1">Nomor WhatsApp</label>
+              <input type="text" name="no_wa" rows="4" class="block w-full border border-gray-200 rounded-md p-2 focus:ring-primary focus:border-primary" placeholder="Contoh: 6285123456789">
+            </div>
+
+            <div>
               <label class="block text-sm font-medium text-text-dark mb-1">Keperluan</label>
               <textarea name="keperluan" rows="4" required class="block w-full border border-gray-200 rounded-md p-2 focus:ring-primary focus:border-primary" placeholder="Jelaskan keperluan peminjaman..."></textarea>
             </div>
 
             <div class="mt-2">
-              <button type="submit" class="w-full inline-flex justify-center items-center px-6 py-3 bg-primary hover:bg-yellow-500 text-white rounded-md font-medium">
+              <button type="submit" class="w-full inline-flex justify-center items-center px-6 py-3 mb-3 bg-primary hover:bg-yellow-500 text-white rounded-md font-medium">
                 Kirim Pengajuan
-            </button>
+              </button>
+              <a href="" class="w-full inline-flex justify-center items-center px-6 py-3 mb-3 bg-cyan-500 hover:bg-yellow-500 text-white rounded-md font-medium">
+                Refresh Halaman
+              </a>
             </div>
 
           </form>
