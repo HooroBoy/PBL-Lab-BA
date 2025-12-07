@@ -494,7 +494,7 @@ function scrollDown() {
                         <p class="text-lg text-medium md:text-center max-w-5xl">
                             Kami tidak hanya meneliti; kami membangun solusi. Cobalah prototipe interaktif kami dan lihat bagaimana Business Intelligence dan Analisis Data dapat mengubah data mentah menjadi keputusan strategis. Demo ini merupakan hasil nyata dari fokus riset kami, memberi Anda pengalaman analisis data waktu nyata.
                         </p>
-                    <a href="resource/Article.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
+                    <a href="../resource/Article.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
                         Pelajari Artikel
                     </a>
                 </div>
