@@ -4,10 +4,7 @@ $page_title = "Fasilitas & Peralatan - Laboratory of Business Analytics";
 // Memanggil Header
 require_once '../includes/header.php';
 
-// --- Impor Model Galeri ---
-require_once '../../app/models/Galeri.php'; 
-
-// --- Data Fasilitas Statis (Icon & Deskripsi) ---
+// --- Data Fasilitas (Simulasi) ---
 $facilities_data = [
     [
         'title' => 'Ruang Laboratorium',
@@ -31,12 +28,13 @@ $facilities_data = [
     ]
 ];
 
-// --- Ambil Data Galeri Fasilitas DARI DATABASE ---
-try {
-    $gallery_photos = Galeri::all('fasilitas');
-} catch (Exception $e) {
-    $gallery_photos = []; 
-}
+// Data Galeri Foto
+$gallery_photos = [
+    ['path' => '../assets/Fasilitas/Fasilitas1.jpg', 'alt' => 'Interior Ruang Lab 1'],
+    ['path' => '../assets/Fasilitas/Fasilitas2.jpg', 'alt' => 'Perangkat Komputer'],
+    ['path' => '../assets/Fasilitas/Fasilitas3.jpg', 'alt' => 'Area Diskusi'],
+    ['path' => '../assets/Fasilitas/Fasilitas4.jpg', 'alt' => 'Server dan Jaringan']
+];
 ?>
 
 <div class="w-full bg-white pt-8 pb-20 md:pt-16 md:pb-24">
@@ -60,44 +58,28 @@ try {
             </p>
         </header>
 
-        <?php if (!empty($gallery_photos)): ?>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <?php foreach ($gallery_photos as $photo): 
-                    // --- PERBAIKAN LOGIKA PATH GAMBAR ---
-                    $raw_path = $photo['gambar'];
-
-                    // 1. Bersihkan path jika database menyimpan 'assets/fasilitas/nama.jpg'
-                    // Kita hapus folder path agar kita bisa menyusun ulang dengan benar
-                    $clean_filename = str_replace(['assets/fasilitas/', 'assets/fasilitas\\'], '', $raw_path);
-                    $clean_filename = ltrim($clean_filename, '/');
-
-                    // 2. Susun path lengkap dengan nama folder project
-                    // Pastikan folder ini benar: /PBL-Lab-BA/public/assets/fasilitas/
-                    $final_src = '/PBL-Lab-BA/public/assets/fasilitas/' . $clean_filename;
-                ?>
-                    <div class="relative overflow-hidden rounded-xl shadow-md group">
-                        <img class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110" 
-                             src="<?php echo $final_src; ?>" 
-                             alt="<?php echo htmlspecialchars($photo['judul']); ?>"
-                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/124874/FFFFFF?text=Image+Error';"
+        <!-- Galeri Foto (4 Foto) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <?php foreach ($gallery_photos as $photo): ?>
+                    <div class="relative overflow-hidden rounded-xl shadow-md">
+                        <img class="w-full h-48 object-cover" 
+                             src="<?php echo $photo['path']; ?>" 
+                             alt="<?php echo $photo['alt']; ?>"
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/124874/FFFFFF?text=<?php echo urlencode($photo['alt']); ?>';"
                         />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 flex items-end p-3 md:p-4">
-                            <p class="text-white text-xs md:text-sm font-semibold"><?php echo htmlspecialchars($photo['judul']); ?></p>
+                        <div class="absolute inset-0 bg-black bg-opacity-30 flex items-end p-3 md:p-4">
+                            <p class="text-white text-xs font-semibold opacity-80"><?php echo $photo['alt']; ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <div class="text-center py-10 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-                <p class="text-gray-500">Tidak ada foto fasilitas yang tersedia saat ini.</p>
-            </div>
-        <?php endif; ?>
+        </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-10">
             <?php foreach ($facilities_data as $facility): ?>
-                <div class="block bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
-                    <div class="p-6 space-y-4 flex flex-col h-full">
-                        <div class="w-12 h-12 p-3 rounded-full bg-blue-50 text-primary flex items-center justify-center border border-blue-100">
+                <div class="block bg-white rounded-xl shadow-lg border border-gray-200">
+                    <div class="p-6 space-y-6 flex flex-col h-full">
+                        <!-- Icon Placeholder -->
+                        <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-icon">
                             <?php echo $facility['icon_svg']; ?>
                         </div>
                         

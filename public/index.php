@@ -510,139 +510,184 @@ function scrollDown() {
                 </a>
               </div>
 
-              <!-- KANAN: CARD ARTIKEL -->
-              <div class="relative max-w-md mx-auto rounded-2xl bg-white shadow-xl overflow-hidden">
+              <!-- KANAN: SLIDER ARTIKEL -->
+              <div class="relative max-w-md mx-auto">
 
-                <!-- Badge Fitur -->
-                <span class="absolute -top-4 left-6 bg-white text-primary text-sm font-semibold px-4 py-1 rounded-full shadow">
-                  Fitur Utama
-                </span>
+                <!-- TOMBOL KIRI -->
+                <button onclick="slideLeft()"
+                  class="absolute -left-12 top-1/2 -translate-y-1/2 z-10
+                        bg-blue shadow-md rounded-full w-10 h-10
+                        flex items-center justify-center hover:bg-blue-100">
+                  &#8249;
+                </button>
 
-                <!-- Header Card -->
-                <div class="relative bg-blue-50 h-44 flex items-center justify-center">
-                  
-                  <!-- Tanggal -->
-                  <span class="absolute top-4 right-4 bg-primary text-white text-sm font-semibold px-4 py-1 rounded-full shadow">
-                    25 November 2025
-                  </span>
+                <!-- TOMBOL KANAN -->
+                <button onclick="slideRight()"
+                  class="absolute -right-12 top-1/2 -translate-y-1/2 z-10
+                        bg-white shadow-md rounded-full w-10 h-10
+                        flex items-center justify-center hover:bg-blue-100">
+                  &#8250;
+                </button>
 
-                  <!-- Kategori -->
-                  <h3 class="text-xl font-semibold text-primary text-center px-6">
-                    Artikel AI di Bidang Pendidikan
-                  </h3>
-                </div>
+                <!-- CONTAINER SLIDER -->
+                <div id="artikelSlider"
+                    class="flex overflow-x-auto scroll-smooth no-scrollbar">
 
-                <!-- Body Card -->
-                <div class="p-6 space-y-4">
-                  <h4 class="text-2xl font-bold text-gray-900">
-                    AI di Bidang Pendidikan
-                  </h4>
+                  <!-- === CARD ARTIKEL (KODE ANDA) === -->
+                  <div class="min-w-full relative rounded-2xl bg-white shadow-xl overflow-hidden">
 
-                  <p class="text-gray-600 leading-relaxed">
-                    Eksplorasi penggunaan kecerdasan buatan dalam pembelajaran
-                    yang dipersonalisasi dan adaptif.
-                  </p>
+                    <!-- Badge Fitur -->
+                    <span class="absolute -top-4 left-6 bg-white text-primary text-sm font-semibold px-4 py-1 rounded-full shadow">
+                      Fitur Utama
+                    </span>
 
-                  <!-- Author -->
-                  <div class="flex items-center gap-2 text-primary text-sm font-medium">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Dr. Bima Sakti
+                    <!-- Header Card -->
+                    <div class="relative bg-blue-50 h-44 flex items-center justify-center">
+
+                      <!-- Tanggal -->
+                      <span class="absolute top-4 right-4 bg-primary text-white text-sm font-semibold px-4 py-1 rounded-full shadow">
+                        25 November 2025
+                      </span>
+
+                      <!-- Kategori -->
+                      <h3 class="text-xl font-semibold text-primary text-center px-6">
+                        Artikel AI di Bidang Pendidikan
+                      </h3>
+                    </div>
+
+                    <!-- Body Card -->
+                    <div class="p-6 space-y-4">
+                      <h4 class="text-2xl font-bold text-gray-900">
+                        AI di Bidang Pendidikan
+                      </h4>
+
+                      <p class="text-gray-600 leading-relaxed">
+                        Eksplorasi penggunaan kecerdasan buatan dalam pembelajaran
+                        yang dipersonalisasi dan adaptif.
+                      </p>
+
+                      <!-- Author -->
+                      <div class="flex items-center gap-2 text-primary text-sm font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Dr. Bima Sakti
+                      </div>
+
+                      <!-- Link -->
+                      <a href="#" class="inline-flex items-center gap-1 text-primary font-semibold hover:underline">
+                        Baca Selengkapnya
+                      </a>
+                    </div>
                   </div>
 
-                  <!-- Link -->
-                  <a href="#"
-                    class="inline-flex items-center gap-1 text-primary font-semibold hover:underline">
-                    Baca Selengkapnya
-                    <span></span>
-                  </a>
-                </div>
-
               </div>
-
             </div>
           </div>
         </section>
 
 
         <section class="w-full bg-white py-20 md:py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 flex flex-col items-center">
-                
-                <div class="w-full flex justify-between items-center">
-                    <h2 class="text-4xl md:text-5xl font-bold text-text-dark">
-                        Laboratorium Kami dalam Aksi
-                    </h2>
-                    <div x-data="{ active: 'activities' }" class="relative flex space-x-2 p-2 bg-white border border-gray-300 rounded-full">
-                        <button @click="active = 'activities'" :class="active === 'activities' ? 'bg-primary text-white' : 'bg-transparent text-medium'" class="relative z-10 px-8 py-2 text-sm font-bold rounded-full transition duration-150">
-                            Kegiatan
-                        </button>
-                        <button @click="active = 'facility'" :class="active === 'facility' ? 'bg-primary text-white' : 'bg-transparent text-medium'" class="relative z-10 px-8 py-2 text-sm font-medium rounded-full transition duration-150">
-                            Fasilitas
-                        </button>
-                    </div>
-                </div>
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 flex flex-col items-center"
+              x-data="{ active: 'activities' }">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <div class="flex flex-col space-y-6">
-                        <img class="w-full h-64 object-cover rounded-xl shadow-md" 
-                            src="assets/images/galeri/workshop-1.jpg" 
-                            alt="Lab Activity Image"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x400/E0E0E0/646464?text=Image+1';"
-                        />
-                        <h3 class="text-xl font-bold text-text-dark">Workshop Data Science</h3>
-                    </div>
-                    <div class="flex flex-col space-y-6">
-                        <img class="w-full h-64 object-cover rounded-xl shadow-md" 
-                            src="assets/images/galeri/seminar-2.jpg" 
-                            alt="Lab Activity Image"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x400/D0D0D0/646464?text=Image+2';"
-                        />
-                        <h3 class="text-xl font-bold text-text-dark">Seminar Riset Terbaru</h3>
-                    </div>
-                    <div class="flex flex-col space-y-6">
-                        <img class="w-full h-64 object-cover rounded-xl shadow-md" 
-                            src="assets/images/galeri/team-meeting-3.jpg" 
-                            alt="Lab Activity Image"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x400/C0C0C0/646464?text=Image+3';"
-                        />
-                        <h3 class="text-xl font-bold text-text-dark">Diskusi Proyek Akhir</h3>
-                    </div>
-                    <div class="flex flex-col space-y-6">
-                        <img class="w-full h-64 object-cover rounded-xl shadow-md" 
-                            src="assets/images/galeri/presentation-4.jpg" 
-                            alt="Lab Activity Image"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x400/B0B0B0/646464?text=Image+4';"
-                        />
-                        <h3 class="text-xl font-bold text-text-dark">Presentasi Hasil Riset</h3>
-                    </div>
-                    <div class="flex flex-col space-y-6">
-                        <img class="w-full h-64 object-cover rounded-xl shadow-md" 
-                            src="assets/images/galeri/hackathon-5.jpg" 
-                            alt="Lab Activity Image"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x400/A0A0A0/646464?text=Image+5';"
-                        />
-                        <h3 class="text-xl font-bold text-text-dark">Hackathon Data</h3>
-                    </div>
-                    <div class="flex flex-col space-y-6">
-                        <img class="w-full h-64 object-cover rounded-xl shadow-md" 
-                            src="assets/images/galeri/field-trip-6.jpg" 
-                            alt="Lab Activity Image"
-                            onerror="this.onerror=null; this.src='https://placehold.co/400x400/909090/646464?text=Image+6';"
-                        />
-                        <h3 class="text-xl font-bold text-text-dark">Kunjungan Industri</h3>
-                    </div>
-                </div>
+              <!-- JUDUL + TOGGLE BUTTON -->
+              <div class="w-full flex justify-between items-center">
+                  <h2 class="text-4xl md:text-5xl font-bold text-text-dark">
+                      Laboratorium Kami dalam Aksi
+                  </h2>
 
-                <a href="aktivitas/GaleriKegiatan.php" class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full border border-blue hover:bg-blue-800 transition duration-300">
-                    Lihat Galeri Lengkap
-                </a>
+                  <div class="relative flex space-x-2 p-2 bg-white border border-gray-300 rounded-full">
+                      <button
+                          @click="active = 'activities'"
+                          :class="active === 'activities'
+                              ? 'bg-primary text-white'
+                              : 'bg-transparent text-medium'"
+                          class="relative z-10 px-8 py-2 text-sm font-bold rounded-full transition duration-150">
+                          Kegiatan
+                      </button>
 
-            </div>
-        </section>
+                      <button
+                          @click="active = 'facility'"
+                          :class="active === 'facility'
+                              ? 'bg-primary text-white'
+                              : 'bg-transparent text-medium'"
+                          class="relative z-10 px-8 py-2 text-sm font-bold rounded-full transition duration-150">
+                          Fasilitas
+                      </button>
+                  </div>
+              </div>
+
+              <!-- ===================== -->
+              <!--     KEGIATAN LIST     -->
+              <!-- ===================== -->
+              <div
+                  x-show="active === 'activities'"
+                  x-transition
+                  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+                  <!-- ITEM 1–6 (KEGIATAN) -->
+                  <template x-for="(item, index) in [
+                      {img:'workshop-1.jpg', title:'Workshop Data Science'},
+                      {img:'seminar-2.jpg', title:'Seminar Riset Terbaru'},
+                      {img:'team-meeting-3.jpg', title:'Diskusi Proyek Akhir'},
+                      {img:'presentation-4.jpg', title:'Presentasi Hasil Riset'},
+                      {img:'hackathon-5.jpg', title:'Hackathon Data'},
+                      {img:'field-trip-6.jpg', title:'Kunjungan Industri'}
+                  ]">
+                      <div class="flex flex-col space-y-6">
+                          <img class="w-full h-64 object-cover rounded-xl shadow-md"
+                              :src="'assets/images/galeri/' + item.img"
+                              onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" />
+                          <h3 class="text-xl font-bold text-text-dark" x-text="item.title"></h3>
+                      </div>
+                  </template>
+
+                  <!-- TOMBOL -->
+                  <div class="col-span-3 w-full flex justify-center mt-10">
+                    <a href="galeri/galeriKegiatan.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+                      Lihat Galeri Kegiatan
+                    </a>
+                  </div>
+              </div>
+
+              <!-- ===================== -->
+              <!--     FASILITAS LIST    -->
+              <!-- ===================== -->
+              <div
+                  x-show="active === 'facility'"
+                  x-transition
+                  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+                  <!-- ITEM FASILITAS -->
+                  <template x-for="(item, index) in [
+                      {img:'lab-ai.jpg', title:'Laboratorium AI'},
+                      {img:'lab-iot.jpg', title:'Lab IoT & Embedded'},
+                      {img:'lab-network.jpg', title:'Lab Jaringan Komputer'},
+                      {img:'lab-robotic.jpg', title:'Lab Robotika'},
+                      {img:'lab-multimedia.jpg', title:'Lab Multimedia'},
+                      {img:'lab-cloud.jpg', title:'Lab Komputasi Awan'}
+                  ]">
+                      <div class="flex flex-col space-y-6">
+                          <img class="w-full h-64 object-cover rounded-xl shadow-md"
+                              :src="'assets/images/fasilitas/' + item.img"
+                              onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" />
+                          <h3 class="text-xl font-bold text-text-dark" x-text="item.title"></h3>
+                      </div>
+                  </template>
+
+                  <!-- TOMBOL -->
+                  <div class="col-span-3 w-full flex justify-center mt-10">
+                    <a href="galeri/fasilitas.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+                      Lihat Galeri Fasilitas
+                    </a>
+                  </div>
+              </div>
+          </div>
+      </section>
 
         <?php
 // Memanggil Footer (<footer>, tag penutup)
