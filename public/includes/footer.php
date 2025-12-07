@@ -110,6 +110,9 @@ if ($_SESSION['alerts']['type'] == 'danger' && isset($_SESSION['alerts']['type']
             text: '<?= $_SESSION['alerts']['msg']  ?>',
             icon: 'warning',
         })
+        .then(() => {
+        window.location.reload(); // auto refresh
+    });
     </script>
 <?php  
 $_SESSION['alerts']['type'] = null;
@@ -124,6 +127,9 @@ if ($_SESSION['alerts']['type'] == 'success' && isset($_SESSION['alerts']['type'
             text: '<?= $_SESSION['alerts']['msg']  ?>',
             icon: 'success',
         })
+        .then(() => {
+        window.location.reload(); // auto refresh
+    });
     </script>
 <?php  
 

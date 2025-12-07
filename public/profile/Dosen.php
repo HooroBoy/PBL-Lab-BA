@@ -2,60 +2,55 @@
 
 $page_title = 'Daftar Dosen';
 
-// --- Embedded data (previously in dosen_data.php) ---
-$dosenList = [
-    '0005078102' => [
-        'name' => 'Ahmadi Yuli Ananta, S.T., M.M.',
-        'nidn' => '0005078102',
-        'nip' => '198107052005011002',
-        'title' => 'Tenaga Pengajar',
-        'image' => '../assets/ImageDosen/ahmadi_yuli.jpg',
-        'study' => 'Sistem Informasi Bisnis',
-        'email' => 'ahmadi@polinema.ac.id',
-        'education' => [
-            'S2 — Magister Manajemen, Universitas Gajayana (2017)',
-            'S1 — Sarjana Teknik, Universitas Islam Indonesia (2004)'
-        ],
-        'certifications' => [],
-        'areas' => ['Sistem Informasi', 'Data Science', 'Networking']
-    ],
-    '0010028903' => [
-        'name' => 'Agung Nugroho Pramudhita, S.T., M.T.',
-        'nidn' => '0010028903',
-        'nip' => '197912132003121001',
-        'title' => 'Tenaga Pengajar',
-        'image' => '../assets/ImageDosen/agung_nugroho.jpg',
-        'study' => 'Teknik Informatika',
-        'email' => 'agung@polinema.ac.id',
-        'education' => [
-            'S2 — Magister Teknologi Informasi, Univ. Indonesia (2015)',
-            'S1 — Sarjana Teknik, ITS (2000)'
-        ],
-        'certifications' => [],
-        'areas' => ['AI', 'Machine Learning']
-    ],
-    '0404079101' => [
-        'name' => 'Ade Ismail, S.Kom., M.TI',
-        'nidn' => '0404079101',
-        'nip' => '197805052004121001',
-        'title' => 'Tenaga Pengajar',
-        'image' => '../assets/ImageDosen/ade_ismail.jpg',
-        'study' => 'Sistem Informasi',
-        'email' => 'ade@polinema.ac.id',
-        'education' => [
-            'S2 — Magister Teknologi Informasi, Univ. Brawijaya (2016)',
-            'S1 — Sarjana Komputer, Univ. Negeri Malang (2002)'
-        ],
-        'certifications' => [],
-        'areas' => ['Information Systems']
-    ],
-];
+// --- Menggunakan Model Dosen untuk Mengambil Data Dinamis ---
+// Asumsi: File model Dosencontroller.php terletak di /app/models/
+require_once __DIR__ . '/../../app/models/Dosen.php'; 
 
-function dosen_image_or_placeholder($path) {
-    $candidate = __DIR__ . DIRECTORY_SEPARATOR . str_replace('../', '', $path);
-    if (file_exists($candidate)) return $path;
-    return '../assets/ImageDosen/default-avatar.png';
+// Mengambil semua data dosen dari database
+try {
+    // Model Dosen::all() akan mengembalikan array dari tabel 'dosen'
+    $dosenList = Dosen::all();
+} catch (PDOException $e) {
+    $dosenList = []; // Set array kosong jika terjadi error database
+    echo "<p class='text-center text-red-600'>Gagal memuat daftar dosen dari database: Pastikan tabel 'dosen' sudah ada. (" . $e->getMessage() . ")</p>";
 }
+
+// Fungsi helper untuk path gambar
+// Fungsi helper untuk path gambar yang sudah diperbaiki
+function dosen_image_or_placeholder($path) {
+    // 1. Cek jika data kosong
+    if (empty($path)) {
+        return 'https://placehold.co/400x400/e2e8f0/1e293b?text=No+Image';
+    }
+
+    // 2. Cek jika path adalah URL eksternal (http/https)
+    if (strpos($path, 'http') === 0) {
+        return $path;
+    }
+
+    // 3. Bersihkan path dari database
+    // Database menyimpan: /assets/Dosen/namafile.jpg (sesuai kode admin)
+    // Kita hilangkan slash di depan agar mudah digabung
+    $clean_path = ltrim($path, '/'); 
+
+    // 4. Definisikan Root Project untuk URL Browser
+    // Ganti '/PBL-Lab-BA/public/' sesuai nama folder project Anda di htdocs
+    $base_url = '/PBL-Lab-BA/public/';
+
+    // 5. Cek ketersediaan file fisik di Server (Optional tapi recommended)
+    // Menggunakan $_SERVER['DOCUMENT_ROOT'] untuk mencari path fisik absolute
+    $physical_path = $_SERVER['DOCUMENT_ROOT'] . $base_url . $clean_path;
+
+    if (file_exists($physical_path)) {
+        // Jika file ketemu, return path lengkap untuk browser
+        return $base_url . $clean_path;
+    }
+
+    // 6. Fallback jika file fisik tidak ditemukan meskipun path ada di DB
+    // Pastikan file default-avatar.png benar-benar ada di folder assets/Dosen/ atau assets/ImageDosen/
+    return 'https://placehold.co/400x400/e2e8f0/1e293b?text=Not+Found'; 
+}
+
 
 // If this file is included with DOSEN_DATA_ONLY defined, do not render HTML.
 if (defined('DOSEN_DATA_ONLY') && constant('DOSEN_DATA_ONLY')) {
@@ -68,24 +63,31 @@ include '../includes/header.php';
 
 <section class="w-full bg-white pt-12 pb-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-extrabold text-text-dark mb-8">Daftar Dosen</h1>
+    <h1 class="text-3xl font-extrabold text-text-dark mb-8">Daftar Dosen Pengampu</h1>
 
+    <?php if (!empty($dosenList)): ?>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      <?php foreach ($dosenList as $nidn => $d):
-        $img = dosen_image_or_placeholder($d['image']);
+      <?php foreach ($dosenList as $d):
+        // Menggunakan kolom 'foto' dari database untuk path gambar
+        $img = dosen_image_or_placeholder($d['foto'] ?? '');
       ?>
-        <a href="LihatDosen.php?nidn=<?php echo urlencode($nidn); ?>" class="block bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition">
+        <!-- Setiap kartu dosen kini menggunakan data dari database -->
+        <a href="LihatDosen.php?id=<?php echo urlencode($d['id']); ?>" class="block bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition">
           <div class="flex flex-col items-center text-center">
             <div class="w-40 h-40 rounded-lg overflow-hidden mb-4">
-              <img src="<?php echo $img; ?>" alt="<?php echo htmlspecialchars($d['name']); ?>" class="w-full h-full object-cover" />
+              <img src="<?php echo $img; ?>" alt="<?php echo htmlspecialchars($d['nama']); ?>" class="w-full h-full object-cover" 
+                  onerror="this.onerror=null; this.src='<?php echo dosen_image_or_placeholder('default'); ?>';" />
             </div>
-            <h3 class="text-lg font-semibold text-text-dark mb-1"><?php echo htmlspecialchars($d['name']); ?></h3>
-            <div class="text-sm text-medium">NIDN: <?php echo htmlspecialchars($d['nidn']); ?></div>
-            <div class="text-sm text-medium mt-1"><?php echo htmlspecialchars($d['title']); ?></div>
+            <h3 class="text-lg font-semibold text-text-dark mb-1"><?php echo htmlspecialchars($d['nama']); ?></h3>
+            <div class="text-sm text-medium">NIDN: <?php echo htmlspecialchars($d['nidn'] ?? '-'); ?></div>
+            <div class="text-sm text-medium mt-1"><?php echo htmlspecialchars($d['program_studi'] ?? 'Tenaga Pengajar'); ?></div>
           </div>
         </a>
       <?php endforeach; ?>
     </div>
+    <?php else: ?>
+    <p class="text-center text-lg text-medium py-10">Data dosen tidak ditemukan atau gagal dimuat dari database.</p>
+    <?php endif; ?>
   </div>
 </section>
 
