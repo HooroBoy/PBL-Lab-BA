@@ -24,7 +24,6 @@ function tgl_indo($tanggal){
 }
 ?>
 <?php
-session_start();
 $page_title = 'Peminjaman Alat & Ruang';
 require_once '../../app/controllers/PeminjamanController.php';
 $message = null;
