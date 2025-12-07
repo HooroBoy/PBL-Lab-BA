@@ -202,6 +202,7 @@ CREATE TABLE peminjaman (
     id SERIAL NOT NULL,
     nama_peminjam character varying(100) NOT NULL,
     no_induk character varying(20) NOT NULL,
+    nomor_telepon VARCHAR(20) NOT NULL,
     tanggal_mulai date NOT NULL,
     tanggal_selesai date NOT NULL,
     jam_mulai time NOT NULL,
