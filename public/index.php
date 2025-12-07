@@ -637,7 +637,7 @@ function scrollDown() {
                     </div>
                 </div>
 
-                <a href="resource/ActivityGallery.php" class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full border border-blue hover:bg-blue-800 transition duration-300">
+                <a href="aktivitas/GaleriKegiatan.php" class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full border border-blue hover:bg-blue-800 transition duration-300">
                     Lihat Galeri Lengkap
                 </a>
 
