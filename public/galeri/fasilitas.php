@@ -5,17 +5,9 @@ $page_title = "Fasilitas & Peralatan - Laboratory of Business Analytics";
 require_once '../includes/header.php';
 
 // --- Impor Model Galeri ---
-<<<<<<< HEAD:public/aktivitas/fasilitas.php
 require_once '../../app/models/Galeri.php'; 
 
 // --- Data Fasilitas Statis (Icon & Deskripsi) ---
-=======
-// PERBAIKAN: Mengubah path menjadi '../../app/models/Galeri.php'
-// Ini mengasumsikan Galeri.php berada di [Project Root]/app/models/
-require_once '../../app/models/Galeri.php'; 
-
-// --- Data Fasilitas (Simulasi untuk Kartu Informasi, DIBIARKAN STATIS) ---
->>>>>>> 6a408528edc6df4fc61d9b0a24d925a5925c1d31:public/galeri/fasilitas.php
 $facilities_data = [
     [
         'title' => 'Ruang Laboratorium',
@@ -44,12 +36,6 @@ try {
     $gallery_photos = Galeri::all('fasilitas');
 } catch (Exception $e) {
     $gallery_photos = []; 
-    // Memanggil method all dengan kategori 'fasilitas'.
-    $gallery_photos = Galeri::all('fasilitas');
-} catch (Exception $e) {
-    // Jika terjadi error (misal koneksi DB gagal), inisialisasi array kosong
-    $gallery_photos = []; 
-    // Anda bisa tambahkan logging error di sini jika perlu
 }
 ?>
 
@@ -76,7 +62,6 @@ try {
 
         <?php if (!empty($gallery_photos)): ?>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-<<<<<<< HEAD:public/aktivitas/fasilitas.php
                 <?php foreach ($gallery_photos as $photo): 
                     // --- PERBAIKAN LOGIKA PATH GAMBAR ---
                     $raw_path = $photo['gambar'];
@@ -105,38 +90,14 @@ try {
         <?php else: ?>
             <div class="text-center py-10 bg-gray-50 rounded-lg border border-dashed border-gray-300">
                 <p class="text-gray-500">Tidak ada foto fasilitas yang tersedia saat ini.</p>
-=======
-                <?php foreach ($gallery_photos as $photo): ?>
-                        <div class="relative overflow-hidden rounded-xl shadow-md">
-                            <img class="w-full h-48 object-cover" 
-                                 src="<?php echo $photo['gambar']; ?>" 
-                                 alt="<?php echo $photo['judul']; ?>"
-                                 onerror="this.onerror=null; this.src='https://placehold.co/400x300/124874/FFFFFF?text=<?php echo urlencode($photo['judul']); ?>';"
-                            />
-                            <div class="absolute inset-0 bg-black bg-opacity-30 flex items-end p-3 md:p-4">
-                                <p class="text-white text-xs font-semibold opacity-80"><?php echo $photo['judul']; ?></p>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <div class="text-center py-10 text-gray-500">
-                <p>Tidak ada foto fasilitas yang tersedia saat ini.</p>
->>>>>>> 6a408528edc6df4fc61d9b0a24d925a5925c1d31:public/galeri/fasilitas.php
             </div>
         <?php endif; ?>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-10">
             <?php foreach ($facilities_data as $facility): ?>
-<<<<<<< HEAD:public/aktivitas/fasilitas.php
                 <div class="block bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
                     <div class="p-6 space-y-4 flex flex-col h-full">
                         <div class="w-12 h-12 p-3 rounded-full bg-blue-50 text-primary flex items-center justify-center border border-blue-100">
-=======
-                <div class="block bg-white rounded-xl shadow-lg border border-gray-200">
-                    <div class="p-6 space-y-6 flex flex-col h-full">
-                        <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-icon">
->>>>>>> 6a408528edc6df4fc61d9b0a24d925a5925c1d31:public/galeri/fasilitas.php
                             <?php echo $facility['icon_svg']; ?>
                         </div>
                         
