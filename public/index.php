@@ -209,9 +209,23 @@ include 'includes/header.php';
 }
 
 /* --- CUSTOM ARTIKEL STYLES --- */
+/* --- CUSTOM ARTIKEL STYLES --- */
 .artikel-card-img {
     height: 24rem; 
     object-fit: cover;
+}
+
+/* Penyesuaian layout Artikel */
+.artikel-wrapper {
+    background-color: #f0f8ff; /* Warna latar belakang kartu artikel */
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+.artikel-content-wrapper {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 </style>
 
@@ -568,7 +582,13 @@ function scrollDown() {
 
               <!-- ===================== -->
               <!--     KEGIATAN LIST (DINAMIS)     -->
+              <!--     KEGIATAN LIST (DINAMIS)     -->
               <!-- ===================== -->
+              <div x-show="active === 'activities'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                  <?php 
+                  if (!empty($recentActivities)): 
+                      foreach ($recentActivities as $act):
+                  ?>
               <div x-show="active === 'activities'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                   <?php 
                   if (!empty($recentActivities)): 
@@ -580,7 +600,17 @@ function scrollDown() {
                               onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" 
                               alt="<?php echo htmlspecialchars($act['judul']); ?>" />
                           <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($act['judul']); ?></h3>
+                              src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $act['gambar']); ?>"
+                              onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" 
+                              alt="<?php echo htmlspecialchars($act['judul']); ?>" />
+                          <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($act['judul']); ?></h3>
                       </div>
+                  <?php 
+                      endforeach;
+                  else:
+                      echo '<p class="col-span-3 text-center text-gray-500">Belum ada data kegiatan.</p>';
+                  endif; 
+                  ?>
                   <?php 
                       endforeach;
                   else:
@@ -590,6 +620,7 @@ function scrollDown() {
 
                   <!-- TOMBOL -->
                   <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
+                  <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
                     <a href="galeri/galeriKegiatan.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
                       Lihat Galeri Kegiatan
                     </a>
@@ -598,7 +629,13 @@ function scrollDown() {
 
               <!-- ===================== -->
               <!--     FASILITAS LIST (DINAMIS)   -->
+              <!--     FASILITAS LIST (DINAMIS)   -->
               <!-- ===================== -->
+              <div x-show="active === 'facility'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" style="display: none;">
+                  <?php 
+                  if (!empty($recentFacilities)): 
+                      foreach ($recentFacilities as $fac):
+                  ?>
               <div x-show="active === 'facility'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" style="display: none;">
                   <?php 
                   if (!empty($recentFacilities)): 
@@ -610,7 +647,17 @@ function scrollDown() {
                               onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" 
                               alt="<?php echo htmlspecialchars($fac['judul']); ?>" />
                           <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($fac['judul']); ?></h3>
+                              src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $fac['gambar']); ?>"
+                              onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" 
+                              alt="<?php echo htmlspecialchars($fac['judul']); ?>" />
+                          <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($fac['judul']); ?></h3>
                       </div>
+                  <?php 
+                      endforeach;
+                  else:
+                      echo '<p class="col-span-3 text-center text-gray-500">Belum ada data fasilitas.</p>';
+                  endif; 
+                  ?>
                   <?php 
                       endforeach;
                   else:
@@ -619,6 +666,7 @@ function scrollDown() {
                   ?>
 
                   <!-- TOMBOL -->
+                  <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
                   <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
                     <a href="galeri/fasilitas.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
                       Lihat Galeri Fasilitas

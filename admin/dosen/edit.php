@@ -2,7 +2,7 @@
 session_start();
 $title = 'Edit Dosen';
 include "../../public/layouts-admin/header-admin.php";
-include "../../app/models/Dosen.php";
+include "../../app/models/Dosencontroller.php";
 
 $id = $_GET['id'];
 $data = Dosen::find($id);

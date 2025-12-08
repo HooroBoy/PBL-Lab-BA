@@ -8,7 +8,7 @@ class Publikasi
         global $pdo;
         // $stmt = $pdo->query("SELECT * from publikasi");
         // return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $stmt = $pdo->query("SELECT p.id AS id_publikasi, p.judul AS judul, p.jenis_publikasi AS jenis_publikasi, d.nama AS nama_dosen, pp.peran AS peran FROM publikasi p INNER JOIN publikasi_penulis pp ON p.id = pp.publikasi_id INNER JOIN dosen d ON pp.dosen_id = d.id ORDER BY p.id DESC");
+        $stmt = $pdo->query("SELECT p.id AS id_publikasi, p.judul AS judul, p.jenis_publikasi AS jenis_publikasi, p.kategori_id, k.nama AS kategori_nama, d.nama AS nama_dosen, pp.peran AS peran FROM publikasi p INNER JOIN publikasi_penulis pp ON p.id = pp.publikasi_id INNER JOIN dosen d ON pp.dosen_id = d.id LEFT JOIN kategori_riset k ON p.kategori_id = k.id ORDER BY p.id DESC");
         $relasi_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $publikasi_terstruktur = [];
@@ -21,6 +21,8 @@ class Publikasi
                     'id_publikasi' => $row['id_publikasi'],
                     'judul' => $row['judul'],
                     'jenis_publikasi' => $row['jenis_publikasi'],
+                    'kategori_id' => $row['kategori_id'],
+                    'kategori_nama' => $row['kategori_nama'],
                     'dosen' => []
                 ];
             }
@@ -127,6 +129,64 @@ class Publikasi
         global $pdo;
         $stmt = $pdo->prepare('DELETE FROM publikasi WHERE id=?');
         $stmt->execute([$id]);
+    }
+
+    public static function findByDosenId($dosen_id)
+    {
+        global $pdo;
+
+        // Query untuk mengambil semua detail publikasi berdasarkan ID Dosen.
+        // Kita juga perlu penulis (relasi publikasi_penulis) karena satu publikasi bisa punya banyak penulis.
+        $stmt = $pdo->prepare("
+            SELECT 
+                p.id, 
+                p.judul, 
+                p.jenis_publikasi, 
+                p.tahun_terbit,
+                p.nama_penerbit,
+                p.doi,
+                pp.urutan_penulis,
+                d.nama AS nama_penulis,
+                d.id AS id_penulis
+            FROM publikasi p
+            INNER JOIN publikasi_penulis pp ON p.id = pp.publikasi_id
+            INNER JOIN dosen d ON pp.dosen_id = d.id
+            WHERE p.id IN (
+                SELECT publikasi_id FROM publikasi_penulis WHERE dosen_id = :dosen_id_filter
+            )
+            ORDER BY p.tahun_terbit DESC, p.id DESC, pp.urutan_penulis ASC
+        ");
+
+        $stmt->execute([':dosen_id_filter' => $dosen_id]);
+        $relasi_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $publikasi_terstruktur = [];
+
+        foreach ($relasi_list as $row) {
+            $id_publikasi = $row['id'];
+
+            if (!isset($publikasi_terstruktur[$id_publikasi])) {
+                $publikasi_terstruktur[$id_publikasi] = [
+                    'id' => $row['id'],
+                    'judul' => $row['judul'],
+                    'jenis_publikasi' => $row['jenis_publikasi'],
+                    'tahun_terbit' => $row['tahun_terbit'],
+                    'nama_penerbit' => $row['nama_penerbit'],
+                    'doi' => $row['doi'],
+                    'penulis' => []
+                ];
+            }
+
+            // Masukkan setiap penulis ke dalam array penulis publikasi
+            $publikasi_terstruktur[$id_publikasi]['penulis'][] = [
+                'nama' => $row['nama_penulis'],
+                'id' => $row['id_penulis'],
+                'urutan' => $row['urutan_penulis']
+            ];
+        }
+
+        // Kembalikan dalam bentuk array list publikasi (bukan array asosiatif id => publikasi)
+        return array_values($publikasi_terstruktur);
     }
 }
 ?>

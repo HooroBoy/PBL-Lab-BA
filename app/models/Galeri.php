@@ -76,10 +76,43 @@ class Galeri {
         ]);
     }
 
+    public static function latest($kategori, $limit = 6) {
+        global $pdo;
+        $sql = "SELECT * FROM galeri";
+        $params = [];
+        
+        $kategori = self::normalizeCategory($kategori);
+        if ($kategori) {
+            $sql .= " WHERE kategori = :kategori";
+            $params[':kategori'] = $kategori;
+        }
+        
+        $sql .= " ORDER BY created_at DESC LIMIT :limit";
+        
+        $stmt = $pdo->prepare($sql);
+        if (!empty($params)) {
+            $stmt->bindValue(':kategori', $params[':kategori']);
+        }
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function delete($id) {
         global $pdo;
         $sql = "DELETE FROM galeri WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         return $stmt->execute([':id' => $id]);
+    }
+
+    // Helper untuk normalisasi kategori
+    private static function normalizeCategory($kategori) {
+        $kategori = trim($kategori);
+        $kategori = preg_replace('/[^a-z]/', '', strtolower($kategori));
+        if ($kategori === 'aktivitas') return 'activity';
+        if ($kategori === 'fasilitas') return 'facility';
+        if (in_array($kategori, ['activity', 'facility'])) return $kategori;
+        return null;
     }
 }

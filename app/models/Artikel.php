@@ -116,22 +116,25 @@ public static function all()
 
     // Menampilkan artikel terbaru dengan limit tertentu
     public static function latest($limit = 1) {
-        global $pdo;
-        
-        // Pastikan limit adalah integer
-        $limit = (int) $limit;
+    global $pdo;
+    
+    // Pastikan limit berupa angka
+    $limit = (int) $limit;
 
-        // Query: Ambil data, urutkan dari yang terbaru (created_at DESC), batasi jumlahnya
-        $sql = "SELECT * FROM artikel ORDER BY created_at DESC LIMIT :limit";
-        
-        $stmt = $pdo->prepare($sql);
-        
-        // PENTING: Untuk LIMIT di PDO, gunakan bindValue dengan PARAM_INT
-        // Jika menggunakan execute(['limit' => $limit]) seringkali error karena dianggap string
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-        
-        $stmt->execute();
-        
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    // Kita copy logic dari function all() Anda, tapi tambah LIMIT
+    // SELECT a.* (data artikel) dan n.nama (nama admin)
+    $sql = "
+        SELECT a.*, n.nama 
+        FROM artikel a
+        JOIN admin n ON a.admin_id = n.id
+        ORDER BY a.created_at DESC  -- Atau gunakan a.id DESC jika ingin urut ID
+        LIMIT :limit
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->execute();
+    
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }
