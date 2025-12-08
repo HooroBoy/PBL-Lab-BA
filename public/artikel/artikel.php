@@ -42,7 +42,7 @@ try {
                 </ol>
             </nav>
             <h1 class="text-4xl md:text-5xl font-extrabold text-text-dark leading-tight">
-                Koleksi Artikel Kami
+                Artikel Kami
             </h1>
             <p class="text-lg text-medium">
                 Wawasan terbaru seputar Business Analytics, NLP, dan Inovasi Teknologi dari tim Lab.
@@ -55,7 +55,7 @@ try {
 
                 <?php foreach ($articles as $article): ?>
                     <!-- Tautan menuju halaman detail artikel (gunakan slug) -->
-                    <a href="/artikel-detail/<?php echo htmlspecialchars($article['slug']); ?>"
+                    <a href="/PBL-Lab-BA/public/artikel/detail.php?id=<?php echo $article['id']; ?>"
                         class="group bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 transform hover:scale-[1.02] border border-gray-200">
                         <!-- Foto Artikel -->
                         <div class="relative overflow-hidden">

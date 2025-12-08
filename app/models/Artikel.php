@@ -26,27 +26,39 @@ function createSlug(string $text): string
 
 class Artikel
 {
-public static function all()
-{
-    global $pdo;
-    $sql = "
+    public static function all()
+    {
+        global $pdo;
+        $sql = "
         SELECT a.*, n.nama 
         FROM artikel a
         JOIN admin n ON a.admin_id = n.id
         ORDER BY a.id DESC
     ";
 
-    $stmt = $pdo->query($sql);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stmt = $pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public static function find($id)
     {
         global $pdo;
-        $stmt = $pdo->prepare('SELECT * FROM artikel WHERE id = ?');
+
+        $sql = "
+        SELECT a.*, 
+                n.nama AS admin_username
+        FROM artikel a
+        JOIN admin n ON a.admin_id = n.id
+        WHERE a.id = ?
+        LIMIT 1
+    ";
+
+        $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
+
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
 
     public static function create($data)
     {
@@ -57,13 +69,13 @@ public static function all()
         $stmt = $pdo->prepare($query);
 
         $stmt->execute([
-            'admin_id' => $data['admin_id'], 
-            'judul' => $data['judul'], 
+            'admin_id' => $data['admin_id'],
+            'judul' => $data['judul'],
             'slug' => $slug,
-            'isi' => $data['isi'], 
-            'thumbnail' => $data['thumbnail'], 
-            'tanggal' => $data['tanggal'], 
-            'tags' => $data['tags'], 
+            'isi' => $data['isi'],
+            'thumbnail' => $data['thumbnail'],
+            'tanggal' => $data['tanggal'],
+            'tags' => $data['tags'],
         ]);
     }
 
@@ -90,12 +102,12 @@ public static function all()
             $stmt = $pdo->prepare($query);
 
             $stmt->execute([
-                'admin_id' => $data['admin_id'], 
-                'judul' => $data['judul'], 
+                'admin_id' => $data['admin_id'],
+                'judul' => $data['judul'],
                 'slug' => $slug,
-                'isi' => $data['isi'], 
-                'thumbnail' => $data['thumbnail'], 
-                'tanggal' => $data['tanggal'], 
+                'isi' => $data['isi'],
+                'thumbnail' => $data['thumbnail'],
+                'tanggal' => $data['tanggal'],
                 'tags' => $data['tags'],
                 'id' => $id
                 // $data
@@ -103,8 +115,6 @@ public static function all()
         } catch (PDOException $e) {
             echo "Kesalahan saat memperbarui data: " . $e->getMessage();
         }
-
-        
     }
 
     public static function delete($id)
@@ -115,15 +125,16 @@ public static function all()
     }
 
     // Menampilkan artikel terbaru dengan limit tertentu
-    public static function latest($limit = 1) {
-    global $pdo;
-    
-    // Pastikan limit berupa angka
-    $limit = (int) $limit;
+    public static function latest($limit = 1)
+    {
+        global $pdo;
 
-    // Kita copy logic dari function all() Anda, tapi tambah LIMIT
-    // SELECT a.* (data artikel) dan n.nama (nama admin)
-    $sql = "
+        // Pastikan limit berupa angka
+        $limit = (int) $limit;
+
+        // Kita copy logic dari function all() Anda, tapi tambah LIMIT
+        // SELECT a.* (data artikel) dan n.nama (nama admin)
+        $sql = "
         SELECT a.*, n.nama 
         FROM artikel a
         JOIN admin n ON a.admin_id = n.id
@@ -131,10 +142,10 @@ public static function all()
         LIMIT :limit
     ";
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $stmt->execute();
-    
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
