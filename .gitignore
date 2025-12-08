@@ -4,3 +4,8 @@ Images/Logo2.png
 Images/Penguin.jpg
 Images/Penguin.png
 PBL/config/database.php
+<<<<<<< Updated upstream
+/config/database.php
+=======
+config/database.php
+>>>>>>> Stashed changes

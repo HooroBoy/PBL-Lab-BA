@@ -29,15 +29,7 @@ try {
             <nav class="text-sm font-medium text-gray-500 mb-4 inline-block" aria-label="Breadcrumb">
                 <ol class="list-none p-0 inline-flex">
                     <li class="flex items-center">
-                        <a href="/index.php" class="text-primary hover:text-blue-700">Home</a>
-                        <svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
-                            aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10l-3.293-3.293a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd" />
-                        </svg>
                     </li>
-                    <li class="text-primary">Galeri Kegiatan</li>
                 </ol>
             </nav>
             <h1 class="text-4xl md:text-5xl font-extrabold text-text-dark leading-tight">
@@ -96,15 +88,6 @@ try {
         <?php else: ?>
             <p class="text-center text-lg text-medium">Belum ada kegiatan yang tersedia saat ini.</p>
         <?php endif; ?>
-
-        <!-- Call to Action Footer -->
-        <div class="flex justify-center w-full mt-12 pt-8 border-t border-gray-100">
-            <a href="/contact/index.php"
-                class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
-                Ajukan Kolaborasi Kegiatan
-            </a>
-        </div>
-
     </div>
 </div>
 

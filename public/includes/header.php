@@ -208,6 +208,10 @@ $header_logo_url = $site_settings['landing_hero_image'] ?? BASE_URL . '/assets/L
                                 Publikasi
                             </a>
                             <a href="<?php echo BASE_URL; ?>/artikel/artikel.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                            <a href="<?php echo BASE_URL; ?>/publikasi/Publikasi.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                Publikasi
+                            </a>
+                            <a href="<?php echo BASE_URL; ?>/projects-demos/index.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
                                 Artikel
                             </a>
                             <div x-data="{ resourcesOpen: false }">
@@ -222,6 +226,12 @@ $header_logo_url = $site_settings['landing_hero_image'] ?? BASE_URL . '/assets/L
                                         Kegiatan
                                     </a>
                                     <a href="<?php echo BASE_URL; ?>/galeri/Fasilitas.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                        Fasilitas
+                                    </a>
+                                    <a href="<?php echo BASE_URL; ?>/galeri/galerikegiatan.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                        Kegiatan
+                                    </a>
+                                    <a href="<?php echo BASE_URL; ?>/galeri/fasilitas.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
                                         Fasilitas
                                     </a>
                                 </div>
