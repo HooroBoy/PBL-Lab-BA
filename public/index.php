@@ -176,30 +176,36 @@ include 'includes/header.php';
 /* --- CUSTOM TEAM CAROUSEL STYLES --- */
 .carousel-track { 
     display: flex; 
-    gap: 2rem; 
-    padding: 1rem 2rem; 
+    gap: 1.5rem; /* Gap 6 */
+    padding: 1rem 0; 
     align-items: stretch;
+    /* Menghilangkan overflow dari CSS sebelumnya dan biarkan container di bawah yang mengaturnya */
 }
+
+/* Mengatur lebar kartu agar 4 kartu muat di layar desktop */
 .team-card {
-    width: 15rem; /* w-60 */
+    width: 16rem; /* 256px (w-64) - Lebar yang optimal untuk 4 kartu + gap 1.5rem */
     flex-shrink: 0;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
-    background-color: white; /* Kartu harus putih */
+    background-color: white; 
 }
 .team-card img {
-    height: 15rem; /* h-60 */
+    height: 16rem; /* h-64 agar proporsi 1:1 */
     object-fit: cover; 
     width: 100%;
     border-radius: 12px 12px 0 0; 
 }
-/* Memastikan area gambar memiliki latar belakang abu-abu */
 .team-card .image-wrapper {
-    background-color: #f3f4f6; /* gray-100 */
-    height: 15rem;
+    background-color: #f3f4f6;
+    height: 16rem; /* h-64 */
     display: flex;
     align-items: center;
     justify-content: center;
+}
+/* Menyembunyikan kontrol panah di mobile */
+@media (max-width: 1024px) {
+    .team-carousel-nav { display: none !important; }
 }
 
 /* --- CUSTOM ARTIKEL STYLES --- */
@@ -352,16 +358,17 @@ function scrollDown() {
                 <!-- Team carousel: 9 cards -->
                 <div class="relative w-full">
                     <!-- Left / Right controls -->
-                    <button aria-label="Prev" onclick="teamScroll('left')" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
+                    <button aria-label="Prev" onclick="teamScroll('left')" class="team-carousel-nav absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
                     </button>
-                    <button aria-label="Next" onclick="teamScroll('right')" class="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
+                    <button aria-label="Next" onclick="teamScroll('right')" class="team-carousel-nav absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
                     </button>
 
-                    <div id="teamCarousel" class="py-6 scrollbar-hide" style="scroll-behavior:smooth;">
+                    <div id="teamCarousel" class="py-6 scrollbar-hide overflow-x-scroll" style="scroll-behavior:smooth;">
                         <div class="carousel-track" role="list">
                                 <?php
+                                    // Data Dosen (9 anggota)
                                     $team = [
                                         ['name'=>'Dr. Rakhmat Arianto, S.ST., M.Kom.','title'=>'Kepala Lab','img'=>'assets/Dosen/Rakhmat-Arianto.jpg'],
                                         ['name'=>'Rokhimatul Wakhidah, S.Pd., M.T.','title'=>'Peneliti','img'=>'assets/Dosen/Rokhimatul-Wakhidah.jpg'],
@@ -374,13 +381,14 @@ function scrollDown() {
                                         ['name'=>'Hendra Pradibta, S.E., M.Sc.','title'=>'Peneliti','img'=>'assets/Dosen/Hendra-Pradibta.jpg']
                                     ];
                                     foreach($team as $i => $member) {
+                                        // Menggunakan kelas team-card
                                         echo '<div class="team-card bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between">';
                                         echo '<div class="image-wrapper">';
                                         echo '<img src="'.htmlspecialchars($member['img']).'" alt="'.htmlspecialchars($member['name']).'" class="w-full h-full object-cover" onerror="this.onerror=null; this.src=\'https://placehold.co/540x360/EFEFEF/9A9A9A?text=Team\'">';
                                         echo '</div>';
-                                        echo '<div class="p-4 text-center">'; // Mengurangi padding agar terlihat lebih ringkas
-                                        echo '<h4 class="text-base font-semibold text-text-dark mb-1">'.htmlspecialchars($member['name']).'</h4>'; // Mengurangi ukuran font
-                                        echo '<p class="text-xs text-primary font-medium mb-4">'.htmlspecialchars($member['title']).'</p>'; // Mengurangi ukuran font
+                                        echo '<div class="p-4 text-center">'; 
+                                        echo '<h4 class="text-base font-semibold text-text-dark mb-1">'.htmlspecialchars($member['name']).'</h4>'; 
+                                        echo '<p class="text-xs text-primary font-medium mb-4">'.htmlspecialchars($member['title']).'</p>'; 
                                         echo '</div></div>';
                                     }
                                 ?>
@@ -395,23 +403,24 @@ function scrollDown() {
                 </div>
         </section>
 
-        <!-- SCRIPT TEAM CAROUSEL (Diperbaiki untuk Autoscroll) -->
+        <!-- SCRIPT TEAM CAROUSEL (Diperbaiki untuk Autoscroll dan 4 Kartu per slide) -->
         <script>
         (function(){
             var carousel = document.getElementById('teamCarousel');
             var track = carousel ? carousel.querySelector('.carousel-track') : null;
             var autoplayInterval = 2500; // Interval autoscroll (2.5 detik)
-            var cardWidth = 272; // fallback
+            var cardWidth = 0; 
             var timer = null;
 
             function updateCardWidth(){
                 if(!track) return;
-                var firstCard = track.querySelector('.team-card'); // Menggunakan class team-card
+                var firstCard = track.querySelector('.team-card'); 
                 if(!firstCard) return;
                 var style = window.getComputedStyle(track);
-                // Menghitung lebar kartu + gap (gap di carousel-track adalah 2rem = 32px)
                 var cardRect = firstCard.getBoundingClientRect();
-                var gap = parseFloat(style.getPropertyValue('gap')) || 32; 
+                // Mengambil nilai gap dari CSS (1.5rem = 24px)
+                var gap = parseFloat(style.getPropertyValue('gap')) || 24; 
+                // Lebar geser = Lebar Kartu + Gap
                 cardWidth = Math.round(cardRect.width + gap);
             }
 
@@ -420,9 +429,10 @@ function scrollDown() {
                 updateCardWidth();
                 timer = setInterval(function(){
                     if(!carousel) return;
-                    // Logika pergeseran: jika sudah mencapai akhir, kembali ke awal
-                    if(carousel.scrollLeft + carousel.clientWidth >= track.scrollWidth - 10){
-                        // Kembali ke awal tanpa animasi untuk loop
+                    
+                    // Cek apakah sudah mencapai ujung (scrollWidth adalah total lebar konten)
+                    if(carousel.scrollLeft + carousel.clientWidth >= track.scrollWidth - 5){
+                        // Kembali ke awal untuk loop, menggunakan instant behavior
                         carousel.scrollTo({left:0, behavior:'instant'}); 
                     } else {
                         // Geser satu kartu
@@ -437,7 +447,7 @@ function scrollDown() {
                 stopAuto();
                 updateCardWidth();
                 if(!carousel) return;
-                var amount = dir === 'left' ? -cardWidth : cardWidth;
+                var amount = dir === 'left' ? -cardWidth * 4 : cardWidth * 4; // Geser 4 kartu
                 carousel.scrollBy({left: amount, behavior: 'smooth'});
                 // Lanjutkan autoscroll setelah interaksi pengguna
                 setTimeout(startAuto, 4000); 
