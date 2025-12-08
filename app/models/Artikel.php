@@ -30,9 +30,9 @@ public static function all()
 {
     global $pdo;
     $sql = "
-        SELECT a.*, u.username 
+        SELECT a.*, n.nama 
         FROM artikel a
-        JOIN admin u ON a.admin_id = u.id
+        JOIN admin n ON a.admin_id = n.id
         ORDER BY a.id DESC
     ";
 
