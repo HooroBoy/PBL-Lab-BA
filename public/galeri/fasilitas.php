@@ -122,16 +122,7 @@ $upload_base_url = '../assets/fasilitas/';
                     </div>
                 </div>
             <?php endforeach; ?>
-        </div>
-
-        <div class="flex justify-center w-full mt-12 pt-8 border-t border-gray-100">
-            <a href="/resources/facilities-borrowing.php" class="px-8 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
-                Ajukan Peminjaman Fasilitas
-            </a>
-        </div>
-
-    </div>
-</div>
+        </div>  
 
 <?php
 require_once '../includes/footer.php';
