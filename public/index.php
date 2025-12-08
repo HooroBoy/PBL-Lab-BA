@@ -6,6 +6,7 @@ $page_title = "Laboratorium Business Analytics";
 require_once __DIR__ . '/../app/models/SiteSetting.php'; 
 require_once __DIR__ . '/../app/models/Artikel.php'; 
 require_once __DIR__ . '/../app/models/Galeri.php';
+require_once __DIR__ . '/../app/models/Galeri.php';
 
 try {
     $setting = SiteSetting::get();
@@ -17,9 +18,17 @@ try {
     $recentActivities = Galeri::latest('activity', 6);
     $recentFacilities = Galeri::latest('facility', 6);
 
+    $article = $latestArticle[0] ?? null; 
+
+    // --- DATA DINAMIS GALERI ---
+    $recentActivities = Galeri::latest('activity', 6);
+    $recentFacilities = Galeri::latest('facility', 6);
+
 } catch (PDOException $e) {
     $setting = [];
     $article = null;
+    $recentActivities = [];
+    $recentFacilities = [];
     $recentActivities = [];
     $recentFacilities = [];
 }
@@ -36,6 +45,7 @@ include 'includes/header.php';
 ?>
 
 <style>
+/* --- Kustomisasi Fokus Riset Cards --- */
 /* --- Kustomisasi Fokus Riset Cards --- */
 .research-card.group:hover { background-color: #124874 !important; color: #fff !important; }
 .research-card.group:hover h3, .research-card.group:hover p { color: #fff !important; }
@@ -178,14 +188,23 @@ include 'includes/header.php';
     display: flex; 
     gap: 1.5rem; /* Gap 6 */
     padding: 1rem 0; 
+    gap: 1.5rem; /* Gap 6 */
+    padding: 1rem 0; 
     align-items: stretch;
+    /* Menghilangkan overflow dari CSS sebelumnya dan biarkan container di bawah yang mengaturnya */
     /* Menghilangkan overflow dari CSS sebelumnya dan biarkan container di bawah yang mengaturnya */
 }
 
 /* Mengatur lebar kartu agar 4 kartu muat di layar desktop */
+
+/* Mengatur lebar kartu agar 4 kartu muat di layar desktop */
 .team-card {
     width: 16rem; /* 256px (w-64) - Lebar yang optimal untuk 4 kartu + gap 1.5rem */
+    width: 16rem; /* 256px (w-64) - Lebar yang optimal untuk 4 kartu + gap 1.5rem */
     flex-shrink: 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    background-color: white; 
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
     background-color: white; 
@@ -210,6 +229,7 @@ include 'includes/header.php';
 
 /* --- CUSTOM ARTIKEL STYLES --- */
 .artikel-card-img {
+    height: 24rem; 
     height: 24rem; 
     object-fit: cover;
 }
@@ -251,6 +271,7 @@ let currentSlideIndex = 1;
 function scrollDown() {
     const hero = document.querySelector('.hero-carousel');
     if (!hero) return;
+    const nextTop = hero.getBoundingClientRect().height + window.scrollY; 
     const nextTop = hero.getBoundingClientRect().height + window.scrollY; 
     window.scrollTo({ top: nextTop, behavior: 'smooth' });
 }
@@ -359,15 +380,19 @@ function scrollDown() {
                 <div class="relative w-full">
                     <!-- Left / Right controls -->
                     <button aria-label="Prev" onclick="teamScroll('left')" class="team-carousel-nav absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
+                    <button aria-label="Prev" onclick="teamScroll('left')" class="team-carousel-nav absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
                     </button>
+                    <button aria-label="Next" onclick="teamScroll('right')" class="team-carousel-nav absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
                     <button aria-label="Next" onclick="teamScroll('right')" class="team-carousel-nav absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
                     </button>
 
                     <div id="teamCarousel" class="py-6 scrollbar-hide overflow-x-scroll" style="scroll-behavior:smooth;">
+                    <div id="teamCarousel" class="py-6 scrollbar-hide overflow-x-scroll" style="scroll-behavior:smooth;">
                         <div class="carousel-track" role="list">
                                 <?php
+                                    // Data Dosen (9 anggota)
                                     // Data Dosen (9 anggota)
                                     $team = [
                                         ['name'=>'Dr. Rakhmat Arianto, S.ST., M.Kom.','title'=>'Kepala Lab','img'=>'assets/Dosen/Rakhmat-Arianto.jpg'],
@@ -384,8 +409,15 @@ function scrollDown() {
                                         // Menggunakan kelas team-card
                                         echo '<div class="team-card bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between">';
                                         echo '<div class="image-wrapper">';
+                                        // Menggunakan kelas team-card
+                                        echo '<div class="team-card bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between">';
+                                        echo '<div class="image-wrapper">';
                                         echo '<img src="'.htmlspecialchars($member['img']).'" alt="'.htmlspecialchars($member['name']).'" class="w-full h-full object-cover" onerror="this.onerror=null; this.src=\'https://placehold.co/540x360/EFEFEF/9A9A9A?text=Team\'">';
                                         echo '</div>';
+                                        echo '<div class="p-4 text-center">'; 
+                                        echo '<h4 class="text-base font-semibold text-text-dark mb-1">'.htmlspecialchars($member['name']).'</h4>'; 
+                                        echo '<p class="text-xs text-primary font-medium mb-4">'.htmlspecialchars($member['title']).'</p>'; 
+                                        echo '</div></div>';
                                         echo '<div class="p-4 text-center">'; 
                                         echo '<h4 class="text-base font-semibold text-text-dark mb-1">'.htmlspecialchars($member['name']).'</h4>'; 
                                         echo '<p class="text-xs text-primary font-medium mb-4">'.htmlspecialchars($member['title']).'</p>'; 
@@ -401,8 +433,11 @@ function scrollDown() {
                         </a>
                     </div>
                 </div>
+                    </div>
+                </div>
         </section>
 
+        <!-- SCRIPT TEAM CAROUSEL (Diperbaiki untuk Autoscroll dan 4 Kartu per slide) -->
         <!-- SCRIPT TEAM CAROUSEL (Diperbaiki untuk Autoscroll dan 4 Kartu per slide) -->
         <script>
         (function(){
@@ -410,12 +445,21 @@ function scrollDown() {
             var track = carousel ? carousel.querySelector('.carousel-track') : null;
             var autoplayInterval = 2500; // Interval autoscroll (2.5 detik)
             var cardWidth = 0; 
+            var autoplayInterval = 2500; // Interval autoscroll (2.5 detik)
+            var cardWidth = 0; 
             var timer = null;
 
             function updateCardWidth(){
                 if(!track) return;
                 var firstCard = track.querySelector('.team-card'); 
+                var firstCard = track.querySelector('.team-card'); 
                 if(!firstCard) return;
+                var style = window.getComputedStyle(track);
+                var cardRect = firstCard.getBoundingClientRect();
+                // Mengambil nilai gap dari CSS (1.5rem = 24px)
+                var gap = parseFloat(style.getPropertyValue('gap')) || 24; 
+                // Lebar geser = Lebar Kartu + Gap
+                cardWidth = Math.round(cardRect.width + gap);
                 var style = window.getComputedStyle(track);
                 var cardRect = firstCard.getBoundingClientRect();
                 // Mengambil nilai gap dari CSS (1.5rem = 24px)
@@ -434,7 +478,13 @@ function scrollDown() {
                     if(carousel.scrollLeft + carousel.clientWidth >= track.scrollWidth - 5){
                         // Kembali ke awal untuk loop, menggunakan instant behavior
                         carousel.scrollTo({left:0, behavior:'instant'}); 
+                    
+                    // Cek apakah sudah mencapai ujung (scrollWidth adalah total lebar konten)
+                    if(carousel.scrollLeft + carousel.clientWidth >= track.scrollWidth - 5){
+                        // Kembali ke awal untuk loop, menggunakan instant behavior
+                        carousel.scrollTo({left:0, behavior:'instant'}); 
                     } else {
+                        // Geser satu kartu
                         // Geser satu kartu
                         carousel.scrollBy({left: cardWidth, behavior:'smooth'});
                     }
@@ -448,18 +498,27 @@ function scrollDown() {
                 updateCardWidth();
                 if(!carousel) return;
                 var amount = dir === 'left' ? -cardWidth * 4 : cardWidth * 4; // Geser 4 kartu
+                var amount = dir === 'left' ? -cardWidth * 4 : cardWidth * 4; // Geser 4 kartu
                 carousel.scrollBy({left: amount, behavior: 'smooth'});
+                // Lanjutkan autoscroll setelah interaksi pengguna
+                setTimeout(startAuto, 4000); 
                 // Lanjutkan autoscroll setelah interaksi pengguna
                 setTimeout(startAuto, 4000); 
             }
 
             if(carousel && track){
                 // Menghentikan autoscroll saat mouse masuk (hover)
+                // Menghentikan autoscroll saat mouse masuk (hover)
                 carousel.addEventListener('mouseenter', stopAuto);
                 // Melanjutkan autoscroll saat mouse keluar
                 carousel.addEventListener('mouseleave', function(){ setTimeout(startAuto, 500); }); 
                 
+                // Melanjutkan autoscroll saat mouse keluar
+                carousel.addEventListener('mouseleave', function(){ setTimeout(startAuto, 500); }); 
+                
                 window.addEventListener('resize', updateCardWidth);
+                
+                // Mulai autoscroll saat halaman dimuat
                 
                 // Mulai autoscroll saat halaman dimuat
                 updateCardWidth();
@@ -471,11 +530,15 @@ function scrollDown() {
         <section class="w-full bg-white py-20 md:py-24">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
               
+              <!-- KIRI: TEKS (TANGGAL, JUDUL, DESKRIPSI, AUTHOR, BUTTON) -->
               <!-- KIRI: TEKS (TANGGAL, JUDUL, DESKRIPSI, AUTHOR, BUTTON) -->
               <div class="space-y-6">
                 <!-- TANGGAL (Dipindahkan ke atas judul) -->
+                <!-- TANGGAL (Dipindahkan ke atas judul) -->
                 <?php if ($article): ?>
+                    <div class="inline-block bg-blue-100 text-primary text-xs font-bold px-3 py-1 rounded-full mb-2">
                     <div class="inline-block bg-blue-100 text-primary text-xs font-bold px-3 py-1 rounded-full mb-2">
                         <?php echo date('d F Y', strtotime($article['tanggal'])); ?>
                     </div>
@@ -487,17 +550,26 @@ function scrollDown() {
                 </h2>
 
                 <div class="text-lg text-gray-600 max-w-xl leading-relaxed">
+                <div class="text-lg text-gray-600 max-w-xl leading-relaxed">
                   <?php if ($article): ?>
                     <!-- ISI/RINGKASAN DINAMIS -->
                     <?php echo substr(strip_tags($article['isi']), 0, 300) . (strlen(strip_tags($article['isi'])) > 300 ? '...' : '...'); ?>
                   <?php else: ?>
                     <p>Kami tidak hanya melakukan analisis data, tetapi menghadirkan solusi cerdas berbasis data yang berdampak nyata. Melalui artikel dan prototipe interaktif yang kami kembangkan.</p>
+                    <p>Kami tidak hanya melakukan analisis data, tetapi menghadirkan solusi cerdas berbasis data yang berdampak nyata. Melalui artikel dan prototipe interaktif yang kami kembangkan.</p>
                   <?php endif; ?>
+                </div>
                 </div>
 
                 <!-- Author (Ditempatkan di bawah deskripsi) -->
                 <?php if ($article): ?>
+                <!-- Author (Ditempatkan di bawah deskripsi) -->
+                <?php if ($article): ?>
                 <div class="flex items-center gap-2 text-primary text-sm font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    <span class="text-medium"><?php echo htmlspecialchars($article['nama_admin']); ?></span>
+                </div>
+                <?php endif; ?>
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                     <span class="text-medium"><?php echo htmlspecialchars($article['nama_admin']); ?></span>
                 </div>
@@ -506,15 +578,26 @@ function scrollDown() {
                 <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']) : 'resources/Article.php'; ?>"
                   class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
                   Baca Selengkapnya
+                  Baca Selengkapnya
                 </a>
               </div>
 
               <!-- KANAN: HANYA GAMBAR THUMBNAIL (TANPA TEKS/OVERLAY) -->
               <div class="relative w-full flex justify-center h-full">
+              <!-- KANAN: HANYA GAMBAR THUMBNAIL (TANPA TEKS/OVERLAY) -->
+              <div class="relative w-full flex justify-center h-full">
                 <?php if ($article): ?>
                 <a href="<?php echo htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']); ?>" 
                    class="block group w-full rounded-2xl shadow-xl overflow-hidden bg-gray-100 hover:shadow-2xl transition duration-300 border border-gray-200">
+                   class="block group w-full rounded-2xl shadow-xl overflow-hidden bg-gray-100 hover:shadow-2xl transition duration-300 border border-gray-200">
                   
+                  <!-- Gambar Thumbnail Penuh -->
+                  <img class="w-full h-full object-cover transition duration-500 group-hover:scale-105" 
+                       src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/articles/' . $article['thumbnail']); ?>" 
+                       alt="<?php echo htmlspecialchars($article['judul']); ?>" 
+                       style="min-height: 320px; max-height: 450px;"
+                       onerror="this.onerror=null; this.src='<?php echo BASE_URL; ?>/assets/images/articles/default-article.jpg';"
+                  />
                   <!-- Gambar Thumbnail Penuh -->
                   <img class="w-full h-full object-cover transition duration-500 group-hover:scale-105" 
                        src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/articles/' . $article['thumbnail']); ?>" 
@@ -525,10 +608,12 @@ function scrollDown() {
                 </a>
                 <?php else: ?>
                   <div class="flex items-center justify-center p-8 border border-dashed rounded-xl h-80 w-full bg-gray-50 text-medium">
+                  <div class="flex items-center justify-center p-8 border border-dashed rounded-xl h-80 w-full bg-gray-50 text-medium">
                       Belum ada artikel yang tersedia.
                   </div>
                 <?php endif; ?>
               </div>
+
 
             </div>
           </div>
@@ -568,7 +653,13 @@ function scrollDown() {
 
               <!-- ===================== -->
               <!--     KEGIATAN LIST (DINAMIS)     -->
+              <!--     KEGIATAN LIST (DINAMIS)     -->
               <!-- ===================== -->
+              <div x-show="active === 'activities'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                  <?php 
+                  if (!empty($recentActivities)): 
+                      foreach ($recentActivities as $act):
+                  ?>
               <div x-show="active === 'activities'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                   <?php 
                   if (!empty($recentActivities)): 
@@ -580,7 +671,17 @@ function scrollDown() {
                               onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" 
                               alt="<?php echo htmlspecialchars($act['judul']); ?>" />
                           <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($act['judul']); ?></h3>
+                              src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $act['gambar']); ?>"
+                              onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" 
+                              alt="<?php echo htmlspecialchars($act['judul']); ?>" />
+                          <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($act['judul']); ?></h3>
                       </div>
+                  <?php 
+                      endforeach;
+                  else:
+                      echo '<p class="col-span-3 text-center text-gray-500">Belum ada data kegiatan.</p>';
+                  endif; 
+                  ?>
                   <?php 
                       endforeach;
                   else:
@@ -590,6 +691,7 @@ function scrollDown() {
 
                   <!-- TOMBOL -->
                   <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
+                  <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
                     <a href="galeri/galeriKegiatan.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
                       Lihat Galeri Kegiatan
                     </a>
@@ -598,7 +700,13 @@ function scrollDown() {
 
               <!-- ===================== -->
               <!--     FASILITAS LIST (DINAMIS)   -->
+              <!--     FASILITAS LIST (DINAMIS)   -->
               <!-- ===================== -->
+              <div x-show="active === 'facility'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" style="display: none;">
+                  <?php 
+                  if (!empty($recentFacilities)): 
+                      foreach ($recentFacilities as $fac):
+                  ?>
               <div x-show="active === 'facility'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" style="display: none;">
                   <?php 
                   if (!empty($recentFacilities)): 
@@ -610,7 +718,17 @@ function scrollDown() {
                               onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" 
                               alt="<?php echo htmlspecialchars($fac['judul']); ?>" />
                           <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($fac['judul']); ?></h3>
+                              src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $fac['gambar']); ?>"
+                              onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" 
+                              alt="<?php echo htmlspecialchars($fac['judul']); ?>" />
+                          <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($fac['judul']); ?></h3>
                       </div>
+                  <?php 
+                      endforeach;
+                  else:
+                      echo '<p class="col-span-3 text-center text-gray-500">Belum ada data fasilitas.</p>';
+                  endif; 
+                  ?>
                   <?php 
                       endforeach;
                   else:
@@ -619,6 +737,7 @@ function scrollDown() {
                   ?>
 
                   <!-- TOMBOL -->
+                  <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
                   <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
                     <a href="galeri/fasilitas.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
                       Lihat Galeri Fasilitas
