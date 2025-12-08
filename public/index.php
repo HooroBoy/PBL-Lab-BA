@@ -3,24 +3,27 @@
 $page_title = "Laboratorium Business Analytics";
 
 // --- Ambil Data Site Setting ---
-// Asumsi: File SiteSetting.php ada di path: ../app/models/SiteSetting.php
-// Kita perlu mengimpor file model SiteSetting.php
 require_once __DIR__ . '/../app/models/SiteSetting.php'; 
-// Impor Model Artikel
 require_once __DIR__ . '/../app/models/Artikel.php'; 
+require_once __DIR__ . '/../app/models/Galeri.php';
 
 try {
     $setting = SiteSetting::get();
     // Mengambil HANYA 1 artikel terbaru untuk TEASER homepage
     $latestArticle = Artikel::latest(1); 
-    $article = $latestArticle[0] ?? null; // Ambil artikel pertama (atau null jika tidak ada)
+    $article = $latestArticle[0] ?? null; 
+
+    // --- DATA DINAMIS GALERI ---
+    $recentActivities = Galeri::latest('activity', 6);
+    $recentFacilities = Galeri::latest('facility', 6);
+
 } catch (PDOException $e) {
     $setting = [];
     $article = null;
-    // Optional: Log error atau tampilkan pesan di console jika gagal
+    $recentActivities = [];
+    $recentFacilities = [];
 }
 
-// Gunakan data dari setting, berikan nilai default jika data tidak ada atau gagal dimuat
 $landing_badge = $setting['landing_badge'] ?? 'Business Analytics';
 $landing_title = $setting['landing_title'] ?? 'Laboratorium Business Analytics';
 $landing_description = $setting['landing_description'] ?? 'Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.';
@@ -29,14 +32,11 @@ $landing_hero_image_file = $setting['landing_hero_image'] ?? 'assets/Logo/gedung
 $hero_mascot_image_file = $setting['hero_mascot_image'] ?? 'assets/Logo/Pinguin.png'; 
 $landing_button_link = $setting['landing_button_link'] ?? 'profile/VisiMisi.php';
 
-// Memanggil Header (Navbar, <head>, <body>, <div id="main-content")
 include 'includes/header.php';
 ?>
 
 <style>
-/* --- Kustomisasi Fokus Riset Cards (Untuk index.php) --- */
-/* Card hover: change card background to lab primary and make text readable */
-/* Karena index.php memanggil header, kita bisa menaruh style di sini. */
+/* --- Kustomisasi Fokus Riset Cards --- */
 .research-card.group:hover { background-color: #124874 !important; color: #fff !important; }
 .research-card.group:hover h3, .research-card.group:hover p { color: #fff !important; }
 .research-card.group .group-icon { transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
@@ -73,7 +73,6 @@ include 'includes/header.php';
   left: 0;
   width: 100%;
   height: 100%;
-  /* Mengurangi overlay gelap agar teks lebih jelas */
   background: rgba(0, 0, 0, 0.8); 
 }
 
@@ -124,7 +123,6 @@ include 'includes/header.php';
   }
 }
 
-/* Animasi pinguin */
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);
@@ -151,13 +149,9 @@ include 'includes/header.php';
   }
 }
 
-/* Tambahkan dot/nav style jika dibutuhkan carousel multi-slide */
-
-/* Scroll down button */
 .scroll-down-btn {
     position: absolute;
     left: 50%;
-    /* move button slightly higher to avoid overlapping sticky header */
     bottom: 3.25rem;
     transform: translateX(-50%);
     width: 44px;
@@ -180,39 +174,44 @@ include 'includes/header.php';
 @keyframes bounce { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
 
 /* --- CUSTOM TEAM CAROUSEL STYLES --- */
-/* Menjamin track selalu horizontal dan kartu tidak menyusut */
 .carousel-track { 
     display: flex; 
-    gap: 2rem; 
-    padding: 1rem 2rem; 
+    gap: 1.5rem; /* Gap 6 */
+    padding: 1rem 0; 
     align-items: stretch;
+    /* Menghilangkan overflow dari CSS sebelumnya dan biarkan container di bawah yang mengaturnya */
 }
-/* Menetapkan lebar spesifik pada kartu tim agar tersusun bersampingan */
+
+/* Mengatur lebar kartu agar 4 kartu muat di layar desktop */
 .team-card {
-    width: 15rem; /* w-60 */
+    width: 16rem; /* 256px (w-64) - Lebar yang optimal untuk 4 kartu + gap 1.5rem */
     flex-shrink: 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    background-color: white; 
 }
 .team-card img {
-    height: 15rem; /* h-60, disesuaikan agar lebih proporsional */
+    height: 16rem; /* h-64 agar proporsi 1:1 */
+    object-fit: cover; 
+    width: 100%;
+    border-radius: 12px 12px 0 0; 
+}
+.team-card .image-wrapper {
+    background-color: #f3f4f6;
+    height: 16rem; /* h-64 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Menyembunyikan kontrol panah di mobile */
+@media (max-width: 1024px) {
+    .team-carousel-nav { display: none !important; }
 }
 
 /* --- CUSTOM ARTIKEL STYLES --- */
 .artikel-card-img {
-    height: 18rem; /* Ditinggikan agar terlihat jelas */
+    height: 24rem; 
     object-fit: cover;
-}
-
-/* Penyesuaian layout Artikel */
-.artikel-wrapper {
-    background-color: #f0f8ff; /* Warna latar belakang kartu artikel */
-    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-}
-.artikel-content-wrapper {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
 }
 </style>
 
@@ -224,15 +223,12 @@ include 'includes/header.php';
     <div class="hero-carousel-content">
       <div class="hero-carousel-text">
         <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-white text-xs font-semibold rounded-full border border-gray-300 mb-4">
-          <!-- BADGE DINAMIS -->
           <?php echo htmlspecialchars($landing_badge); ?>
         </span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight md:leading-snug mb-4">
-          <!-- JUDUL DINAMIS -->
           <?php echo htmlspecialchars($landing_title); ?>
         </h1>
         <p class="text-base md:text-lg text-gray-100 leading-relaxed mb-4">
-          <!-- DESKRIPSI DINAMIS -->
           <?php echo nl2br(htmlspecialchars($landing_description)); ?>
         </p>
         <a href="<?php echo htmlspecialchars(BASE_URL . '/' . $landing_button_link); ?>" class="inline-block px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl hover:bg-blue-800 transition duration-300">
@@ -240,13 +236,11 @@ include 'includes/header.php';
         </a>
       </div>
       <div class="hero-carousel-pinguin">
-        <!-- LOGO PENGUIN DINAMIS -->
         <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $hero_mascot_image_file); ?>" alt="Pinguin Mascot"
             onerror="this.onerror=null; this.src='<?php echo BASE_URL; ?>/assets/Logo/Pinguin.png';" />
       </div>
     </div>
   </div>
-    <!-- Scroll down button -->
     <button aria-label="Scroll down" class="scroll-down-btn __bounce" onclick="scrollDown()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
     </button>
@@ -254,45 +248,10 @@ include 'includes/header.php';
 
 <script>
 let currentSlideIndex = 1;
-let autoSlideTimer = null;
-
-function changeSlide(n) {
-  showSlide(currentSlideIndex += n);
-  resetAutoSlide();
-}
-
-function currentSlide(n) {
-  showSlide(currentSlideIndex = n);
-  resetAutoSlide();
-}
-
-function showSlide(n) {
-  let slides = document.querySelectorAll('.hero-carousel-slide');
-  let dots = document.querySelectorAll('.hero-carousel-dot');
-  
-  if (n > slides.length) { currentSlideIndex = 1; }
-  if (n < 1) { currentSlideIndex = slides.length; }
-  
-  slides.forEach(slide => slide.classList.remove('active'));
-  // dots.forEach(dot => dot.classList.remove('active')); // Uncomment if multiple slides
-  
-  slides[currentSlideIndex - 1].classList.add('active');
-  // dots[currentSlideIndex - 1].classList.add('active'); // Uncomment if multiple slides
-}
-
-function resetAutoSlide() {
-  if (autoSlideTimer) clearInterval(autoSlideTimer);
-  // autoSlideTimer = setInterval(() => { changeSlide(1); }, 5000); // Dinonaktifkan karena hanya 1 slide
-}
-
-// Initial state, show first slide
-showSlide(currentSlideIndex);
-
-// Scroll down helper: scroll to the next section after hero
 function scrollDown() {
     const hero = document.querySelector('.hero-carousel');
     if (!hero) return;
-    const nextTop = hero.getBoundingClientRect().height + window.scrollY; // Menggunakan tinggi hero untuk scroll
+    const nextTop = hero.getBoundingClientRect().height + window.scrollY; 
     window.scrollTo({ top: nextTop, behavior: 'smooth' });
 }
 </script>
@@ -381,9 +340,7 @@ function scrollDown() {
                     </a>
                     
                 </div>
-                <!-- END: Fokus Riset Cards -->
                 
-                <!-- START: Explore Our Research Button (Centered) -->
                 <div class="flex justify-center w-full mt-12">
                     <a href="profile/FokusRiset.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
                         Jelajahi Riset Kami
@@ -401,17 +358,17 @@ function scrollDown() {
                 <!-- Team carousel: 9 cards -->
                 <div class="relative w-full">
                     <!-- Left / Right controls -->
-                    <button aria-label="Prev" onclick="teamScroll('left')" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
+                    <button aria-label="Prev" onclick="teamScroll('left')" class="team-carousel-nav absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
                     </button>
-                    <button aria-label="Next" onclick="teamScroll('right')" class="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
+                    <button aria-label="Next" onclick="teamScroll('right')" class="team-carousel-nav absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
                     </button>
 
-                    <div id="teamCarousel" class="py-6 scrollbar-hide" style="scroll-behavior:smooth;">
+                    <div id="teamCarousel" class="py-6 scrollbar-hide overflow-x-scroll" style="scroll-behavior:smooth;">
                         <div class="carousel-track" role="list">
-                                <!-- 9 team cards -->
                                 <?php
+                                    // Data Dosen (9 anggota)
                                     $team = [
                                         ['name'=>'Dr. Rakhmat Arianto, S.ST., M.Kom.','title'=>'Kepala Lab','img'=>'assets/Dosen/Rakhmat-Arianto.jpg'],
                                         ['name'=>'Rokhimatul Wakhidah, S.Pd., M.T.','title'=>'Peneliti','img'=>'assets/Dosen/Rokhimatul-Wakhidah.jpg'],
@@ -424,16 +381,15 @@ function scrollDown() {
                                         ['name'=>'Hendra Pradibta, S.E., M.Sc.','title'=>'Peneliti','img'=>'assets/Dosen/Hendra-Pradibta.jpg']
                                     ];
                                     foreach($team as $i => $member) {
-                                        echo '<div class="w-60 flex-shrink-0 bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between">';
-                                        echo '<div class="h-70 bg-gray-100 flex items-center justify-center">';
+                                        // Menggunakan kelas team-card
+                                        echo '<div class="team-card bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between">';
+                                        echo '<div class="image-wrapper">';
                                         echo '<img src="'.htmlspecialchars($member['img']).'" alt="'.htmlspecialchars($member['name']).'" class="w-full h-full object-cover" onerror="this.onerror=null; this.src=\'https://placehold.co/540x360/EFEFEF/9A9A9A?text=Team\'">';
                                         echo '</div>';
-                                        echo '<div class="p-6 text-center">';
-                                        echo '<h4 class="text-lg font-semibold text-text-dark mb-1">'.htmlspecialchars($member['name']).'</h4>';
-                                        echo '<p class="text-sm text-primary font-medium mb-4">'.htmlspecialchars($member['title']).'</p>';
-                                        echo '<div class="flex items-center justify-center gap-4">';
-                                        echo '</div>';
-                                        echo '</div></div>'; // Ditutup dengan </div>
+                                        echo '<div class="p-4 text-center">'; 
+                                        echo '<h4 class="text-base font-semibold text-text-dark mb-1">'.htmlspecialchars($member['name']).'</h4>'; 
+                                        echo '<p class="text-xs text-primary font-medium mb-4">'.htmlspecialchars($member['title']).'</p>'; 
+                                        echo '</div></div>';
                                     }
                                 ?>
                             </div>
@@ -445,23 +401,27 @@ function scrollDown() {
                         </a>
                     </div>
                 </div>
-            </div>
         </section>
 
+        <!-- SCRIPT TEAM CAROUSEL (Diperbaiki untuk Autoscroll dan 4 Kartu per slide) -->
         <script>
         (function(){
             var carousel = document.getElementById('teamCarousel');
             var track = carousel ? carousel.querySelector('.carousel-track') : null;
-            var autoplayInterval = 2000; // ms
-            var cardWidth = 272; // fallback
+            var autoplayInterval = 2500; // Interval autoscroll (2.5 detik)
+            var cardWidth = 0; 
             var timer = null;
 
             function updateCardWidth(){
                 if(!track) return;
-                var firstCard = track.querySelector('div'); // Menggunakan class team-card
+                var firstCard = track.querySelector('.team-card'); 
                 if(!firstCard) return;
-                var gap = parseFloat(getComputedStyle(track).gap) || 24;
-                cardWidth = Math.round(firstCard.getBoundingClientRect().width + gap);
+                var style = window.getComputedStyle(track);
+                var cardRect = firstCard.getBoundingClientRect();
+                // Mengambil nilai gap dari CSS (1.5rem = 24px)
+                var gap = parseFloat(style.getPropertyValue('gap')) || 24; 
+                // Lebar geser = Lebar Kartu + Gap
+                cardWidth = Math.round(cardRect.width + gap);
             }
 
             function startAuto(){
@@ -469,10 +429,13 @@ function scrollDown() {
                 updateCardWidth();
                 timer = setInterval(function(){
                     if(!carousel) return;
-                    // when reaching end, go back to start
-                    if(carousel.scrollLeft + carousel.clientWidth >= track.scrollWidth - 10){
-                        carousel.scrollTo({left:0, behavior:'smooth'});
+                    
+                    // Cek apakah sudah mencapai ujung (scrollWidth adalah total lebar konten)
+                    if(carousel.scrollLeft + carousel.clientWidth >= track.scrollWidth - 5){
+                        // Kembali ke awal untuk loop, menggunakan instant behavior
+                        carousel.scrollTo({left:0, behavior:'instant'}); 
                     } else {
+                        // Geser satu kartu
                         carousel.scrollBy({left: cardWidth, behavior:'smooth'});
                     }
                 }, autoplayInterval);
@@ -484,19 +447,21 @@ function scrollDown() {
                 stopAuto();
                 updateCardWidth();
                 if(!carousel) return;
-                var amount = dir === 'left' ? -cardWidth : cardWidth;
+                var amount = dir === 'left' ? -cardWidth * 4 : cardWidth * 4; // Geser 4 kartu
                 carousel.scrollBy({left: amount, behavior: 'smooth'});
-                // restart autoplay after interaction
-                setTimeout(startAuto, 2000);
+                // Lanjutkan autoscroll setelah interaksi pengguna
+                setTimeout(startAuto, 4000); 
             }
 
             if(carousel && track){
-                // ensure track width fits its content and allow scroll calculations
+                // Menghentikan autoscroll saat mouse masuk (hover)
                 carousel.addEventListener('mouseenter', stopAuto);
-                carousel.addEventListener('mouseleave', function(){ setTimeout(startAuto, 300); });
-                // recalc sizes on resize
+                // Melanjutkan autoscroll saat mouse keluar
+                carousel.addEventListener('mouseleave', function(){ setTimeout(startAuto, 500); }); 
+                
                 window.addEventListener('resize', updateCardWidth);
-                // initial measurements and start
+                
+                // Mulai autoscroll saat halaman dimuat
                 updateCardWidth();
                 startAuto();
             }
@@ -505,14 +470,13 @@ function scrollDown() {
 
         <section class="w-full bg-white py-20 md:py-24">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
               
-              <!-- KIRI: TEKS (JUDUL DAN RINGKASAN ARTIKEL TERBARU) -->
+              <!-- KIRI: TEKS (TANGGAL, JUDUL, DESKRIPSI, AUTHOR, BUTTON) -->
               <div class="space-y-6">
-                <!-- TANGGAL DI PINDAH DI SINI -->
+                <!-- TANGGAL (Dipindahkan ke atas judul) -->
                 <?php if ($article): ?>
-                    <div class="text-sm font-semibold text-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 inline-block text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <div class="inline-block bg-blue-100 text-primary text-xs font-bold px-3 py-1 rounded-full mb-2">
                         <?php echo date('d F Y', strtotime($article['tanggal'])); ?>
                     </div>
                 <?php endif; ?>
@@ -522,56 +486,50 @@ function scrollDown() {
                   <?php echo $article ? htmlspecialchars($article['judul']) : 'Artikel Terbaru'; ?>
                 </h2>
 
-                <p class="text-lg text-gray-600 max-w-xl leading-relaxed">
+                <div class="text-lg text-gray-600 max-w-xl leading-relaxed">
                   <?php if ($article): ?>
                     <!-- ISI/RINGKASAN DINAMIS -->
                     <?php echo substr(strip_tags($article['isi']), 0, 300) . (strlen(strip_tags($article['isi'])) > 300 ? '...' : '...'); ?>
                   <?php else: ?>
-                    Kami tidak hanya melakukan analisis data, tetapi menghadirkan solusi cerdas berbasis data yang berdampak nyata. Melalui artikel dan prototipe interaktif yang kami kembangkan, Laboratorium Business Analytics menunjukkan bagaimana Business Intelligence dan Business Analytics diterapkan secara end-to-end—mulai dari data mentah, pemodelan analitik, hingga rekomendasi keputusan strategis.
+                    <p>Kami tidak hanya melakukan analisis data, tetapi menghadirkan solusi cerdas berbasis data yang berdampak nyata. Melalui artikel dan prototipe interaktif yang kami kembangkan.</p>
                   <?php endif; ?>
-                </p>
+                </div>
 
+                <!-- Author (Ditempatkan di bawah deskripsi) -->
+                <?php if ($article): ?>
                 <div class="flex items-center gap-2 text-primary text-sm font-medium">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-    </svg>
-    
-    <span class="text-medium">
-        <?php 
-            // Karena di query namanya adalah 'nama', panggil langsung:
-            echo htmlspecialchars($article['nama'] ?? 'Tim Lab BA'); 
-        ?>
-    </span>
-</div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    <span class="text-medium"><?php echo htmlspecialchars($article['nama_admin']); ?></span>
+                </div>
+                <?php endif; ?>
 
                 <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']) : 'resources/Article.php'; ?>"
                   class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
-                  <?php echo $article ? 'Baca Selengkapnya' : 'Pelajari Semua Artikel'; ?>
+                  Baca Selengkapnya
                 </a>
               </div>
 
-              <!-- KANAN: HANYA GAMBAR THUMBNAIL ARTIKEL TERBARU -->
-              <div class="relative w-full flex justify-center">
+              <!-- KANAN: HANYA GAMBAR THUMBNAIL (TANPA TEKS/OVERLAY) -->
+              <div class="relative w-full flex justify-center h-full">
                 <?php if ($article): ?>
                 <a href="<?php echo htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']); ?>" 
-                   class="block group w-full max-w-xs rounded-xl shadow-2xl overflow-hidden bg-white hover:shadow-primary transition duration-300 border border-gray-200">
+                   class="block group w-full rounded-2xl shadow-xl overflow-hidden bg-gray-100 hover:shadow-2xl transition duration-300 border border-gray-200">
                   
-                  <!-- Gambar Thumbnail Saja -->
-                  <div class="relative overflow-hidden">
-                      <img class="w-full h-96 object-cover transition duration-300 group-hover:scale-105" 
-                           src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/articles/' . $article['thumbnail']); ?>" 
-                           alt="<?php echo htmlspecialchars($article['judul']); ?>" 
-                           onerror="this.onerror=null; this.src='<?php echo BASE_URL; ?>/assets/images/articles/default-article.jpg';"
-                      />
-                  </div>
+                  <!-- Gambar Thumbnail Penuh -->
+                  <img class="w-full h-full object-cover transition duration-500 group-hover:scale-105" 
+                       src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/articles/' . $article['thumbnail']); ?>" 
+                       alt="<?php echo htmlspecialchars($article['judul']); ?>" 
+                       style="min-height: 320px; max-height: 450px;"
+                       onerror="this.onerror=null; this.src='<?php echo BASE_URL; ?>/assets/images/articles/default-article.jpg';"
+                  />
                 </a>
                 <?php else: ?>
-                  <div class="flex items-center justify-center p-8 border border-dashed rounded-xl h-96 w-full max-w-xs text-medium">
+                  <div class="flex items-center justify-center p-8 border border-dashed rounded-xl h-80 w-full bg-gray-50 text-medium">
                       Belum ada artikel yang tersedia.
                   </div>
                 <?php endif; ?>
-
               </div>
+
             </div>
           </div>
         </section>
