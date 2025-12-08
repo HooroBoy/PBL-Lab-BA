@@ -74,7 +74,7 @@ include 'includes/header.php';
   width: 100%;
   height: 100%;
   /* Mengurangi overlay gelap agar teks lebih jelas */
-  background: rgba(0, 0, 0, 0.5); 
+  background: rgba(0, 0, 0, 0.8); 
 }
 
 .hero-carousel-content {
