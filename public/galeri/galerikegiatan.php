@@ -89,6 +89,12 @@ try {
             <p class="text-center text-lg text-medium">Belum ada kegiatan yang tersedia saat ini.</p>
         <?php endif; ?>
     </div>
+    
+    <div class="flex justify-center mt-8">
+        <a href="../index.php" class="px-5 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+            Kembali ke Beranda
+        </a>
+    </div>
 </div>
 
 <?php

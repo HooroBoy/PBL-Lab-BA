@@ -2,7 +2,7 @@
     require_once __DIR__ . 'config.php';
 } ?>
 <footer class="w-full bg-primary py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white space-y-16">
+    <div class="max-w-7xl mx-auto px-8 sm:px-6 lg:px-8 text-white space-y-16">
 
         <div class="flex flex-col lg:flex-row justify-between items-start space-y-10 lg:space-y-0">
 
@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 lg:gap-16 text-sm font-light">
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-8 lg:gap-6 text-sm font-light">
 
                 <div class="space-y-3">
                     <h4 class="text-base font-semibold mb-2">Beranda</h4>
@@ -82,6 +82,9 @@
                 &copy; <?php echo date("Y"); ?> Laboratorium Business Analytics. Semua hak dilindungi.
             </p>
             <div class="flex space-x-3">
+                        <a href="https://www.linkedin.com/jtipolinema" class="w-10 h-10 flex items-center justify-center bg-transparent rounded-full text-white hover:bg-white/10 transition duration-200">
+                             <img src="<?php echo BASE_URL; ?>../assets/Logo/linkedin.png" alt="Linkedin Icon" class="w-5 h-5"
+                                  onerror="this.onerror=null; this.src='https://placehold.co/20x20/FFFFFF/124874?text=LI';" />
                         <a href="https://www.instagram.com/jtipolinema/" class="w-10 h-10 flex items-center justify-center bg-transparent rounded-full text-white hover:bg-white/10 transition duration-200">
                              <img src="<?php echo BASE_URL; ?>../assets/Logo/Instagram.png" alt="Instagram Icon" class="w-5 h-5"
                                   onerror="this.onerror=null; this.src='https://placehold.co/20x20/FFFFFF/124874?text=IG';" />

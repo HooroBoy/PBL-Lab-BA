@@ -88,7 +88,7 @@ try {
                                         d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                                 </svg>
                                 <!-- Karena tabel artikel tidak memiliki kolom 'author' dan hanya 'admin_id', kita tampilkan ID atau nama admin jika tersedia. Di sini menggunakan placeholder 'Admin ID: X' -->
-                                <span>Admin ID: <?php echo htmlspecialchars($article['admin_id']); ?></span>
+                                <span>Author: <?php echo htmlspecialchars($article['username']); ?></span>
                             </div>
 
                             <!-- Link Read More -->
@@ -109,6 +109,11 @@ try {
             <p class="text-center text-lg text-medium">Belum ada artikel yang tersedia saat ini.</p>
         <?php endif; ?>
 
+    </div>
+    <div class="flex justify-center mt-8">
+        <a href="../index.php" class="px-5 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+            Kembali ke Beranda
+        </a>
     </div>
 </div>
 
