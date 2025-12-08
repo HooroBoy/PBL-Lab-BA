@@ -1,6 +1,37 @@
 <?php
 // Set Judul Halaman
 $page_title = "Laboratorium Business Analytics";
+
+// --- Ambil Data Site Setting ---
+// Asumsi: File SiteSetting.php ada di path: ../app/models/SiteSetting.php
+// Kita perlu mengimpor file model SiteSetting.php
+// Saya akan menggunakan path relatif yang benar dari root project.
+require_once __DIR__ . '/../app/models/SiteSetting.php'; 
+
+try {
+    $setting = SiteSetting::get();
+} catch (PDOException $e) {
+    // Set array kosong jika database gagal diakses
+    // Anda mungkin perlu memastikan file database.php di-include di SiteSetting.php
+    $setting = [];
+}
+
+// Gunakan data dari setting, berikan nilai default jika data tidak ada atau gagal dimuat
+$landing_badge = $setting['landing_badge'] ?? 'Business Analytics';
+$landing_title = $setting['landing_title'] ?? 'Laboratorium Business Analytics';
+$landing_description = $setting['landing_description'] ?? 'Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.';
+
+// Gambar Latar Belakang Hero (digunakan untuk style background)
+// Kolom 'landing_hero_image' diasumsikan menyimpan path ke gambar latar.
+$landing_hero_image_file = $setting['landing_hero_image'] ?? 'assets/Logo/gedung.png';
+
+// Gambar Maskot Penguin: Saya asumsikan ada kolom 'hero_mascot_image' di DB.
+// Jika kolom tidak ada, akan menggunakan nilai default statis.
+$hero_mascot_image_file = $setting['hero_mascot_image'] ?? 'assets/Logo/Pinguin.png'; 
+
+// Link Tombol (Asumsi kolom di DB: 'landing_button_link')
+$landing_button_link = $setting['landing_button_link'] ?? 'profile/VisiMisi.php';
+
 // Memanggil Header (Navbar, <head>, <body>, <div id="main-content")
 include 'includes/header.php';
 ?>
@@ -45,7 +76,8 @@ include 'includes/header.php';
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  /* Mengurangi overlay gelap agar teks lebih jelas */
+  background: rgba(0, 0, 0, 0.5); 
 }
 
 .hero-carousel-content {
@@ -53,11 +85,15 @@ include 'includes/header.php';
   z-index: 10;
   width: 100%;
   height: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 4rem 1rem;
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: white;
-  padding: 2rem 3rem;
   gap: 3rem;
 }
 
@@ -118,62 +154,7 @@ include 'includes/header.php';
   }
 }
 
-.hero-carousel-controls {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 0.5rem;
-  z-index: 20;
-}
-
-.hero-carousel-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.hero-carousel-dot.active {
-  background-color: rgba(255, 255, 255, 1);
-}
-
-.hero-carousel-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 20;
-  background-color: rgba(255, 255, 255, 0.2);
-  hover:background-color = rgba(255, 255, 255, 0.4);
-  border: none;
-  color: white;
-  font-size: 2rem;
-  padding: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.hero-carousel-nav:hover {
-  background-color: rgba(255, 255, 255, 0.4);
-}
-
-.hero-carousel-nav.prev {
-  left: 1rem;
-}
-
-.hero-carousel-nav.next {
-  right: 1rem;
-}
-
-/* Team carousel: show 1/2/3 cards responsively, hide native scrollbar */
-#teamCarousel { overflow: hidden; }
-.carousel-track { display: flex; gap: 2rem; padding: 1rem 2rem; align-items: stretch; }
-.carousel-track > a { flex: 0 0 320px; max-width: 320px; }
-.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-.scrollbar-hide::-webkit-scrollbar { display: none; }
+/* Tambahkan dot/nav style jika dibutuhkan carousel multi-slide */
 
 /* Scroll down button */
 .scroll-down-btn {
@@ -204,25 +185,31 @@ include 'includes/header.php';
 
 <!-- Hero Carousel Section -->
 <section class="hero-carousel" style="min-height: 90vh;">
-  <!-- Slide 1: Laboratorium Business Analytics (with Penguin) -->
-  <div class="hero-carousel-slide active" style="background-image: url('assets/Logo/gedung.png'); background-color: #1a1a1a;">
+  <!-- Slide 1: Dinamis dari SiteSetting -->
+  <div class="hero-carousel-slide active" 
+       style="background-image: url('<?php echo htmlspecialchars(BASE_URL . '/' . $landing_hero_image_file); ?>'); background-color: #1a1a1a;">
     <div class="hero-carousel-content">
       <div class="hero-carousel-text">
         <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-white text-xs font-semibold rounded-full border border-gray-300 mb-4">
-          Business Analytics
+          <!-- BADGE DINAMIS -->
+          <?php echo htmlspecialchars($landing_badge); ?>
         </span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight md:leading-snug mb-4">
-          Laboratorium Business Analytics
+          <!-- JUDUL DINAMIS -->
+          <?php echo htmlspecialchars($landing_title); ?>
         </h1>
         <p class="text-base md:text-lg text-gray-100 leading-relaxed mb-4">
-          Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.
+          <!-- DESKRIPSI DINAMIS -->
+          <?php echo nl2br(htmlspecialchars($landing_description)); ?>
         </p>
-        <a href="profile/VisiMisi.php" class="inline-block px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl hover:bg-blue-800 transition duration-300">
+        <a href="<?php echo htmlspecialchars(BASE_URL . '/' . $landing_button_link); ?>" class="inline-block px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl hover:bg-blue-800 transition duration-300">
           Pelajari Selengkapnya
         </a>
       </div>
       <div class="hero-carousel-pinguin">
-        <img src="assets/Logo/Pinguin.png" alt="Pinguin Mascot" />
+        <!-- LOGO PENGUIN DINAMIS -->
+        <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $hero_mascot_image_file); ?>" alt="Pinguin Mascot"
+            onerror="this.onerror=null; this.src='<?php echo BASE_URL; ?>/assets/Logo/Pinguin.png';" />
       </div>
     </div>
   </div>
@@ -254,27 +241,25 @@ function showSlide(n) {
   if (n < 1) { currentSlideIndex = slides.length; }
   
   slides.forEach(slide => slide.classList.remove('active'));
-  dots.forEach(dot => dot.classList.remove('active'));
+  // dots.forEach(dot => dot.classList.remove('active')); // Uncomment if multiple slides
   
   slides[currentSlideIndex - 1].classList.add('active');
-  dots[currentSlideIndex - 1].classList.add('active');
+  // dots[currentSlideIndex - 1].classList.add('active'); // Uncomment if multiple slides
 }
 
 function resetAutoSlide() {
   if (autoSlideTimer) clearInterval(autoSlideTimer);
-  autoSlideTimer = setInterval(() => {
-    changeSlide(1);
-  }, 5000);
+  // autoSlideTimer = setInterval(() => { changeSlide(1); }, 5000); // Dinonaktifkan karena hanya 1 slide
 }
 
-// Auto-advance slides every 5 seconds
-resetAutoSlide();
+// Initial state, show first slide
+showSlide(currentSlideIndex);
 
 // Scroll down helper: scroll to the next section after hero
 function scrollDown() {
     const hero = document.querySelector('.hero-carousel');
     if (!hero) return;
-    const nextTop = hero.getBoundingClientRect().bottom + window.scrollY;
+    const nextTop = hero.getBoundingClientRect().height + window.scrollY; // Menggunakan tinggi hero untuk scroll
     window.scrollTo({ top: nextTop, behavior: 'smooth' });
 }
 </script>

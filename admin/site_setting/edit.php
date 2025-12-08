@@ -107,18 +107,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 </div>
                                             <?php endif; ?>
                                         </div>
-                                        <div class="mb-3 text-end">
-                                            <button type="submit" class="btn btn-primary">Simpan Landing Page</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card Footer Setting -->
-                        <div class="col-12">
-                            <div class="card shadow-sm mb-4 w-100">
-                                <div class="card-body">
-                                    <form method="post">
                                         <h5 class="mb-3">Footer</h5>
                                         <div class="mb-3">
                                             <label class="form-label">Footer Box Title</label>
@@ -153,12 +141,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <input type="text" name="footer_copyright_text" class="form-control" value="<?php echo htmlspecialchars($setting['footer_copyright_text']); ?>">
                                         </div>
                                         <div class="mb-3 text-end">
-                                            <button type="submit" class="btn btn-primary">Simpan Footer</button>
+                                            <button type="submit" class="btn btn-primary">Simpan Semua Setting</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
+                        <!-- Card Footer Setting sudah digabung ke form di atas -->
                                     </form>
                                 </div>
                             </div>
