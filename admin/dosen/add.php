@@ -2,7 +2,7 @@
 session_start();
 $title = 'Tambah Dosen';
 include "../../public/layouts-admin/header-admin.php";
-include "../../app/models/Dosen.php";
+include "../../app/models/Dosencontroller.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $foto = '';

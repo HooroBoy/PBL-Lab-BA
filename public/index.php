@@ -5,15 +5,19 @@ $page_title = "Laboratorium Business Analytics";
 // --- Ambil Data Site Setting ---
 // Asumsi: File SiteSetting.php ada di path: ../app/models/SiteSetting.php
 // Kita perlu mengimpor file model SiteSetting.php
-// Saya akan menggunakan path relatif yang benar dari root project.
 require_once __DIR__ . '/../app/models/SiteSetting.php'; 
+// Impor Model Artikel
+require_once __DIR__ . '/../app/models/Artikel.php'; 
 
 try {
     $setting = SiteSetting::get();
+    // Mengambil HANYA 1 artikel terbaru untuk TEASER homepage
+    $latestArticle = Artikel::latest(1); 
+    $article = $latestArticle[0] ?? null; // Ambil artikel pertama (atau null jika tidak ada)
 } catch (PDOException $e) {
-    // Set array kosong jika database gagal diakses
-    // Anda mungkin perlu memastikan file database.php di-include di SiteSetting.php
     $setting = [];
+    $article = null;
+    // Optional: Log error atau tampilkan pesan di console jika gagal
 }
 
 // Gunakan data dari setting, berikan nilai default jika data tidak ada atau gagal dimuat
@@ -21,15 +25,8 @@ $landing_badge = $setting['landing_badge'] ?? 'Business Analytics';
 $landing_title = $setting['landing_title'] ?? 'Laboratorium Business Analytics';
 $landing_description = $setting['landing_description'] ?? 'Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.';
 
-// Gambar Latar Belakang Hero (digunakan untuk style background)
-// Kolom 'landing_hero_image' diasumsikan menyimpan path ke gambar latar.
 $landing_hero_image_file = $setting['landing_hero_image'] ?? 'assets/Logo/gedung.png';
-
-// Gambar Maskot Penguin: Saya asumsikan ada kolom 'hero_mascot_image' di DB.
-// Jika kolom tidak ada, akan menggunakan nilai default statis.
 $hero_mascot_image_file = $setting['hero_mascot_image'] ?? 'assets/Logo/Pinguin.png'; 
-
-// Link Tombol (Asumsi kolom di DB: 'landing_button_link')
 $landing_button_link = $setting['landing_button_link'] ?? 'profile/VisiMisi.php';
 
 // Memanggil Header (Navbar, <head>, <body>, <div id="main-content")
@@ -180,7 +177,30 @@ include 'includes/header.php';
 .scroll-down-btn svg { opacity: 0.95; }
 
 .scroll-down-btn.__bounce { animation: bounce 1.8s infinite; }
-@keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-6px); } }
+@keyframes bounce { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
+
+/* --- CUSTOM TEAM CAROUSEL STYLES --- */
+/* Menjamin track selalu horizontal dan kartu tidak menyusut */
+.carousel-track { 
+    display: flex; 
+    gap: 2rem; 
+    padding: 1rem 2rem; 
+    align-items: stretch;
+}
+/* Menetapkan lebar spesifik pada kartu tim agar tersusun bersampingan */
+.team-card {
+    width: 15rem; /* w-60 */
+    flex-shrink: 0;
+}
+.team-card img {
+    height: 15rem; /* h-60, disesuaikan agar lebih proporsional */
+}
+
+/* --- CUSTOM ARTIKEL SLIDER STYLES (Dihapus karena sudah tidak karusel) --- */
+.artikel-card-img {
+    height: 12rem; /* Tinggi gambar kartu artikel */
+    object-fit: cover;
+}
 </style>
 
 <!-- Hero Carousel Section -->
@@ -425,7 +445,7 @@ function scrollDown() {
 
             function updateCardWidth(){
                 if(!track) return;
-                var firstCard = track.querySelector('div'); // Diubah dari 'a' ke 'div'
+                var firstCard = track.querySelector('div'); // Menggunakan class team-card
                 if(!firstCard) return;
                 var gap = parseFloat(getComputedStyle(track).gap) || 24;
                 cardWidth = Math.round(firstCard.getBoundingClientRect().width + gap);
@@ -474,100 +494,73 @@ function scrollDown() {
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               
-              <!-- KIRI: TEKS -->
+              <!-- KIRI: TEKS (JUDUL DAN RINGKASAN ARTIKEL TERBARU) -->
               <div class="space-y-6">
                 <h2 class="text-4xl md:text-5xl font-bold text-text-dark">
-                  Artikel
+                  <!-- JUDUL DINAMIS -->
+                  <?php echo $article ? htmlspecialchars($article['judul']) : 'Artikel Terbaru'; ?>
                 </h2>
 
                 <p class="text-lg text-gray-600 max-w-xl leading-relaxed">
-                  Kami tidak hanya melakukan analisis data, tetapi menghadirkan 
-                  solusi cerdas berbasis data yang berdampak nyata.
-                  Melalui artikel dan prototipe interaktif yang kami kembangkan,
-                  <span class="font-bold">Laboratorium Business Analytics</span> menunjukkan bagaimana 
-                  <em>Business Intelligence</em> dan <em>Business Analytics</em> diterapkan secara 
-                  <em>end-to-end</em>—mulai dari data mentah, pemodelan analitik, hingga rekomendasi keputusan strategis.
+                  <?php if ($article): ?>
+                    <!-- ISI/RINGKASAN DINAMIS -->
+                    <?php echo substr(strip_tags($article['isi']), 0, 300) . (strlen(strip_tags($article['isi'])) > 300 ? '...' : '...'); ?>
+                  <?php else: ?>
+                    Kami tidak hanya melakukan analisis data, tetapi menghadirkan solusi cerdas berbasis data yang berdampak nyata. Melalui artikel dan prototipe interaktif yang kami kembangkan, Laboratorium Business Analytics menunjukkan bagaimana Business Intelligence dan Business Analytics diterapkan secara end-to-end—mulai dari data mentah, pemodelan analitik, hingga rekomendasi keputusan strategis.
+                  <?php endif; ?>
                 </p>
 
-                <a href="artikel/artikel.php"
+                <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']) : 'resources/Article.php'; ?>"
                   class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
-                  Pelajari Artikel
+                  <?php echo $article ? 'Baca Selengkapnya' : 'Pelajari Semua Artikel'; ?>
                 </a>
               </div>
 
-              <!-- KANAN: SLIDER ARTIKEL -->
-              <div class="relative max-w-md mx-auto">
-
-                <!-- TOMBOL KIRI -->
-                <button onclick="slideLeft()"
-                  class="absolute -left-12 top-1/2 -translate-y-1/2 z-10
-                        bg-blue shadow-md rounded-full w-10 h-10
-                        flex items-center justify-center hover:bg-blue-100">
-                  &#8249;
-                </button>
-
-                <!-- TOMBOL KANAN -->
-                <button onclick="slideRight()"
-                  class="absolute -right-12 top-1/2 -translate-y-1/2 z-10
-                        bg-white shadow-md rounded-full w-10 h-10
-                        flex items-center justify-center hover:bg-blue-100">
-                  &#8250;
-                </button>
-
-                <!-- CONTAINER SLIDER -->
-                <div id="artikelSlider"
-                    class="flex overflow-x-auto scroll-smooth no-scrollbar">
-
-                  <!-- === CARD ARTIKEL (KODE ANDA) === -->
-                  <div class="min-w-full relative rounded-2xl bg-white shadow-xl overflow-hidden">
-
-                    <!-- Badge Fitur -->
-                    <span class="absolute -top-4 left-6 bg-white text-primary text-sm font-semibold px-4 py-1 rounded-full shadow">
-                      Fitur Utama
-                    </span>
-
-                    <!-- Header Card -->
-                    <div class="relative bg-blue-50 h-44 flex items-center justify-center">
-
-                      <!-- Tanggal -->
-                      <span class="absolute top-4 right-4 bg-primary text-white text-sm font-semibold px-4 py-1 rounded-full shadow">
-                        25 November 2025
+              <!-- KANAN: KARTU ARTIKEL TERBARU (Dinamis) -->
+              <div class="relative w-full flex justify-center">
+                <?php if ($article): ?>
+                <a href="<?php echo htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']); ?>" 
+                   class="block group w-full max-w-xs rounded-xl shadow-2xl overflow-hidden bg-white hover:shadow-primary transition duration-300 border border-gray-200">
+                  
+                  <!-- Gambar Teaser -->
+                  <div class="relative overflow-hidden">
+                      <img class="w-full artikel-card-img transition duration-300 group-hover:scale-105" 
+                           src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/articles/' . $article['thumbnail']); ?>" 
+                           alt="<?php echo htmlspecialchars($article['judul']); ?>" 
+                           onerror="this.onerror=null; this.src='<?php echo BASE_URL; ?>/assets/images/articles/default-article.jpg';"
+                      />
+                      <!-- Tanggal di Kanan Atas -->
+                      <span class="absolute top-4 right-4 bg-primary text-white text-xs font-semibold px-4 py-1 rounded-full shadow-md">
+                          <?php echo date('d F Y', strtotime($article['tanggal'])); ?>
                       </span>
+                  </div>
 
-                      <!-- Kategori -->
-                      <h3 class="text-xl font-semibold text-primary text-center px-6">
-                        Artikel AI di Bidang Pendidikan
+                  <!-- Body Card -->
+                  <div class="p-6 space-y-3">
+                      <h3 class="text-xl font-bold text-text-dark group-hover:text-primary transition duration-150">
+                          <?php echo htmlspecialchars($article['judul']); ?>
                       </h3>
-                    </div>
-
-                    <!-- Body Card -->
-                    <div class="p-6 space-y-4">
-                      <h4 class="text-2xl font-bold text-gray-900">
-                        AI di Bidang Pendidikan
-                      </h4>
-
-                      <p class="text-gray-600 leading-relaxed">
-                        Eksplorasi penggunaan kecerdasan buatan dalam pembelajaran
-                        yang dipersonalisasi dan adaptif.
-                      </p>
-
+                      
                       <!-- Author -->
                       <div class="flex items-center gap-2 text-primary text-sm font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Dr. Bima Sakti
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                          <span class="text-medium group-hover:text-primary transition duration-150"><?php echo htmlspecialchars($article['nama_admin']); ?></span>
                       </div>
-
-                      <!-- Link -->
-                      <a href="#" class="inline-flex items-center gap-1 text-primary font-semibold hover:underline">
-                        Baca Selengkapnya
-                      </a>
-                    </div>
                   </div>
+
+                  <!-- Link Read More (Footer Card) -->
+                  <div class="p-6 pt-0">
+                      <span class="inline-flex items-center gap-1 text-primary font-semibold hover:underline">
+                          Baca Selengkapnya
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                      </span>
+                  </div>
+                </a>
+                <?php else: ?>
+                  <div class="flex items-center justify-center p-8 border border-dashed rounded-xl h-96 w-full max-w-xs text-medium">
+                      Belum ada artikel yang tersedia.
+                  </div>
+                <?php endif; ?>
 
               </div>
             </div>

@@ -113,4 +113,25 @@ public static function all()
         $stmt = $pdo->prepare('DELETE FROM artikel WHERE id=?');
         $stmt->execute([$id]);
     }
+
+    // Menampilkan artikel terbaru dengan limit tertentu
+    public static function latest($limit = 1) {
+        global $pdo;
+        
+        // Pastikan limit adalah integer
+        $limit = (int) $limit;
+
+        // Query: Ambil data, urutkan dari yang terbaru (created_at DESC), batasi jumlahnya
+        $sql = "SELECT * FROM artikel ORDER BY created_at DESC LIMIT :limit";
+        
+        $stmt = $pdo->prepare($sql);
+        
+        // PENTING: Untuk LIMIT di PDO, gunakan bindValue dengan PARAM_INT
+        // Jika menggunakan execute(['limit' => $limit]) seringkali error karena dianggap string
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
