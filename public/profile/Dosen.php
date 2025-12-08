@@ -62,28 +62,35 @@ include '../includes/header.php';
 ?>
 
 <section class="w-full bg-white pt-12 pb-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <h1 class="text-3xl font-extrabold text-text-dark mb-8">Daftar Dosen</h1>
 
-    <?php if (!empty($dosenList)): ?>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <?php if (!empty($dosenList)): ?>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <?php foreach ($dosenList as $d):
-        // Menggunakan kolom 'foto' dari database untuk path gambar
+       // Menggunakan kolom 'foto' dari database untuk path gambar
+        // Perbaiki asumsi kolom ID. Asumsi 'id' adalah kunci untuk LihatDosen.php
+        $dosen_id = $d['id'] ?? $d['nidn']; 
         $img = dosen_image_or_placeholder($d['foto'] ?? '');
       ?>
-        <!-- Setiap kartu dosen kini menggunakan data dari database -->
-        <a href="LihatDosen.php?id=<?php echo urlencode($d['id']); ?>" class="block bg-white rounded-2xl p-4 shadow-gray hover:shadow-md transition">
+                <a href="LihatDosen.php?id=<?php echo urlencode($dosen_id); ?>" class="group block bg-white rounded-2xl p-4 shadow-gray hover:shadow-xl transition relative overflow-hidden">
           <div class="flex flex-col items-center text-center">
-            <div class="w-40 h-40 rounded-lg overflow-hidden mb-4">
+            <div class="w-40 h-40 rounded-lg overflow-hidden mb-4 relative z-10">
               <img src="<?php echo $img; ?>" alt="<?php echo htmlspecialchars($d['nama']); ?>" class="w-full h-full object-cover" 
                    onerror="this.onerror=null; this.src='<?php echo dosen_image_or_placeholder('default'); ?>';" />
             </div>
-            <h3 class="text-lg font-semibold text-text-dark mb-1"><?php echo htmlspecialchars($d['nama']); ?></h3>
-            <div class="text-sm text-medium">NIDN: <?php echo htmlspecialchars($d['nidn'] ?? '-'); ?></div>
-            <div class="text-sm text-medium mt-1"><?php echo htmlspecialchars($d['program_studi'] ?? 'Tenaga Pengajar'); ?></div>
+            <h3 class="text-lg font-semibold text-text-dark mb-1 relative z-10"><?php echo htmlspecialchars($d['nama']); ?></h3>
+            <div class="text-sm text-medium relative z-10">NIDN: <?php echo htmlspecialchars($d['nidn'] ?? '-'); ?></div>
+            <div class="text-sm text-medium mt-1 relative z-10"><?php echo htmlspecialchars($d['program_studi'] ?? 'Tenaga Pengajar'); ?></div>
+          </div>
+
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center z-20">
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4 py-2 bg-white text-primary font-bold rounded-full shadow-lg text-sm">
+              View Profile
+            </span>
           </div>
         </a>
-      <?php endforeach; ?>
+              <?php endforeach; ?>
     </div>
     <?php else: ?>
     <p class="text-center text-lg text-medium py-10">Data dosen tidak ditemukan atau gagal dimuat dari database.</p>

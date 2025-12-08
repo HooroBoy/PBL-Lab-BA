@@ -70,13 +70,18 @@ try {
                                 <?php echo htmlspecialchars($activity['deskripsi']); ?>
                             </p>
 
+
                             <div class="flex items-center text-sm font-medium text-primary pt-2">
-                                <!-- Lokasi Icon (Menggunakan tags untuk simulasi lokasi jika tidak ada kolom lokasi) -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24"
-                                    fill="currentColor">
-                                    <path
-                                        d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                                </svg>
+                                <?php
+                                $kategori = strtolower($activity['kategori']);
+                                if ($kategori === 'activity' || $kategori === 'aktivitas') {
+                                    // Icon event/aktivitas
+                                    echo '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>';
+                                } else {
+                                    // Icon fasilitas/building
+                                    echo '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-2a4 4 0 014-4h10a4 4 0 014 4v2M16 3.13a4 4 0 01.94 7.76M12 7v4m0 0v4m0-4h4m-4 0H8" /></svg>';
+                                }
+                                ?>
                                 <span><?php echo "Kategori: " . htmlspecialchars($activity['kategori']); ?></span>
                             </div>
 
