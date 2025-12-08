@@ -16,11 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] == UPLOAD_ERR_OK) {
         $fileName = time() . '_' . basename($_FILES['thumbnail']['name']);
-        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/PBL-Lab-BA/public/uploads';
+        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/PBL-Lab-BA/public/assets/artikel';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-        $thumbnail = '/PBL-Lab-BA/public/uploads/' . $fileName;
+        $thumbnail = 'assets/artikel/' . $fileName;
         $targetFile = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
         if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $targetFile)) {
             // $thumbnail sudah path relatif dari root web
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <div class="mb-3">
                                             <label class="form-label">Judul <span class="text-danger">*</span></label>
                                             <input type="text" name="judul" class="form-control" value="<?php echo htmlspecialchars($artikl['judul']); ?>" required>
-                                            <input type="hidden" name="admin_id" value="<?= $_SESSION['user_id'] ?>">
+                                            <input type="hidden" name="admin_id" value="<?php echo isset($_SESSION['user_id']) ? htmlspecialchars($_SESSION['user_id']) : ''; ?>">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Isi</label>

@@ -196,10 +196,23 @@ include 'includes/header.php';
     height: 15rem; /* h-60, disesuaikan agar lebih proporsional */
 }
 
-/* --- CUSTOM ARTIKEL SLIDER STYLES (Dihapus karena sudah tidak karusel) --- */
+/* --- CUSTOM ARTIKEL STYLES --- */
 .artikel-card-img {
-    height: 12rem; /* Tinggi gambar kartu artikel */
+    height: 18rem; /* Ditinggikan agar terlihat jelas */
     object-fit: cover;
+}
+
+/* Penyesuaian layout Artikel */
+.artikel-wrapper {
+    background-color: #f0f8ff; /* Warna latar belakang kartu artikel */
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+.artikel-content-wrapper {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 </style>
 
@@ -496,6 +509,14 @@ function scrollDown() {
               
               <!-- KIRI: TEKS (JUDUL DAN RINGKASAN ARTIKEL TERBARU) -->
               <div class="space-y-6">
+                <!-- TANGGAL DI PINDAH DI SINI -->
+                <?php if ($article): ?>
+                    <div class="text-sm font-semibold text-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 inline-block text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <?php echo date('d F Y', strtotime($article['tanggal'])); ?>
+                    </div>
+                <?php endif; ?>
+
                 <h2 class="text-4xl md:text-5xl font-bold text-text-dark">
                   <!-- JUDUL DINAMIS -->
                   <?php echo $article ? htmlspecialchars($article['judul']) : 'Artikel Terbaru'; ?>
@@ -510,50 +531,38 @@ function scrollDown() {
                   <?php endif; ?>
                 </p>
 
+                <div class="flex items-center gap-2 text-primary text-sm font-medium">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+    </svg>
+    
+    <span class="text-medium">
+        <?php 
+            // Karena di query namanya adalah 'nama', panggil langsung:
+            echo htmlspecialchars($article['nama'] ?? 'Tim Lab BA'); 
+        ?>
+    </span>
+</div>
+
                 <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']) : 'resources/Article.php'; ?>"
                   class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
                   <?php echo $article ? 'Baca Selengkapnya' : 'Pelajari Semua Artikel'; ?>
                 </a>
               </div>
 
-              <!-- KANAN: KARTU ARTIKEL TERBARU (Dinamis) -->
+              <!-- KANAN: HANYA GAMBAR THUMBNAIL ARTIKEL TERBARU -->
               <div class="relative w-full flex justify-center">
                 <?php if ($article): ?>
                 <a href="<?php echo htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']); ?>" 
                    class="block group w-full max-w-xs rounded-xl shadow-2xl overflow-hidden bg-white hover:shadow-primary transition duration-300 border border-gray-200">
                   
-                  <!-- Gambar Teaser -->
+                  <!-- Gambar Thumbnail Saja -->
                   <div class="relative overflow-hidden">
-                      <img class="w-full artikel-card-img transition duration-300 group-hover:scale-105" 
+                      <img class="w-full h-96 object-cover transition duration-300 group-hover:scale-105" 
                            src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/articles/' . $article['thumbnail']); ?>" 
                            alt="<?php echo htmlspecialchars($article['judul']); ?>" 
                            onerror="this.onerror=null; this.src='<?php echo BASE_URL; ?>/assets/images/articles/default-article.jpg';"
                       />
-                      <!-- Tanggal di Kanan Atas -->
-                      <span class="absolute top-4 right-4 bg-primary text-white text-xs font-semibold px-4 py-1 rounded-full shadow-md">
-                          <?php echo date('d F Y', strtotime($article['tanggal'])); ?>
-                      </span>
-                  </div>
-
-                  <!-- Body Card -->
-                  <div class="p-6 space-y-3">
-                      <h3 class="text-xl font-bold text-text-dark group-hover:text-primary transition duration-150">
-                          <?php echo htmlspecialchars($article['judul']); ?>
-                      </h3>
-                      
-                      <!-- Author -->
-                      <div class="flex items-center gap-2 text-primary text-sm font-medium">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                          <span class="text-medium group-hover:text-primary transition duration-150"><?php echo htmlspecialchars($article['nama_admin']); ?></span>
-                      </div>
-                  </div>
-
-                  <!-- Link Read More (Footer Card) -->
-                  <div class="p-6 pt-0">
-                      <span class="inline-flex items-center gap-1 text-primary font-semibold hover:underline">
-                          Baca Selengkapnya
-                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-150" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                      </span>
                   </div>
                 </a>
                 <?php else: ?>
@@ -600,32 +609,29 @@ function scrollDown() {
               </div>
 
               <!-- ===================== -->
-              <!--     KEGIATAN LIST     -->
+              <!--     KEGIATAN LIST (DINAMIS)     -->
               <!-- ===================== -->
-              <div
-                  x-show="active === 'activities'"
-                  x-transition
-                  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-
-                  <!-- ITEM 1–6 (KEGIATAN) -->
-                  <template x-for="(item, index) in [
-                      {img:'workshop-1.jpg', title:'Workshop Data Science'},
-                      {img:'seminar-2.jpg', title:'Seminar Riset Terbaru'},
-                      {img:'team-meeting-3.jpg', title:'Diskusi Proyek Akhir'},
-                      {img:'presentation-4.jpg', title:'Presentasi Hasil Riset'},
-                      {img:'hackathon-5.jpg', title:'Hackathon Data'},
-                      {img:'field-trip-6.jpg', title:'Kunjungan Industri'}
-                  ]">
+              <div x-show="active === 'activities'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                  <?php 
+                  if (!empty($recentActivities)): 
+                      foreach ($recentActivities as $act):
+                  ?>
                       <div class="flex flex-col space-y-6">
                           <img class="w-full h-64 object-cover rounded-xl shadow-md"
-                              :src="'assets/images/galeri/' + item.img"
-                              onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" />
-                          <h3 class="text-xl font-bold text-text-dark" x-text="item.title"></h3>
+                              src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $act['gambar']); ?>"
+                              onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" 
+                              alt="<?php echo htmlspecialchars($act['judul']); ?>" />
+                          <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($act['judul']); ?></h3>
                       </div>
-                  </template>
+                  <?php 
+                      endforeach;
+                  else:
+                      echo '<p class="col-span-3 text-center text-gray-500">Belum ada data kegiatan.</p>';
+                  endif; 
+                  ?>
 
                   <!-- TOMBOL -->
-                  <div class="col-span-3 w-full flex justify-center mt-10">
+                  <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
                     <a href="galeri/galeriKegiatan.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
                       Lihat Galeri Kegiatan
                     </a>
@@ -633,32 +639,29 @@ function scrollDown() {
               </div>
 
               <!-- ===================== -->
-              <!--     FASILITAS LIST    -->
+              <!--     FASILITAS LIST (DINAMIS)   -->
               <!-- ===================== -->
-              <div
-                  x-show="active === 'facility'"
-                  x-transition
-                  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-
-                  <!-- ITEM FASILITAS -->
-                  <template x-for="(item, index) in [
-                      {img:'lab-ai.jpg', title:'Laboratorium AI'},
-                      {img:'lab-iot.jpg', title:'Lab IoT & Embedded'},
-                      {img:'lab-network.jpg', title:'Lab Jaringan Komputer'},
-                      {img:'lab-robotic.jpg', title:'Lab Robotika'},
-                      {img:'lab-multimedia.jpg', title:'Lab Multimedia'},
-                      {img:'lab-cloud.jpg', title:'Lab Komputasi Awan'}
-                  ]">
+              <div x-show="active === 'facility'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" style="display: none;">
+                  <?php 
+                  if (!empty($recentFacilities)): 
+                      foreach ($recentFacilities as $fac):
+                  ?>
                       <div class="flex flex-col space-y-6">
                           <img class="w-full h-64 object-cover rounded-xl shadow-md"
-                              :src="'assets/images/fasilitas/' + item.img"
-                              onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" />
-                          <h3 class="text-xl font-bold text-text-dark" x-text="item.title"></h3>
+                              src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $fac['gambar']); ?>"
+                              onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" 
+                              alt="<?php echo htmlspecialchars($fac['judul']); ?>" />
+                          <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($fac['judul']); ?></h3>
                       </div>
-                  </template>
+                  <?php 
+                      endforeach;
+                  else:
+                      echo '<p class="col-span-3 text-center text-gray-500">Belum ada data fasilitas.</p>';
+                  endif; 
+                  ?>
 
                   <!-- TOMBOL -->
-                  <div class="col-span-3 w-full flex justify-center mt-10">
+                  <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
                     <a href="galeri/fasilitas.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
                       Lihat Galeri Fasilitas
                     </a>
