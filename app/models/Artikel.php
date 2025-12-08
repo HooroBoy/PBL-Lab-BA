@@ -26,12 +26,19 @@ function createSlug(string $text): string
 
 class Artikel
 {
-    public static function all()
-    {
-        global $pdo;
-        $stmt = $pdo->query("SELECT * FROM artikel ORDER BY id DESC");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+public static function all()
+{
+    global $pdo;
+    $sql = "
+        SELECT a.*, u.username 
+        FROM artikel a
+        JOIN admin u ON a.admin_id = u.id
+        ORDER BY a.id DESC
+    ";
+
+    $stmt = $pdo->query($sql);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
     public static function find($id)
     {
