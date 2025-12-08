@@ -24,12 +24,24 @@ if (!$setting || !is_array($setting)) {
     ];
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $hero_image_path = $_POST['landing_hero_image'] ?? '';
+    if (isset($_FILES['landing_hero_image']) && $_FILES['landing_hero_image']['error'] == UPLOAD_ERR_OK) {
+        $fileName = time() . '_' . basename($_FILES['landing_hero_image']['name']);
+        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/PBL-Lab-BA/public/assets/Logo';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        $targetFile = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
+        if (move_uploaded_file($_FILES['landing_hero_image']['tmp_name'], $targetFile)) {
+            $hero_image_path = 'assets/Logo/' . $fileName;
+        }
+    }
     $data = [
         'id' => isset($setting['id']) ? $setting['id'] : null,
         'landing_badge' => $_POST['landing_badge'] ?? '',
         'landing_title' => $_POST['landing_title'] ?? '',
         'landing_description' => $_POST['landing_description'] ?? '',
-        'landing_hero_image' => $_POST['landing_hero_image'] ?? '',
+        'landing_hero_image' => $hero_image_path,
         'footer_box_title' => $_POST['footer_box_title'] ?? '',
         'footer_email' => $_POST['footer_email'] ?? '',
         'footer_phone' => $_POST['footer_phone'] ?? '',
@@ -71,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card shadow-sm mb-4 w-100">
                                 <div class="card-body">
                                     <?php if (!empty($message)) echo $message; ?>
-                                    <form method="post">
+                                    <form method="post" enctype="multipart/form-data">
                                         <h5 class="mb-3">Landing Page</h5>
                                         <div class="mb-3">
                                             <label class="form-label">Badge</label>
@@ -86,8 +98,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <textarea name="landing_description" class="form-control"><?php echo htmlspecialchars($setting['landing_description']); ?></textarea>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Hero Image URL</label>
-                                            <input type="text" name="landing_hero_image" class="form-control" value="<?php echo htmlspecialchars($setting['landing_hero_image']); ?>">
+                                            <label class="form-label">Hero Image</label>
+                                            <input type="file" name="landing_hero_image" class="form-control" accept="image/*">
+                                            <?php if (!empty($setting['landing_hero_image'])): ?>
+                                                <div class="mt-2">
+                                                    <img src="/<?php echo htmlspecialchars($setting['landing_hero_image']); ?>" alt="Hero Image" style="max-width:180px;max-height:120px;border-radius:8px;box-shadow:0 2px 8px #eee;">
+                                                    <div class="text-muted small mt-1">Path: <?php echo htmlspecialchars($setting['landing_hero_image']); ?></div>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="mb-3 text-end">
                                             <button type="submit" class="btn btn-primary">Simpan Landing Page</button>

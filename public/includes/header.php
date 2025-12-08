@@ -1,8 +1,29 @@
 <?php
 session_start();
+// Tentukan judul halaman default atau gunakan yang sudah diset
 $page_title = $page_title ?? "Laboratory of Business Analytics";
+
 // Load base path/url helpers so assets and links resolve correctly from any include location
 require_once __DIR__ . '/config.php';
+
+// --- BAGIAN BARU UNTUK MENGAMBIL DATA SETTING ---
+// Asumsi SiteSetting.php dapat dijangkau. Sesuaikan path jika berbeda.
+// Misalnya, jika header.php ada di root dan SiteSetting.php ada di 'admin/models/', path mungkin '/admin/models/SiteSetting.php'
+// Berdasarkan struktur path di SiteSetting.php, saya akan mencoba path relatif dari config.php
+// Jika SiteSetting.php ada di root/models/, dan header.php ada di root/, gunakan:
+// require_once _DIR_ . '/models/SiteSetting.php';
+// Karena SiteSetting.php hanya berisi class, saya akan coba path yang lebih umum:
+require_once dirname(__DIR__, 2) . '/app/models/SiteSetting.php'; // Path ke SiteSetting.php yang benar
+
+// Ambil data pengaturan situs
+$site_settings = SiteSetting::get();
+
+// Tentukan teks dinamis, gunakan default jika data tidak ada atau kolom tidak ada
+$header_title = $site_settings['landing_title'] ?? 'Laboratorium';
+$header_subtitle = $site_settings['footer_box_title'] ?? 'Business Analytics'; // Menggunakan footer_box_title sebagai Sub-Judul Header
+$header_slogan = $site_settings['landing_description'] ?? 'Transforming Data into Decisions';
+$header_logo_url = $site_settings['landing_hero_image'] ?? BASE_URL . '/assets/Logo/logo2.png';
+// --- AKHIR BAGIAN BARU ---
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +33,7 @@ require_once __DIR__ . '/config.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $page_title; ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <style>
         /* Custom colors based on the design */
@@ -74,12 +95,15 @@ require_once __DIR__ . '/config.php';
         <header class="w-full border-b border-primary sticky top-0 bg-primary text-white z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                 <div class="flex items-center space-x-2">
-                    <img class="w-10 h-10 rounded-lg" src="<?php echo BASE_URL; ?>/assets/Logo/logo2.png" alt="LBA"
+                    <!-- LOGO DINAMIS -->
+                    <img class="w-10 h-10 rounded-lg" src="<?php echo $header_logo_url; ?>" alt="LBA"
                         onerror="this.onerror=null; this.src='https://placehold.co/40x40/124874/FFFFFF?text=LBA';" />
                     <div class="flex flex-col">
-                        <span class="text-xs font-bold uppercase leading-tight text-white">Laboratorium</span>
-                        <span class="text-sm font-bold uppercase leading-none text-white">Business Analytics</span>
-                        <span class="text-xs font-medium leading-none text-white mt">Transforming Data into Decisions</span>
+                        <!-- TEKS HEADER DINAMIS -->
+                        <span class="text-xs font-bold uppercase leading-tight text-white"><?php echo $header_title; ?></span>
+                        <span class="text-sm font-bold uppercase leading-none text-white"><?php echo $header_subtitle; ?></span>
+                        <span class="text-xs font-medium leading-none text-white mt"><?php echo $header_slogan; ?></span>
+                        <!-- AKHIR TEKS HEADER DINAMIS -->
                     </div>
                 </div>
 
@@ -183,6 +207,10 @@ require_once __DIR__ . '/config.php';
                             <a href="<?php echo BASE_URL; ?>/publikasi/Publikasi.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
                                 Publikasi
                             </a>
+                            <a href="<?php echo BASE_URL; ?>/artikel/artikel.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                            <a href="<?php echo BASE_URL; ?>/publikasi/Publikasi.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                Publikasi
+                            </a>
                             <a href="<?php echo BASE_URL; ?>/projects-demos/index.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
                                 Artikel
                             </a>
@@ -194,6 +222,12 @@ require_once __DIR__ . '/config.php';
                                     </svg>
                                 </button>
                                 <div x-show="resourcesOpen" x-transition class="pl-4">
+                                    <a href="<?php echo BASE_URL; ?>/galeri/galerikegiatan.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                        Kegiatan
+                                    </a>
+                                    <a href="<?php echo BASE_URL; ?>/galeri/Fasilitas.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                        Fasilitas
+                                    </a>
                                     <a href="<?php echo BASE_URL; ?>/galeri/galerikegiatan.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
                                         Kegiatan
                                     </a>

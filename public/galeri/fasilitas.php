@@ -1,15 +1,15 @@
 <?php
+// 1. Panggil Koneksi & Model
+// Sesuaikan path '../models/Galeri.php' dengan struktur folder Anda sebenarnya
+require_once dirname(__DIR__, 2) . '/app/models/Galeri.php'; 
+
 // Set Judul Halaman
 $page_title = "Fasilitas & Peralatan - Laboratory of Business Analytics";
-// Memanggil Header (Header will include HTML setup and Navbar)
 require_once '../includes/header.php';
 
-// --- Impor Model Galeri ---
-// PERBAIKAN: Mengubah path menjadi '../../app/models/Galeri.php'
-// Ini mengasumsikan Galeri.php berada di [Project Root]/app/models/
-require_once '../../app/models/Galeri.php'; 
-
-// --- Data Fasilitas (Simulasi untuk Kartu Informasi, DIBIARKAN STATIS) ---
+// --- BAGIAN 1: Fasilitas Cards (Tetap Static / Array) ---
+// Catatan: Bagian ini tetap menggunakan Array karena datanya berupa SVG Icon (Code) 
+// yang biasanya tidak disimpan di tabel 'galeri' biasa.
 $facilities_data = [
     [
         'title' => 'Ruang Laboratorium',
@@ -33,15 +33,14 @@ $facilities_data = [
     ]
 ];
 
-// --- Ambil Data Galeri Fasilitas DARI DATABASE ---
-try {
-    // Memanggil method all dengan kategori 'fasilitas'.
-    $gallery_photos = Galeri::all('fasilitas');
-} catch (Exception $e) {
-    // Jika terjadi error (misal koneksi DB gagal), inisialisasi array kosong
-    $gallery_photos = []; 
-    // Anda bisa tambahkan logging error di sini jika perlu
-}
+// --- BAGIAN 2: Data Galeri Foto (DARI DATABASE) ---
+// Mengambil data dari database menggunakan Model Galeri
+// Parameter 'fasilitas' akan otomatis di-convert jadi 'facility' oleh Model
+$gallery_photos = Galeri::all('fasilitas');
+
+// Tentukan path dasar folder upload (Sesuaikan dengan setting CMS Anda)
+// Misal CMS menyimpan file di: public/assets/uploads/
+$upload_base_url = '../assets/fasilitas/'; 
 ?>
 
 <div class="w-full bg-white pt-8 pb-20 md:pt-16 md:pb-24">
@@ -65,32 +64,52 @@ try {
             </p>
         </header>
 
-        <?php if (!empty($gallery_photos)): ?>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <?php if (!empty($gallery_photos)): ?>
                 <?php foreach ($gallery_photos as $photo): ?>
-                        <div class="relative overflow-hidden rounded-xl shadow-md">
-                            <img class="w-full h-48 object-cover" 
-                                 src="<?php echo $photo['gambar']; ?>" 
-                                 alt="<?php echo $photo['judul']; ?>"
-                                 onerror="this.onerror=null; this.src='https://placehold.co/400x300/124874/FFFFFF?text=<?php echo urlencode($photo['judul']); ?>';"
-                            />
-                            <div class="absolute inset-0 bg-black bg-opacity-30 flex items-end p-3 md:p-4">
-                                <p class="text-white text-xs font-semibold opacity-80"><?php echo $photo['judul']; ?></p>
+                    <?php 
+                        // Cek apakah 'gambar' menyimpan URL lengkap atau hanya nama file
+                        // Jika hanya nama file, gabungkan dengan $upload_base_url
+                        if (filter_var($photo['gambar'], FILTER_VALIDATE_URL)) {
+                            $img_src = $photo['gambar'];
+                        } elseif (strpos($photo['gambar'], 'assets/fasilitas/') === 0) {
+                            $img_src = '../' . $photo['gambar'];
+                        } else {
+                            $img_src = $upload_base_url . $photo['gambar'];
+                        }
+                    ?>
+                    <div class="group relative overflow-hidden rounded-xl shadow-md cursor-pointer transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        <img class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110" 
+                             src="<?php echo htmlspecialchars($img_src); ?>" 
+                             alt="<?php echo htmlspecialchars($photo['judul']); ?>"
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x300/124874/FFFFFF?text=No+Image';"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity flex items-end p-3 md:p-4">
+                            <div>
+                                <p class="text-white text-sm font-bold translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                    <?php echo htmlspecialchars($photo['judul']); ?>
+                                </p>
+                                <?php if(!empty($photo['deskripsi'])): ?>
+                                    <p class="text-gray-200 text-xs mt-1 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 delay-75 line-clamp-2">
+                                        <?php echo htmlspecialchars($photo['deskripsi']); ?>
+                                    </p>
+                                <?php endif; ?>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <div class="text-center py-10 text-gray-500">
-                <p>Tidak ada foto fasilitas yang tersedia saat ini.</p>
-            </div>
-        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-span-full text-center py-10 text-gray-500">
+                    <p>Belum ada foto fasilitas yang diunggah.</p>
+                </div>
+            <?php endif; ?>
+        </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-10">
             <?php foreach ($facilities_data as $facility): ?>
-                <div class="block bg-white rounded-xl shadow-lg border border-gray-200">
+                <div class="block bg-white rounded-xl shadow-lg border border-gray-200 transform transition duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-200 h-full group">
                     <div class="p-6 space-y-6 flex flex-col h-full">
-                        <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-icon">
+                        <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-blue-100 transition-colors">
                             <?php echo $facility['icon_svg']; ?>
                         </div>
                         
@@ -120,6 +139,5 @@ try {
 </div>
 
 <?php
-// Memanggil Footer
 require_once '../includes/footer.php';
 ?>
