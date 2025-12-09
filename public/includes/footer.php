@@ -83,11 +83,9 @@ $social_youtube = $site_settings['social_youtube'] ?? '#';
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-8 lg:gap-6 text-sm font-light">
                 <!-- Navigasi Statis... -->
                 <div class="space-y-3">
-                    <h4 class="text-base font-semibold mb-2">Beranda</h4>
-                    <ul class="space-y-2">
-                        <li><a href="<?php echo BASE_URL; ?>../index.php" class="opacity-70 hover:opacity-100 transition duration-150">Beranda</a></li>
-
-                    </ul>
+                    <a href="../index.php" class="text-base font-semibold mb-2 hover:text-primary transition duration-200">
+                        <h4>Beranda</h4>
+                    </a>
                 </div>
 
                 <div class="space-y-3">
@@ -102,11 +100,15 @@ $social_youtube = $site_settings['social_youtube'] ?? '#';
                 </div>
 
                 <div class="space-y-3">
-                    <h4 class="text-base font-semibold mb-2">Publikasi</h4>
+                    <a href="publikasi/Publikasi.php" class="text-base font-semibold mb-2 hover:text-primary transition duration-200">
+                        <h4>Publikasi</h4>
+                    </a>
                 </div>
 
                 <div class="space-y-3">
-                    <h4 class="text-base font-semibold mb-2">Artikel</h4>
+                    <a href="artikel/artikel.php" class="text-base font-semibold mb-2 hover:text-primary transition duration-200">
+                        <h4>Artikel</h4>
+                    </a>
                 </div>
 
                 <div class="space-y-3">
