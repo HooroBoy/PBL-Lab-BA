@@ -499,7 +499,7 @@ function scrollDown() {
                 <?php if ($article): ?>
                 <div class="flex items-center gap-2 text-primary text-sm font-medium">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    <span class="text-medium"><?php echo htmlspecialchars($article['nama_admin']); ?></span>
+                    <span class="text-medium"><?php echo htmlspecialchars($article['nama']); ?></span>
                 </div>
                 <?php endif; ?>
 
@@ -517,10 +517,9 @@ function scrollDown() {
                   
                   <!-- Gambar Thumbnail Penuh -->
                   <img class="w-full h-full object-cover transition duration-500 group-hover:scale-105" 
-                       src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/articles/' . $article['thumbnail']); ?>" 
+                       src="<?php echo htmlspecialchars(BASE_URL. '/' . $article['thumbnail']); ?>" 
                        alt="<?php echo htmlspecialchars($article['judul']); ?>" 
                        style="min-height: 320px; max-height: 450px;"
-                       onerror="this.onerror=null; this.src='<?php echo BASE_URL; ?>/assets/images/articles/default-article.jpg';"
                   />
                 </a>
                 <?php else: ?>
