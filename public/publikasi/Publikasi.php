@@ -268,7 +268,7 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
                             </p>
 
                             <div class="pt-4 border-t border-gray-100 mt-auto flex justify-between items-center text-xs text-gray-500">
-                                <span>Tanggal : <strong><?php echo $date_formatted; ?></strong></span>
+                                <span>Tahun : <strong><?php echo htmlspecialchars($publikasi['tahun'] ?? 'N/A'); ?></strong></span>
                                 <a href="<?php echo $final_action_link; ?>" 
                                    class="font-bold text-primary hover:text-blue-700"
                                    target="_blank" rel="noopener noreferrer"> <?php echo $link_text; ?>
