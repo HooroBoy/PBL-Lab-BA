@@ -32,7 +32,7 @@ $landing_title = $setting['landing_title'] ?? 'Laboratorium Business Analytics';
 $landing_description = $setting['landing_description'] ?? 'Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.';
 
 $landing_hero_image_file = $setting['landing_hero_image'] ?? 'assets/Logo/gedung.png';
-$hero_mascot_image_file = $setting['hero_mascot_image'] ?? 'assets/Logo/Pinguin.png'; 
+$hero_mascot_image_file = $setting['hero_mascot_image'] ?? 'assets/Logo/Pinguin.png';
 $landing_button_link = $setting['landing_button_link'] ?? 'profile/VisiMisi.php';
 
 include 'includes/header.php';
@@ -527,13 +527,13 @@ include 'includes/header.php';
 </script>
 
 <section class="w-full bg-white py-20 md:py-24">
-  
+
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
     <h2 class="text-4xl md:text-5xl font-bold text-text-dark text-center mb-20">
-    Artikel Terbaru Kami
-</h2>
+      Artikel Terbaru Kami
+    </h2>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-      
+
       <!-- KIRI: TEKS (TANGGAL, JUDUL, DESKRIPSI, AUTHOR, BUTTON) -->
       <div class="space-y-6">
         <!-- TANGGAL -->
@@ -567,7 +567,7 @@ include 'includes/header.php';
           </div>
         <?php endif; ?>
 
-        <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel/detail.php?id='.$article['id']) : 'resources/Article.php'; ?>"
+        <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel/detail.php?id=' . $article['id']) : 'resources/Article.php'; ?>"
           class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
           Baca Selengkapnya
         </a>
@@ -576,7 +576,7 @@ include 'includes/header.php';
       <!-- GAMBAR THUMBNAIL  -->
       <div class="relative w-full flex justify-center h-full">
         <?php if ($article): ?>
-          <a href="<?php echo htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']); ?>"
+          <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel/detail.php?id=' . $article['id']) : 'resources/Article.php'; ?>" 
             class="block group w-full rounded-2xl shadow-xl overflow-hidden bg-gray-100 hover:shadow-2xl transition duration-300 border border-gray-200">
 
             <!-- Gambar Thumbnail Penuh -->
@@ -628,32 +628,32 @@ include 'includes/header.php';
       </div>
     </div>
 
-              <!-- ===================== -->
-              <!--     KEGIATAN LIST (DINAMIS)     -->
-              <!-- ===================== -->
-              <div x-show="active === 'activities'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                  <?php 
-                  if (!empty($recentActivities)): 
-                      foreach ($recentActivities as $act):
-                  ?>
-                      <div class="gallery-card-wrapper">
-                          <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/galerikegiatan.php'); ?>" 
-                             class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
-                              <!-- PERBAIKAN: Hapus path statis /assets/kegiatan/ -->
-                              <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $act['gambar']); ?>"
-                                  onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" 
-                                  alt="<?php echo htmlspecialchars($act['judul']); ?>" />
-                              <h3 class="text-lg font-semibold text-text-dark pt-3 pb-1">
-                                  <?php echo htmlspecialchars($act['judul']); ?>
-                              </h3>
-                          </a>
-                      </div>
-                  <?php 
-                      endforeach;
-                  else:
-                      echo '<p class="col-span-3 text-center text-gray-500">Belum ada data kegiatan.</p>';
-                  endif; 
-                  ?>
+    <!-- ===================== -->
+    <!--     KEGIATAN LIST (DINAMIS)     -->
+    <!-- ===================== -->
+    <div x-show="active === 'activities'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <?php
+      if (!empty($recentActivities)):
+        foreach ($recentActivities as $act):
+      ?>
+          <div class="gallery-card-wrapper">
+            <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/galerikegiatan.php'); ?>"
+              class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
+              <!-- PERBAIKAN: Hapus path statis /assets/kegiatan/ -->
+              <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $act['gambar']); ?>"
+                onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';"
+                alt="<?php echo htmlspecialchars($act['judul']); ?>" />
+              <h3 class="text-lg font-semibold text-text-dark pt-3 pb-1">
+                <?php echo htmlspecialchars($act['judul']); ?>
+              </h3>
+            </a>
+          </div>
+      <?php
+        endforeach;
+      else:
+        echo '<p class="col-span-3 text-center text-gray-500">Belum ada data kegiatan.</p>';
+      endif;
+      ?>
 
       <!-- TOMBOL -->
       <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
@@ -663,32 +663,32 @@ include 'includes/header.php';
       </div>
     </div>
 
-              <!-- ===================== -->
-              <!--     FASILITAS LIST (DINAMIS)   -->
-              <!-- ===================== -->
-              <div x-show="active === 'facility'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" style="display: none;">
-                  <?php 
-                  if (!empty($recentFacilities)): 
-                      foreach ($recentFacilities as $fac):
-                  ?>
-                      <div class="gallery-card-wrapper">
-                           <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/fasilitas.php'); ?>" 
-                              class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
-                              <!-- PERBAIKAN: Hapus path statis /assets/fasilitas/ -->
-                              <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $fac['gambar']); ?>"
-                                  onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" 
-                                  alt="<?php echo htmlspecialchars($fac['judul']); ?>" />
-                              <h3 class="text-lg font-semibold text-text-dark hover:text-primary pt-3 pb-1">
-                                  <?php echo htmlspecialchars($fac['judul']); ?>
-                              </h3>
-                          </a>
-                      </div>
-                  <?php 
-                      endforeach;
-                  else:
-                      echo '<p class="col-span-3 text-center text-gray-500">Belum ada data fasilitas.</p>';
-                  endif; 
-                  ?>
+    <!-- ===================== -->
+    <!--     FASILITAS LIST (DINAMIS)   -->
+    <!-- ===================== -->
+    <div x-show="active === 'facility'" x-transition class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" style="display: none;">
+      <?php
+      if (!empty($recentFacilities)):
+        foreach ($recentFacilities as $fac):
+      ?>
+          <div class="gallery-card-wrapper">
+            <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/fasilitas.php'); ?>"
+              class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
+              <!-- PERBAIKAN: Hapus path statis /assets/fasilitas/ -->
+              <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $fac['gambar']); ?>"
+                onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';"
+                alt="<?php echo htmlspecialchars($fac['judul']); ?>" />
+              <h3 class="text-lg font-semibold text-text-dark hover:text-primary pt-3 pb-1">
+                <?php echo htmlspecialchars($fac['judul']); ?>
+              </h3>
+            </a>
+          </div>
+      <?php
+        endforeach;
+      else:
+        echo '<p class="col-span-3 text-center text-gray-500">Belum ada data fasilitas.</p>';
+      endif;
+      ?>
 
       <!-- TOMBOL -->
       <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
