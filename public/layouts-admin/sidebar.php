@@ -121,10 +121,11 @@ if (isset($_GET['halaman'])) {
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="index.php?halaman=beranda">
-                        <img src="../public/assets/compiled/svg/logo.svg"
-                            onerror="this.onerror=null; this.src='../../public/assets/compiled/svg/logo.svg';"
-                            alt="Deskripsi gambar">
+                    <a href="/PBL-Lab-BA/public/index.php">
+                        <img src="../public/assets/logo/logo.png"
+                            onerror="this.onerror=null; this.src='../../public/assets/logo/logo.png';"
+                            alt="Deskripsi gambar"
+                            style="max-width: 200px; max-height: 80px; width: auto; height: auto; display: block; margin: 0 auto;">
                     </a>
                 </div>
                 <div class="theme-toggle d-flex gap-2 align-items-center mt-2">

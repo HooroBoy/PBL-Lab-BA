@@ -71,8 +71,8 @@ include "../../public/layouts-admin/header-admin.php";
                                                             <?php endforeach; ?>
                                                         </td>
                                                         <td>
-                                                            <a class="btn btn-primary btn-sm" href="edit.php?halaman=bidang_keahlian&id=<?= $row['id_publikasi'] ?>">Ubah</a>
-                                                            <a class="btn btn-danger btn-sm" href="delete.php?halaman=bidang_keahlian&id=<?= $row['id_publikasi'] ?>" onclick="return confirm('Hapus bidang keahlian ini?')">Hapus</a>
+                                                            <a class="btn btn-primary btn-sm" href="edit.php?halaman=publikasi&id=<?= $row['id_publikasi'] ?>">Ubah</a>
+                                                            <a class="btn btn-danger btn-sm" href="delete.php?halaman=publikasi&id=<?= $row['id_publikasi'] ?>" onclick="return confirm('Hapus Publikasi ini?')">Hapus</a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach ?>

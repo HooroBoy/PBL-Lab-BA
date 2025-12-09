@@ -14,14 +14,17 @@ try {
     $article = $latestArticle[0] ?? null; 
 
     // --- DATA DINAMIS GALERI ---
-    $recentActivities = Galeri::latest('activity', 6);
+    // Pastikan kategori yang digunakan di model sesuai dengan DB ('activity' dan 'facility')
+    $recentActivities = Galeri::latest('activity', 6); 
     $recentFacilities = Galeri::latest('facility', 6);
 
 } catch (PDOException $e) {
+    // Penanganan error database
     $setting = [];
     $article = null;
     $recentActivities = [];
     $recentFacilities = [];
+    // Anda bisa logging error di sini: error_log($e->getMessage());
 }
 
 $landing_badge = $setting['landing_badge'] ?? 'Business Analytics';
@@ -179,10 +182,8 @@ include 'includes/header.php';
     gap: 1.5rem; /* Gap 6 */
     padding: 1rem 0; 
     align-items: stretch;
-    /* Menghilangkan overflow dari CSS sebelumnya dan biarkan container di bawah yang mengaturnya */
 }
 
-/* Mengatur lebar kartu agar 4 kartu muat di layar desktop */
 .team-card {
     width: 16rem; /* 256px (w-64) - Lebar yang optimal untuk 4 kartu + gap 1.5rem */
     flex-shrink: 0;
@@ -203,15 +204,39 @@ include 'includes/header.php';
     align-items: center;
     justify-content: center;
 }
-/* Menyembunyikan kontrol panah di mobile */
 @media (max-width: 1024px) {
     .team-carousel-nav { display: none !important; }
 }
 
-/* --- CUSTOM ARTIKEL STYLES --- */
-.artikel-card-img {
-    height: 24rem; 
+/* --- CUSTOM GALLERY CARD STYLES --- */
+/* Style untuk kartu di bagian "Laboratorium Kami dalam Aksi" */
+.gallery-card {
+    background-color: #f3f4f6; /* Warna latar belakang abu-abu muda seperti di gambar */
+    border-radius: 0.75rem; /* rounded-xl */
+    overflow: hidden;
+    padding-bottom: 1rem; /* Tambahkan padding di bawah agar teks di bawah kartu */
+}
+
+.gallery-card img {
+    /* Membuat area gambar lebih kecil, sekitar 75% tinggi card container */
+    height: 18rem; /* h-72 */
+    width: 100%;
     object-fit: cover;
+    border-radius: 0.75rem 0.75rem 0 0; /* Hanya sudut atas yang melengkung */
+}
+
+/* Style untuk teks di bawah gambar */
+.gallery-card h3 {
+    padding: 0.5rem 1rem 0; /* Padding kecil untuk teks */
+    text-align: center;
+}
+/* Memastikan card display flex-col dan center */
+.gallery-card-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 </style>
 
@@ -223,12 +248,15 @@ include 'includes/header.php';
     <div class="hero-carousel-content">
       <div class="hero-carousel-text">
         <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-white text-xs font-semibold rounded-full border border-gray-300 mb-4">
+          <!-- BADGE DINAMIS -->
           <?php echo htmlspecialchars($landing_badge); ?>
         </span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight md:leading-snug mb-4">
+          <!-- JUDUL DINAMIS -->
           <?php echo htmlspecialchars($landing_title); ?>
         </h1>
         <p class="text-base md:text-lg text-gray-100 leading-relaxed mb-4">
+          <!-- DESKRIPSI DINAMIS -->
           <?php echo nl2br(htmlspecialchars($landing_description)); ?>
         </p>
         <a href="<?php echo htmlspecialchars(BASE_URL . '/' . $landing_button_link); ?>" class="inline-block px-8 py-4 text-sm font-bold bg-primary text-white rounded-full shadow-xl hover:bg-blue-800 transition duration-300">
@@ -236,11 +264,13 @@ include 'includes/header.php';
         </a>
       </div>
       <div class="hero-carousel-pinguin">
+        <!-- LOGO PENGUIN DINAMIS -->
         <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $hero_mascot_image_file); ?>" alt="Pinguin Mascot"
             onerror="this.onerror=null; this.src='<?php echo BASE_URL; ?>/assets/Logo/Pinguin.png';" />
       </div>
     </div>
   </div>
+    <!-- Scroll down button -->
     <button aria-label="Scroll down" class="scroll-down-btn __bounce" onclick="scrollDown()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
     </button>
@@ -574,12 +604,17 @@ function scrollDown() {
                   if (!empty($recentActivities)): 
                       foreach ($recentActivities as $act):
                   ?>
-                      <div class="flex flex-col space-y-6">
-                          <img class="w-full h-64 object-cover rounded-xl shadow-md"
-                              src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $act['gambar']); ?>"
-                              onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" 
-                              alt="<?php echo htmlspecialchars($act['judul']); ?>" />
-                          <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($act['judul']); ?></h3>
+                      <!-- Mengubah struktur card untuk Kegiatan (Gambar di atas, Judul di bawah) -->
+                      <div class="gallery-card-wrapper">
+                          <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/galerikegiatan.php'); ?>" 
+                             class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
+                              <img src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $act['gambar']); ?>"
+                                  onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" 
+                                  alt="<?php echo htmlspecialchars($act['judul']); ?>" />
+                              <h3 class="text-lg font-semibold text-text-dark hover:text-primary pt-3 pb-1">
+                                  <?php echo htmlspecialchars($act['judul']); ?>
+                              </h3>
+                          </a>
                       </div>
                   <?php 
                       endforeach;
@@ -604,12 +639,17 @@ function scrollDown() {
                   if (!empty($recentFacilities)): 
                       foreach ($recentFacilities as $fac):
                   ?>
-                      <div class="flex flex-col space-y-6">
-                          <img class="w-full h-64 object-cover rounded-xl shadow-md"
-                              src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $fac['gambar']); ?>"
-                              onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" 
-                              alt="<?php echo htmlspecialchars($fac['judul']); ?>" />
-                          <h3 class="text-xl font-bold text-text-dark"><?php echo htmlspecialchars($fac['judul']); ?></h3>
+                      <!-- Mengubah struktur card untuk Fasilitas (Gambar di atas, Judul di bawah) -->
+                      <div class="gallery-card-wrapper">
+                           <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/fasilitas.php'); ?>" 
+                              class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
+                              <img src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $fac['gambar']); ?>"
+                                  onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" 
+                                  alt="<?php echo htmlspecialchars($fac['judul']); ?>" />
+                              <h3 class="text-lg font-semibold text-text-dark hover:text-primary pt-3 pb-1">
+                                  <?php echo htmlspecialchars($fac['judul']); ?>
+                              </h3>
+                          </a>
                       </div>
                   <?php 
                       endforeach;
