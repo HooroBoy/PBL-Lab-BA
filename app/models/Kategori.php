@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/database.php';
 
-function createSlug(string $text): string
+function createSlugKategori(string $text): string
 {
     // Convert to lowercase
     $text = strtolower($text);

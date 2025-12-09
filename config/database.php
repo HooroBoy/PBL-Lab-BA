@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'PBL';  // Ganti sesuai nama DB PostgreSQL kamu
+$dbname = 'PBL_LAB_BA';  // Ganti sesuai nama DB PostgreSQL kamu
 $user = 'postgres';       // Default user PostgreSQL
 $pass = 'rafazl';  // Sesuaikan dengan password PostgreSQL
 $port = '5432'; // Sesuaikan dengan port PostgreSQL jika perlu
