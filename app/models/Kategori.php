@@ -1,7 +1,5 @@
 <?php
-// app/models/Kategori.php
 require_once __DIR__ . '/../../config/database.php';
-// include "../config/connection.php";
 
 function createSlug(string $text): string
 {
@@ -62,5 +60,12 @@ class Kategori
         global $pdo;
         $stmt = $pdo->prepare('DELETE FROM kategori_riset WHERE id=?');
         $stmt->execute([$id]);
+    }
+
+    public static function getKategoriRiset(){
+    global $pdo;
+        $stmt = $pdo->prepare("SELECT * FROM kategori_riset Limit 8");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
