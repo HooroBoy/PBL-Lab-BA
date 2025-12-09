@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$dbname = 'PBL_LAB_BA';  
+$dbname = 'PBL';  
 $user = 'postgres';       
-$pass = '1234'; 
+$pass = 'rafazl'; 
 $port = '5432'; 
 try {
     $dsn = "pgsql:host=$host;dbname=$dbname;user=$user;password=$pass;port=$port";
