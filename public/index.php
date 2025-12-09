@@ -574,7 +574,7 @@ include 'includes/header.php';
           </div>
         <?php endif; ?>
 
-        <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']) : 'resources/Article.php'; ?>"
+        <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel/detail.php?id='.$article['id']) : 'resources/Article.php'; ?>"
           class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
           Baca Selengkapnya
         </a>
