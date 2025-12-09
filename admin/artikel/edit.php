@@ -20,10 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-        $thumbnail = 'assets/artikel/' . $fileName;
         $targetFile = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
         if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $targetFile)) {
-            // $thumbnail sudah path relatif dari root web
+            $thumbnail = 'assets/artikel/' . $fileName;
         } else {
             $thumbnail = $artikl['thumbnail']; // fallback ke thumbnail lama jika gagal upload
         }
@@ -85,7 +84,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Thumbnail Saat Ini</label><br>
-                                            <img src="../../public/<?php echo $artikl['thumbnail']; ?>" alt="Thumbnail Artikel" style="max-width:200px;max-height:150px;object-fit:cover;">
+                                            <?php
+                                                $thumbPath = $_SERVER['DOCUMENT_ROOT'] . '/PBL-Lab-BA/public/' . $artikl['thumbnail'];
+                                                $thumbUrl = '../../public/' . $artikl['thumbnail'];
+                                                if (!empty($artikl['thumbnail']) && file_exists($thumbPath)) {
+                                            ?>
+                                                <img src="<?php echo $thumbUrl; ?>" alt="Thumbnail Artikel" style="max-width:200px;max-height:150px;object-fit:cover;">
+                                            <?php } else { ?>
+                                                <img src="https://placehold.co/200x150?text=No+Image" alt="Thumbnail Artikel" style="max-width:200px;max-height:150px;object-fit:cover;">
+                                            <?php } ?>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Ganti Thumbnail</label>

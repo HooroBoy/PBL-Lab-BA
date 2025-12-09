@@ -69,6 +69,7 @@ $filter_dosen = isset($_GET['dosen']) ? trim($_GET['dosen']) : '';
 
 // --- KUMPULKAN DAN OLAH DATA UNIK UNTUK FILTER DOSEN ---
 $semua_penulis = [];
+$semua_kategori_riset = [];
 foreach ($publikasi_list_semua as $publikasi) {
     // Ambil semua penulis dari setiap publikasi, pastikan itu array
     if (isset($publikasi['penulis']) && is_array($publikasi['penulis'])) {
