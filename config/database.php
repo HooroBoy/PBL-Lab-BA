@@ -5,7 +5,6 @@ $user = 'postgres';       // Default user PostgreSQL
 $pass = 'postgres';  // Sesuaikan dengan password PostgreSQL
 $port = '5432'; // Sesuaikan dengan port PostgreSQL jika perlu
 try {
-    // DSN untuk PostgreSQL
     $dsn = "pgsql:host=$host;dbname=$dbname;user=$user;password=$pass;port=$port";
     $pdo = new PDO($dsn);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -17,7 +17,6 @@ try {
   $article = $latestArticle[0] ?? null;
 
   // --- DATA DINAMIS GALERI ---
-  // Pastikan kategori yang digunakan di model sesuai dengan DB ('activity' dan 'facility')
   $recentActivities = Galeri::latest('activity', 6);
   $recentFacilities = Galeri::latest('facility', 6);
 } catch (PDOException $e) {
@@ -26,7 +25,6 @@ try {
   $article = null;
   $recentActivities = [];
   $recentFacilities = [];
-  // Anda bisa logging error di sini: error_log($e->getMessage());
 }
 
 $landing_badge = $setting['landing_badge'] ?? 'Business Analytics';
@@ -229,7 +227,6 @@ include 'includes/header.php';
 
   .team-card {
     width: 16rem;
-    /* 256px (w-64) - Lebar yang optimal untuk 4 kartu + gap 1.5rem */
     flex-shrink: 0;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -238,7 +235,6 @@ include 'includes/header.php';
 
   .team-card img {
     height: 16rem;
-    /* h-64 agar proporsi 1:1 */
     object-fit: cover;
     width: 100%;
     border-radius: 12px 12px 0 0;
@@ -247,7 +243,6 @@ include 'includes/header.php';
   .team-card .image-wrapper {
     background-color: #f3f4f6;
     height: 16rem;
-    /* h-64 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -265,20 +260,15 @@ include 'includes/header.php';
     background-color: #f3f4f6;
     /* Warna latar belakang abu-abu muda seperti di gambar */
     border-radius: 0.75rem;
-    /* rounded-xl */
     overflow: hidden;
     padding-bottom: 1rem;
-    /* Tambahkan padding di bawah agar teks di bawah kartu */
   }
 
   .gallery-card img {
-    /* Membuat area gambar lebih kecil, sekitar 75% tinggi card container */
     height: 18rem;
-    /* h-72 */
     width: 100%;
     object-fit: cover;
     border-radius: 0.75rem 0.75rem 0 0;
-    /* Hanya sudut atas yang melengkung */
   }
 
   /* Style untuk teks di bawah gambar */
@@ -456,7 +446,7 @@ include 'includes/header.php';
   </div>
 </section>
 
-<!-- SCRIPT TEAM CAROUSEL (Diperbaiki untuk Autoscroll dan 4 Kartu per slide) -->
+<!-- SCRIPT carousel tim kami -->
 <script>
   (function() {
     var carousel = document.getElementById('teamCarousel');
@@ -471,7 +461,6 @@ include 'includes/header.php';
       if (!firstCard) return;
       var style = window.getComputedStyle(track);
       var cardRect = firstCard.getBoundingClientRect();
-      // Mengambil nilai gap dari CSS (1.5rem = 24px)
       var gap = parseFloat(style.getPropertyValue('gap')) || 24;
       // Lebar geser = Lebar Kartu + Gap
       cardWidth = Math.round(cardRect.width + gap);
@@ -538,12 +527,16 @@ include 'includes/header.php';
 </script>
 
 <section class="w-full bg-white py-20 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+    <h2 class="text-4xl md:text-5xl font-bold text-text-dark text-center mb-20">
+    Artikel Terbaru Kami
+</h2>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-
+      
       <!-- KIRI: TEKS (TANGGAL, JUDUL, DESKRIPSI, AUTHOR, BUTTON) -->
       <div class="space-y-6">
-        <!-- TANGGAL (Dipindahkan ke atas judul) -->
+        <!-- TANGGAL -->
         <?php if ($article): ?>
           <div class="inline-block bg-blue-100 text-primary text-xs font-bold px-3 py-1 rounded-full mb-2">
             <?php echo date('d F Y', strtotime($article['tanggal'])); ?>
@@ -564,7 +557,7 @@ include 'includes/header.php';
           <?php endif; ?>
         </div>
 
-        <!-- Author (Ditempatkan di bawah deskripsi) -->
+        <!-- Author -->
         <?php if ($article): ?>
           <div class="flex items-center gap-2 text-primary text-sm font-medium">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
@@ -574,13 +567,13 @@ include 'includes/header.php';
           </div>
         <?php endif; ?>
 
-        <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']) : 'resources/Article.php'; ?>"
+        <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel/detail.php?id='.$article['id']) : 'resources/Article.php'; ?>"
           class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
           Baca Selengkapnya
         </a>
       </div>
 
-      <!-- KANAN: HANYA GAMBAR THUMBNAIL (TANPA TEKS/OVERLAY) -->
+      <!-- GAMBAR THUMBNAIL  -->
       <div class="relative w-full flex justify-center h-full">
         <?php if ($article): ?>
           <a href="<?php echo htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']); ?>"

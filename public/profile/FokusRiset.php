@@ -1,6 +1,6 @@
 <?php
-// Set Judul Halaman
-$page_title = "Fokus Riset - Laboratory of Business Analytics";
+$page_title = "Fokus Riset Laboratory of Business Analytics";
+
 require_once '../includes/header.php';
 require_once '../../app/models/Kategori.php';
 
@@ -46,8 +46,7 @@ $limit = 8;
             </p>
         </header>
 
-        <!-- Research Activities Grid (4 columns on desktop) -->
-        <!-- Grid diubah menjadi 4 kolom responsive -->
+        <!-- Research Activities Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
                 <?php foreach ($kategoriList as $index => $kategori): ?>
@@ -96,6 +95,5 @@ $limit = 8;
 
 
     <?php
-    // Memanggil Footer
     require_once '../includes/footer.php';
     ?>

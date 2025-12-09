@@ -1,23 +1,17 @@
 <?php
-// Set Judul Halaman
-$page_title = "Galeri Kegiatan - Laboratory of Business Analytics";
-// Memanggil Header (Header will include HTML setup and Navbar)
+$page_title = "Galeri Kegiatan Laboratory of Business Analytics";
+
 require_once '../includes/header.php';
 
-// --- Menggunakan Model Galeri untuk Mengambil Data Dinamis ---
-// Asumsi: File model Galeri.php terletak di lokasi yang dapat diakses (misalnya, di folder ../app/models/)
 require_once __DIR__ . '/../../app/models/Galeri.php';
 
 // Mengambil semua data galeri dengan kategori 'activity' ('aktivitas')
 try {
-    // Memanggil Galeri::all() dan memberikan kategori 'aktivitas' (yang di-resolve menjadi 'activity' di model)
     $activities = Galeri::all('aktivitas');
 } catch (PDOException $e) {
-    // Tangani kesalahan jika koneksi database gagal atau tabel tidak ditemukan
-    $activities = []; // Set array kosong untuk menghindari error loop
+    $activities = []; 
     echo "<p class='text-center text-red-600'>Gagal memuat kegiatan dari database: Pastikan tabel 'galeri' sudah ada. (" . $e->getMessage() . ")</p>";
 }
-// --- Akhir Pengambilan Data ---
 
 ?>
 
@@ -29,7 +23,15 @@ try {
             <nav class="text-sm font-medium text-gray-500 mb-4 inline-block" aria-label="Breadcrumb">
                 <ol class="list-none p-0 inline-flex">
                     <li class="flex items-center">
+                        <a href="../index.php" class="text-primary hover:text-blue-700">Home</a>
+                        <svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                            aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10l-3.293-3.293a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
                     </li>
+                    <li class="text-primary">Kegiatan</li>
                 </ol>
             </nav>
             <h1 class="text-4xl md:text-5xl font-extrabold text-text-dark leading-tight">
@@ -53,7 +55,6 @@ try {
                                 src="/PBL-Lab-BA/public/<?php echo htmlspecialchars($activity['gambar']); ?>"
                                 alt="<?php echo htmlspecialchars($activity['judul']); ?>"
                                 onerror="this.onerror=null; this.src='https://placehold.co/500x350/ECF2FB/124874?text=Image+Not+Found';" />
-                            <!-- Overlay Tanggal (Menggunakan created_at sebagai simulasi tanggal) -->
                             <div
                                 class="absolute top-3 right-3 bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
                                 <?php echo date('d F Y', strtotime($activity['created_at'])); ?>
@@ -103,6 +104,5 @@ try {
 </div>
 
 <?php
-// Memanggil Footer
 require_once '../includes/footer.php';
 ?>

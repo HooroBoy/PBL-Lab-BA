@@ -1,22 +1,16 @@
 <?php
+$page_title = 'Daftar Dosen Laboratory of Business Analytics';
 
-$page_title = 'Daftar Dosen';
-
-// --- Menggunakan Model Dosen untuk Mengambil Data Dinamis ---
-// Asumsi: File model Dosen.php terletak di /app/models/
 require_once __DIR__ . '/../../app/models/Dosencontroller.php'; 
 
 // Mengambil semua data dosen dari database
 try {
-    // Model Dosen::all() akan mengembalikan array dari tabel 'dosen'
     $dosenList = Dosen::all();
 } catch (PDOException $e) {
-    $dosenList = []; // Set array kosong jika terjadi error database
-    // Tampilkan pesan error hanya saat debugging, bisa dihapus di production
-    // echo "<p class='text-center text-red-600'>Gagal memuat daftar dosen dari database: Pastikan tabel 'dosen' sudah ada. (" . $e->getMessage() . ")</p>";
+    $dosenList = [];
 }
 
-// Fungsi helper untuk path gambar (tetap sama)
+// Fungsi helper untuk path gambar
 function dosen_image_or_placeholder($path) {
     if (empty($path)) {
         return 'https://placehold.co/400x400/e2e8f0/1e293b?text=No+Image';
@@ -27,7 +21,7 @@ function dosen_image_or_placeholder($path) {
     }
 
     $clean_path = ltrim($path, '/'); 
-    $base_url = '/PBL-Lab-BA/public/'; // SESUAIKAN DENGAN NAMA FOLDER PROJECT ANDA
+    $base_url = '/PBL-Lab-BA/public/'; 
 
     $physical_path = $_SERVER['DOCUMENT_ROOT'] . $base_url . $clean_path;
 
@@ -39,12 +33,10 @@ function dosen_image_or_placeholder($path) {
 }
 
 
-// If this file is included with DOSEN_DATA_ONLY defined, do not render HTML.
 if (defined('DOSEN_DATA_ONLY') && constant('DOSEN_DATA_ONLY')) {
   return;
 }
 
-// --- Render the listing page when accessed directly ---
 include '../includes/header.php';
 ?>
 
@@ -54,9 +46,7 @@ include '../includes/header.php';
         <?php if (!empty($dosenList)): ?>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       <?php foreach ($dosenList as $d):
-        // Ambil ID/NIDN untuk link
         $dosen_id = $d['id'] ?? $d['nidn']; 
-        // Ambil gambar
         $img = dosen_image_or_placeholder($d['foto'] ?? '');
       ?>
                 <a href="LihatDosen.php?id=<?php echo urlencode($dosen_id); ?>" class="group block bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 relative overflow-hidden">

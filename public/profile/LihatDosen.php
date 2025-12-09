@@ -1,15 +1,15 @@
 <?php
-// Pastikan path ke Dosencontroller.php sudah benar relatif dari folder public/profile
+$page_title = "Detail Dosen Laboratory of Business Analytics";
+
 require_once __DIR__ . '/../../app/models/Dosencontroller.php'; 
 require_once __DIR__ . '/../../app/models/Publikasi.php'; 
 
-// --- Fungsi Helper Gambar (tetap) ---
 function dosen_image_or_placeholder($path) {
     if (empty($path) || strpos($path, 'http') === 0) {
         return $path ?: 'https://placehold.co/400x400/e2e8f0/1e293b?text=No+Image';
     }
     $clean_path = ltrim($path, '/');
-    $base_url = '/PBL-Lab-BA/public/'; // PASTIKAN INI SESUAI DENGAN FOLDER PROJECT ANDA
+    $base_url = '/PBL-Lab-BA/public/'; 
     $physical_path = $_SERVER['DOCUMENT_ROOT'] . $base_url . $clean_path;
 
     if (file_exists($physical_path)) {
@@ -18,7 +18,7 @@ function dosen_image_or_placeholder($path) {
     return 'https://placehold.co/400x400/e2e8f0/1e293b?text=Not+Found'; 
 }
 
-// --- Fungsi Helper untuk Memproses Data JSON Pendidikan/Sertifikasi (tetap) ---
+// --- Fungsi Helper ---
 function format_dosen_detail($data) {
     $items = json_decode($data, true);
     if (!is_array($items)) {
@@ -30,7 +30,7 @@ function format_dosen_detail($data) {
     return $items;
 }
 
-// --- Pengambilan Data Dosen & Publikasi (tetap) ---
+// --- Pengambilan Data Dosen & Publikasi ---
 $dosen_id = $_GET['id'] ?? $_GET['nidn'] ?? null;
 $d = null;
 
@@ -44,7 +44,6 @@ try {
         // --- AKHIR AMBIL BIDANG KEAHLIAN DINAMIS ---
     }
 } catch (PDOException $e) {
-    // Error database
 }
 
 if (!$d) {
@@ -65,7 +64,6 @@ $d['sinta_link'] = 'https://sinta.kemdikbud.go.id/authors/profile/dosen_anda';
 $dosen_id_current = $dosen_id;
 $publikasiList = Publikasi::findByDosenId($dosen_id_current);
 
-// Persiapan data untuk kemudahan
 $d['nama'] = $d['nama'] ?? 'Nama Dosen';
 $d['nip'] = $d['nip'] ?? '-';
 $d['nidn'] = $d['nidn'] ?? '-';
@@ -76,12 +74,9 @@ $d['gelar_belakang'] = $d['gelar_belakang'] ?? '';
 
 $nama_lengkap = trim(($d['gelar_depan'] ? $d['gelar_depan'] . ' ' : '') . $d['nama'] . ($d['gelar_belakang'] ? ', ' . $d['gelar_belakang'] : ''));
 
-// Mengganti warna primer menjadi biru tua
 $primary_color = 'bg-blue-800'; 
-// Styling untuk tautan profil (Tombol Biru dengan border oranye/kuning seperti image_bf7851.png)
 $profile_link_class = "px-4 py-2 rounded-lg border text-sm font-semibold border-blue-600 text-blue-600 bg-white hover:bg-blue-50 transition shadow-sm";
 
-// Styling untuk Bidang Keahlian (warna tag netral/abu-abu)
 $area_tag_class = "px-3 py-1 rounded-full border border-gray-300 text-sm text-text-dark bg-white hover:bg-gray-100 transition cursor-pointer shadow-sm";
 
 include '../includes/header.php';
@@ -113,7 +108,7 @@ include '../includes/header.php';
           $areas_string = $d['bidang_keahlian'] ?? '';
           $areas = array_filter(array_map('trim', explode(',', $areas_string)));
           
-          // Tampilan Bidang Keahlian (Tags Abu-abu/Netral)
+          // Tampilan Bidang Keahlian
           foreach ($areas as $area): ?>
               <span class="px-3 py-1 rounded-full border border-gray-300 text-sm text-gray-700 bg-white shadow-sm">
                   <?php echo htmlspecialchars($area); ?>
@@ -123,7 +118,7 @@ include '../includes/header.php';
 
       <div class="flex flex-wrap gap-3 mb-6">
           <?php 
-          // Tautan Profil (Menggunakan $profile_link_class yang baru)
+          // Tautan Profil
           if (!empty($d['linkedin_link'])): ?>
               <a href="<?php echo htmlspecialchars($d['linkedin_link']); ?>" target="_blank" 
                   class="<?php echo $profile_link_class; ?>">
@@ -249,22 +244,12 @@ include '../includes/header.php';
                 }
                 $detail_text = implode(', ', $detail_publikasi);
 
-                // --- LOGIKA PENENTUAN LINK DETAIL BARU (MODIFIKASI) ---
-                // Tautan jurnal default (sesuai jurnal.polinema.ac.id/index.php/jip)
+                // Tautan jurnal default
                 $jurnal_default_link = 'https://jurnal.polinema.ac.id/index.php/jip';
 
-                // Menetapkan link detail ke link jurnal default
                 $detail_link = $jurnal_default_link;
 
-                // Menetapkan target ke _self agar terbuka di halaman yang sama (mirip publikasi.php fallback)
                 $target = '_self';
-                // Jika Anda memiliki kolom 'url_dokumen' di data publikasi, Anda bisa menggunakannya di sini
-                // Contoh:
-                // if (!empty($publikasi['url_dokumen'])) {
-                //     $detail_link = htmlspecialchars($publikasi['url_dokumen']);
-                //     $target = '_blank';
-                // }
-                // ----------------------------------------
 
             ?>
             <li class="p-4 border rounded-lg hover:bg-gray-50 transition duration-150 relative">

@@ -1,15 +1,10 @@
 <?php
-// 1. Panggil Koneksi & Model
-// Sesuaikan path '../models/Galeri.php' dengan struktur folder Anda sebenarnya
+
 require_once dirname(__DIR__, 2) . '/app/models/Galeri.php'; 
 
-// Set Judul Halaman
-$page_title = "Fasilitas & Peralatan - Laboratory of Business Analytics";
+$page_title = "Fasilitas & Peralatan Laboratory of Business Analytics";
 require_once '../includes/header.php';
 
-// --- BAGIAN 1: Fasilitas Cards (Tetap Static / Array) ---
-// Catatan: Bagian ini tetap menggunakan Array karena datanya berupa SVG Icon (Code) 
-// yang biasanya tidak disimpan di tabel 'galeri' biasa.
 $facilities_data = [
     [
         'title' => 'Ruang Laboratorium',
@@ -33,13 +28,9 @@ $facilities_data = [
     ]
 ];
 
-// --- BAGIAN 2: Data Galeri Foto (DARI DATABASE) ---
-// Mengambil data dari database menggunakan Model Galeri
-// Parameter 'fasilitas' akan otomatis di-convert jadi 'facility' oleh Model
+// Data Galeri Foto
 $gallery_photos = Galeri::all('fasilitas');
 
-// Tentukan path dasar folder upload (Sesuaikan dengan setting CMS Anda)
-// Misal CMS menyimpan file di: public/assets/uploads/
 $upload_base_url = '../assets/fasilitas/'; 
 ?>
 
@@ -50,7 +41,7 @@ $upload_base_url = '../assets/fasilitas/';
             <nav class="text-sm font-medium text-gray-500 mb-4 inline-block" aria-label="Breadcrumb">
                 <ol class="list-none p-0 inline-flex">
                     <li class="flex items-center">
-                        <a href="/index.php" class="text-primary hover:text-blue-700">Home</a>
+                        <a href="../index.php" class="text-primary hover:text-blue-700">Home</a>
                         <svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10l-3.293-3.293a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
                     </li>
                     <li class="text-primary">Fasilitas</li>
@@ -68,8 +59,6 @@ $upload_base_url = '../assets/fasilitas/';
             <?php if (!empty($gallery_photos)): ?>
                 <?php foreach ($gallery_photos as $photo): ?>
                     <?php 
-                        // Cek apakah 'gambar' menyimpan URL lengkap atau hanya nama file
-                        // Jika hanya nama file, gabungkan dengan $upload_base_url
                         if (filter_var($photo['gambar'], FILTER_VALIDATE_URL)) {
                             $img_src = $photo['gambar'];
                         } elseif (strpos($photo['gambar'], 'assets/fasilitas/') === 0) {

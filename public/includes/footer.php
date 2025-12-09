@@ -1,23 +1,16 @@
 <?php 
-// Pastikan BASE_URL sudah didefinisikan (diperlukan untuk link)
 if (!defined('BASE_URL')) {
-    // Asumsi config.php berada di level yang sama dengan includes/
-    // Path ini mungkin perlu disesuaikan tergantung lokasi file config.php
     require_once dirname(__DIR__) . '/config.php';
 }
 
-// --- BAGIAN BARU UNTUK MENGAMBIL DATA SETTING ---
-// Asumsi: File SiteSetting.php ada di path: ../app/models/SiteSetting.php
 require_once dirname(__DIR__, 2) . '/app/models/SiteSetting.php';
 
 try {
     $site_settings = SiteSetting::get();
 } catch (PDOException $e) {
-    // Jika gagal mengambil dari DB, inisialisasi array kosong
     $site_settings = [];
 }
 
-// Tentukan teks dinamis, gunakan default jika data tidak ada
 // KOTAK KONTAK
 $footer_box_title = $site_settings['footer_box_title'] ?? 'Punya Proyek yang Ingin Dibahas?';
 $footer_email = $site_settings['footer_email'] ?? 'labbapolinema.com (Contoh Email)';
@@ -42,7 +35,6 @@ $social_youtube = $site_settings['social_youtube'] ?? '#';
             <div class="space-y-6 lg:w-1/4">
                 <!-- Partner logos (JTI & Polinema) -->
                 <div class="flex items-center space-x-3">
-                    <!-- ASET LOGO STATIS (Tetap statis karena ini adalah aset fisik, bukan teks dinamis) -->
                     <img class="h-14 w-auto" src="<?php echo BASE_URL; ?>../assets/Logo/LogoPolinema.png" alt="Logo Polinema" />
                     <img class="h-12 w-auto" src="<?php echo BASE_URL; ?>../assets/Logo/LogoJTI.png" alt="Logo JTI" />
                     <img class="h-14 w-auto" src="<?php echo BASE_URL; ?>../assets/Logo/Logo2.png" alt="Logo BA" />
@@ -70,7 +62,6 @@ $social_youtube = $site_settings['social_youtube'] ?? '#';
                     
                     <!-- ALAMAT DINAMIS -->
                     <p class="flex items-center space-x-2">
-                        <!-- Map pin (white silhouette) -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z" />
                         </svg>
@@ -79,9 +70,8 @@ $social_youtube = $site_settings['social_youtube'] ?? '#';
                 </div>
             </div>
 
-            <!-- Bagian Navigasi (Tetap Statis) -->
+            <!-- Bagian Navigasi -->
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-8 lg:gap-6 text-sm font-light">
-                <!-- Navigasi Statis... -->
                 <div class="space-y-3">
                     <a href="../index.php" class="text-base font-semibold mb-2 hover:text-primary transition duration-200">
                         <h4>Beranda</h4>
@@ -152,7 +142,7 @@ $social_youtube = $site_settings['social_youtube'] ?? '#';
 
 </div>
 
-<!-- notifikasi untuk peminjaman -->
+<!-- notifikasi peminjaman -->
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

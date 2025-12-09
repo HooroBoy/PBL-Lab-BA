@@ -1,9 +1,6 @@
 <?php
-// Set Judul Halaman
-$page_title = "Struktur Organisasi Lab Business Analytics";
+$page_title = "Struktur Organisasi Laboratory of Business Analytics";
 
-// Tentukan path relatif ke folder 'includes'
-// Karena file ini ada di 'profile/', kita harus mundur satu level (..)
 include '../includes/header.php';
 ?>
 
@@ -45,6 +42,5 @@ include '../includes/header.php';
 
 
 <?php
-// Memanggil Footer (<footer>, tag penutup)
 include '../includes/footer.php';
 ?>

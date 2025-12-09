@@ -1,4 +1,6 @@
 <?php
+$page_title = "Peminjaman Alat & Ruang Laboratory of Business Analytics";
+
 function tgl_indo($tanggal){
 	$bulan = array (
 		1 =>   'Januari',
@@ -16,9 +18,9 @@ function tgl_indo($tanggal){
 	);
 	$pecahkan = explode('-', $tanggal);
 	
-	// variabel pecahkan 0 = tanggal
-	// variabel pecahkan 1 = bulan
-	// variabel pecahkan 2 = tahun
+	// variabel pecahan 0 = tanggal
+	// variabel pecahan 1 = bulan
+	// variabel pecahan 2 = tahun
  
 	return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
 }
@@ -28,7 +30,6 @@ $page_title = 'Peminjaman Alat & Ruang';
 require_once '../../app/controllers/PeminjamanController.php';
 $message = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Ambil dan trim
   $nama = isset($_POST['nama']) ? trim($_POST['nama']) : '';
   $no_induk = isset($_POST['no_induk']) ? trim($_POST['no_induk']) : '';
   $tanggal_mulai = $_POST['tanggal_mulai'] ?? '';
@@ -38,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $keperluan = $_POST['keperluan'];
   $no_wa = $_POST['no_wa'];
   
-  // Panggil controller yang sudah melakukan validasi & cek overlap
+  // Panggil controller
   $result = PeminjamanController::insertJadwal(
     $nama,
     $no_induk,
@@ -52,12 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($result['type'] != 'success') {
     $_SESSION['alerts'] = $result;
-    $_POST = array(); // Clear POST data to prevent resubmission
+    $_POST = array(); 
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit;
   } else {
     $_SESSION['alerts'] = $result;
-    $_POST = array(); // Clear POST data to prevent resubmission
+    $_POST = array(); 
     header('Location: https://api.whatsapp.com/send?phone=6285183192045&text=Halo%20Admin,%20saya%20'.$nama.'%20ingin%20melakukan%20peminjaman%20pada%20tanggal%20'.tgl_indo($tanggal_mulai).'%20s.d%20tanggal%20'.tgl_indo($tanggal_selesai).'%20untuk%20'.$keperluan.'%20Mohon%20disetujui.');
     exit;
   }
@@ -80,7 +81,7 @@ include '../includes/header.php';
     <p class="text-base text-medium text-text-dark/80">Silakan isi form di bawah ini untuk melakukan peminjaman</p>
     <br></br>
   </div>
-  <!-- Form container (Tailwind card to match design) -->
+  <!-- Form container -->
 <section class="w-full pb-20">
     <div class="max-w-3xl mx-auto px-4">
 
@@ -226,7 +227,6 @@ include '../includes/header.php';
 </section>
 
 <?php
-// Memanggil Footer (<footer>, tag penutup)
 include '../includes/footer.php';
 ?>
 
