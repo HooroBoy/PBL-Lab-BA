@@ -65,8 +65,11 @@ $nama_lengkap = trim(($d['gelar_depan'] ? $d['gelar_depan'] . ' ' : '') . $d['na
 
 // Mengganti warna primer menjadi biru tua
 $primary_color = 'bg-blue-800'; 
-// Styling untuk tautan profil (Warna Kuning/Oranye seperti gambar 547afe.png)
-$profile_link_class = "px-4 py-2 rounded-lg border text-sm font-semibold text-yellow-700 border-yellow-500 bg-white hover:bg-yellow-50 transition shadow-sm";
+// Styling untuk tautan profil (Tombol Biru dengan border oranye/kuning seperti image_bf7851.png)
+$profile_link_class = "px-4 py-2 rounded-lg border text-sm font-semibold border-blue-600 text-blue-600 bg-white hover:bg-blue-50 transition shadow-sm";
+
+// Styling untuk Bidang Keahlian (warna tag netral/abu-abu)
+$area_tag_class = "px-3 py-1 rounded-full border border-gray-300 text-sm text-text-dark bg-white hover:bg-gray-100 transition cursor-pointer shadow-sm";
 
 include '../includes/header.php';
 ?>
@@ -93,39 +96,40 @@ include '../includes/header.php';
                 <h2 class="text-2xl font-bold text-text-dark mb-4"><?php echo htmlspecialchars($nama_lengkap); ?></h2>
         
         <div class="flex flex-wrap gap-2 mb-4">
-            <?php 
-            $areas_string = $d['bidang_keahlian'] ?? '';
-            $areas = array_filter(array_map('trim', explode(',', $areas_string)));
-            
-            // Tampilan Bidang Keahlian: Sebagai LINK FILTER (styling tags netral)
-            foreach ($areas as $area): ?>
-                <a href="Dosen.php?bidang=<?php echo urlencode($area); ?>" 
-                   class="px-3 py-1 rounded-full border border-gray-300 text-sm text-text-dark bg-white hover:bg-gray-100 transition cursor-pointer shadow-sm">
-                   <?php echo htmlspecialchars($area); ?>
-                </a>
-            <?php endforeach; ?>
-        </div>
+          <?php 
+          $areas_string = $d['bidang_keahlian'] ?? '';
+          $areas = array_filter(array_map('trim', explode(',', $areas_string)));
+          
+          // Tampilan Bidang Keahlian (Tags Abu-abu/Netral)
+          foreach ($areas as $area): ?>
+              <span class="px-3 py-1 rounded-full border border-gray-300 text-sm text-gray-700 bg-white shadow-sm">
+                  <?php echo htmlspecialchars($area); ?>
+              </span>
+          <?php endforeach; ?>
+      </div>
 
-        <div class="flex flex-wrap gap-3 mb-6">
-            <?php if (!empty($d['linkedin_link'])): ?>
-                <a href="<?php echo htmlspecialchars($d['linkedin_link']); ?>" target="_blank" 
-                   class="<?php echo $profile_link_class; ?>">
-                   LinkedIn
-                </a>
-            <?php endif; ?>
-            <?php if (!empty($d['google_scholar_link'])): ?>
-                <a href="<?php echo htmlspecialchars($d['google_scholar_link']); ?>" target="_blank" 
-                   class="<?php echo $profile_link_class; ?>">
-                   Google Scholar
-                </a>
-            <?php endif; ?>
-            <?php if (!empty($d['sinta_link'])): ?>
-                <a href="<?php echo htmlspecialchars($d['sinta_link']); ?>" target="_blank" 
-                   class="<?php echo $profile_link_class; ?>">
-                   Sinta
-                </a>
-            <?php endif; ?>
-        </div>
+      <div class="flex flex-wrap gap-3 mb-6">
+          <?php 
+          // Tautan Profil (Menggunakan $profile_link_class yang baru)
+          if (!empty($d['linkedin_link'])): ?>
+              <a href="<?php echo htmlspecialchars($d['linkedin_link']); ?>" target="_blank" 
+                  class="<?php echo $profile_link_class; ?>">
+                  LinkedIn
+              </a>
+          <?php endif; ?>
+          <?php if (!empty($d['google_scholar_link'])): ?>
+              <a href="<?php echo htmlspecialchars($d['google_scholar_link']); ?>" target="_blank" 
+                  class="<?php echo $profile_link_class; ?>">
+                  Google Scholar
+              </a>
+          <?php endif; ?>
+          <?php if (!empty($d['sinta_link'])): ?>
+              <a href="<?php echo htmlspecialchars($d['sinta_link']); ?>" target="_blank" 
+                  class="<?php echo $profile_link_class; ?>">
+                  Sinta
+              </a>
+          <?php endif; ?>
+      </div>
         
         <div class="mb-8 text-md space-y-1">
             <div class="flex">
@@ -211,7 +215,7 @@ include '../includes/header.php';
             <?php endif; ?>
           </div>
         </div>
-      </div>
+        </div>
     </div>
 
     <div class="mt-16">
@@ -231,6 +235,24 @@ include '../includes/header.php';
                     $detail_publikasi[] = htmlspecialchars($publikasi['tahun_terbit']);
                 }
                 $detail_text = implode(', ', $detail_publikasi);
+
+                // --- LOGIKA PENENTUAN LINK DETAIL BARU (MODIFIKASI) ---
+                // Tautan jurnal default (sesuai jurnal.polinema.ac.id/index.php/jip)
+                $jurnal_default_link = 'https://jurnal.polinema.ac.id/index.php/jip';
+
+                // Menetapkan link detail ke link jurnal default
+                $detail_link = $jurnal_default_link;
+
+                // Menetapkan target ke _self agar terbuka di halaman yang sama (mirip publikasi.php fallback)
+                $target = '_self';
+                // Jika Anda memiliki kolom 'url_dokumen' di data publikasi, Anda bisa menggunakannya di sini
+                // Contoh:
+                // if (!empty($publikasi['url_dokumen'])) {
+                //     $detail_link = htmlspecialchars($publikasi['url_dokumen']);
+                //     $target = '_blank';
+                // }
+                // ----------------------------------------
+
             ?>
             <li class="p-4 border rounded-lg hover:bg-gray-50 transition duration-150 relative">
                 <h3 class="text-lg font-semibold text-blue-800 mb-1">
@@ -250,13 +272,14 @@ include '../includes/header.php';
                     </p>
                     <?php if (!empty($publikasi['doi'])): ?>
                         <p>
-                            <span class="font-semibold">DOI:</span> <a href="https://doi.org/<?php echo urlencode($publikasi['doi']); ?>" target="_blank" class="text-blue-600 hover:underline"><?php echo htmlspecialchars($publikasi['doi']); ?></a>
+                            <span class="font-semibold">DOI:</span> <a href="<?php echo $detail_link; ?>" target="_blank" class="text-blue-600 hover:underline"><?php echo htmlspecialchars($publikasi['doi']); ?></a>
                         </p>
                     <?php endif; ?>
                 </div>
 
-                <a href="../publikasi.php?id=<?php echo htmlspecialchars($publikasi['id']); ?>" 
-                    class="absolute bottom-4 right-4 text-sm font-semibold text-blue-600 hover:underline">
+                <a href="<?php echo $detail_link; ?>" 
+                   target="<?php echo $target; ?>"
+                   class="absolute bottom-4 right-4 text-sm font-semibold text-blue-600 hover:underline">
                     Detail &raquo;
                 </a>
 
