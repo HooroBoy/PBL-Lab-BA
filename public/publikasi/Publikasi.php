@@ -181,6 +181,7 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
                 <select id="tahun" name="tahun" onchange="this.form.submit()" class="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-sm text-text-dark ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary">
                     <option value="">Semua Tahun</option>
                     <?php 
+                        // Ambil tahun unik
                         $tahun_unik = array_unique(array_column($publikasi_list_semua, 'tahun'));
                         $tahun_unik = array_filter($tahun_unik); 
                         rsort($tahun_unik); 
@@ -198,6 +199,7 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
                 <select id="dosen" name="dosen" onchange="this.form.submit()" class="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-sm text-text-dark ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary">
                     <option value="">Dosen</option>
                     <?php 
+                        // Menggunakan $dosen_unik
                         foreach ($dosen_unik as $dosen): 
                             if (empty($dosen)) continue;
                     ?>
@@ -217,9 +219,10 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
                 <?php foreach ($publikasi_list_terfilter as $publikasi): 
                     // Data Dinamis
                     $image_path = htmlspecialchars($publikasi['thumbnail'] ?? '../assets/images/publikasi/default.jpg'); 
+                    // Tampilkan tanggal atau tahun jika tanggal penuh tidak tersedia
                     $date_formatted = isset($publikasi['tanggal']) && $publikasi['tanggal'] !== '1900-01-01' ? date('d F Y', strtotime($publikasi['tanggal'])) : 'Tahun ' . htmlspecialchars($publikasi['tahun'] ?? 'N/A');
                     $kategori_riset = htmlspecialchars($publikasi['kategori_riset'] ?? 'Lainnya');
-                    $jenis_publikasi = htmlspecialchars($publikasi['jenis_publikasi'] ?? '');
+                    $jenis_publikasi = htmlspecialchars($publikasi['jenis_publikasi'] ?? ''); // plain text
                     $authors = isset($publikasi['penulis']) && is_array($publikasi['penulis']) ? $publikasi['penulis'] : [];
 
                     // --- LOGIKA LINK DOKUMEN YANG DIPERBARUI ---
@@ -263,8 +266,9 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
                                 ?>
                             </p>
                             
+                            <p class="text-sm text-text-medium flex-grow"></p>
                             <p class="text-sm text-text-medium flex-grow">
-                                Jenis Publikasi: <?php echo $jenis_publikasi; ?>
+                                Deskripsi: <?php echo $jenis_publikasi; ?>
                             </p>
 
                             <div class="pt-4 border-t border-gray-100 mt-auto flex justify-between items-center text-xs text-gray-500">
