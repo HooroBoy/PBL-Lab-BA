@@ -31,8 +31,12 @@ $landing_badge = $setting['landing_badge'] ?? 'Business Analytics';
 $landing_title = $setting['landing_title'] ?? 'Laboratorium Business Analytics';
 $landing_description = $setting['landing_description'] ?? 'Sebagai bagian dari Jurusan Teknologi Informasi Politeknik Negeri Malang, Laboratorium Business Analytics berfokus pada pengembangan riset, pembelajaran, dan inovasi berbasis data. Kami membantu mahasiswa, dosen, dan mitra industri dalam mengoptimalkan pengambilan keputusan melalui analisis data yang cerdas dan tepat sasaran.';
 
-$landing_hero_image_file = $setting['landing_hero_image'] ?? 'assets/Logo/gedung.png';
+// --- DIJADIKAN STATIS: Background Hero ---
+$landing_hero_image_file = 'assets/Logo/gedung.png'; 
+
+// --- DINAMIS: Maskot Penguin ---
 $hero_mascot_image_file = $setting['hero_mascot_image'] ?? 'assets/Logo/Pinguin.png'; 
+
 $landing_button_link = $setting['landing_button_link'] ?? 'profile/VisiMisi.php';
 
 include 'includes/header.php';
@@ -604,14 +608,14 @@ function scrollDown() {
                   if (!empty($recentActivities)): 
                       foreach ($recentActivities as $act):
                   ?>
-                      <!-- Mengubah struktur card untuk Kegiatan (Gambar di atas, Judul di bawah) -->
                       <div class="gallery-card-wrapper">
                           <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/galerikegiatan.php'); ?>" 
                              class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
-                              <img src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $act['gambar']); ?>"
+                              <!-- PERBAIKAN: Hapus path statis /assets/kegiatan/ -->
+                              <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $act['gambar']); ?>"
                                   onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" 
                                   alt="<?php echo htmlspecialchars($act['judul']); ?>" />
-                              <h3 class="text-lg font-semibold text-text-dark hover:text-primary pt-3 pb-1">
+                              <h3 class="text-lg font-semibold text-text-dark pt-3 pb-1">
                                   <?php echo htmlspecialchars($act['judul']); ?>
                               </h3>
                           </a>
@@ -639,11 +643,11 @@ function scrollDown() {
                   if (!empty($recentFacilities)): 
                       foreach ($recentFacilities as $fac):
                   ?>
-                      <!-- Mengubah struktur card untuk Fasilitas (Gambar di atas, Judul di bawah) -->
                       <div class="gallery-card-wrapper">
                            <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/fasilitas.php'); ?>" 
                               class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
-                              <img src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $fac['gambar']); ?>"
+                              <!-- PERBAIKAN: Hapus path statis /assets/fasilitas/ -->
+                              <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $fac['gambar']); ?>"
                                   onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" 
                                   alt="<?php echo htmlspecialchars($fac['judul']); ?>" />
                               <h3 class="text-lg font-semibold text-text-dark hover:text-primary pt-3 pb-1">
