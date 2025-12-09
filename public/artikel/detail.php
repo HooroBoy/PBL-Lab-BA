@@ -61,9 +61,9 @@ $page_title = $artikel['judul'];
 
         <!-- Tombol kembali -->
         <div class="mt-10">
-            <a href="<?php echo BASE_URL; ?>/artikel/artikel.php"
+            <a href="<?php echo BASE_URL; ?>/index.php"
                 class="inline-flex items-center px-6 py-3 bg-primary text-white rounded-full font-semibold hover:bg-blue-900 transition">
-                ← Kembali ke Daftar Artikel
+                ← Kembali ke Beranda
             </a>
         </div>
 
