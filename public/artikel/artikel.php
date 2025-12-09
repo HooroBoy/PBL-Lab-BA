@@ -22,7 +22,7 @@ try {
             <nav class="text-sm font-medium text-gray-500 mb-4 inline-block" aria-label="Breadcrumb">
                 <ol class="list-none p-0 inline-flex">
                     <li class="flex items-center">
-                        <a href="/index.php" class="text-primary hover:text-blue-700">Home</a>
+                        <a href="../index.php" class="text-primary hover:text-blue-700">Home</a>
                         <svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
                             aria-hidden="true">
                             <path fill-rule="evenodd"
