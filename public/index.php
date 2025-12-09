@@ -3,28 +3,30 @@
 $page_title = "Laboratorium Business Analytics";
 
 // --- Ambil Data Site Setting ---
-require_once __DIR__ . '/../app/models/SiteSetting.php'; 
-require_once __DIR__ . '/../app/models/Artikel.php'; 
+require_once __DIR__ . '/../app/models/SiteSetting.php';
+require_once __DIR__ . '/../app/models/Artikel.php';
 require_once __DIR__ . '/../app/models/Galeri.php';
+require_once __DIR__ . '/../app/models/Kategori.php';
+
+$kategoriList = array_slice(Kategori::all(), 0, 4);
 
 try {
-    $setting = SiteSetting::get();
-    // Mengambil HANYA 1 artikel terbaru untuk TEASER homepage
-    $latestArticle = Artikel::latest(1); 
-    $article = $latestArticle[0] ?? null; 
+  $setting = SiteSetting::get();
+  // Mengambil HANYA 1 artikel terbaru untuk TEASER homepage
+  $latestArticle = Artikel::latest(1);
+  $article = $latestArticle[0] ?? null;
 
-    // --- DATA DINAMIS GALERI ---
-    // Pastikan kategori yang digunakan di model sesuai dengan DB ('activity' dan 'facility')
-    $recentActivities = Galeri::latest('activity', 6); 
-    $recentFacilities = Galeri::latest('facility', 6);
-
+  // --- DATA DINAMIS GALERI ---
+  // Pastikan kategori yang digunakan di model sesuai dengan DB ('activity' dan 'facility')
+  $recentActivities = Galeri::latest('activity', 6);
+  $recentFacilities = Galeri::latest('facility', 6);
 } catch (PDOException $e) {
-    // Penanganan error database
-    $setting = [];
-    $article = null;
-    $recentActivities = [];
-    $recentFacilities = [];
-    // Anda bisa logging error di sini: error_log($e->getMessage());
+  // Penanganan error database
+  $setting = [];
+  $article = null;
+  $recentActivities = [];
+  $recentFacilities = [];
+  // Anda bisa logging error di sini: error_log($e->getMessage());
 }
 
 $landing_badge = $setting['landing_badge'] ?? 'Business Analytics';
@@ -39,120 +41,140 @@ include 'includes/header.php';
 ?>
 
 <style>
-/* --- Kustomisasi Fokus Riset Cards --- */
-.research-card.group:hover { background-color: #124874 !important; color: #fff !important; }
-.research-card.group:hover h3, .research-card.group:hover p { color: #fff !important; }
-.research-card.group .group-icon { transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
-.research-card.group:hover .group-icon { background-color: #fff !important; color: #124874 !important; border-color: transparent !important; }
+  /* --- Kustomisasi Fokus Riset Cards --- */
+  .research-card.group:hover {
+    background-color: #124874 !important;
+    color: #fff !important;
+  }
 
-/* --- Hero Carousel Styles --- */
-.hero-carousel {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  background-color: #1a1a1a;
-}
+  .research-card.group:hover h3,
+  .research-card.group:hover p {
+    color: #fff !important;
+  }
 
-.hero-carousel-slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
-  background-size: cover;
-  background-position: center;
-}
+  .research-card.group .group-icon {
+    transition: background-color .18s ease, color .18s ease, border-color .18s ease;
+  }
 
-.hero-carousel-slide.active {
-  opacity: 1;
-}
+  .research-card.group:hover .group-icon {
+    background-color: #fff !important;
+    color: #124874 !important;
+    border-color: transparent !important;
+  }
 
-.hero-carousel-slide::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5); 
-}
+  /* --- Hero Carousel Styles --- */
+  .hero-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #1a1a1a;
+  }
 
-.hero-carousel-content {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  max-width: 1280px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 4rem 1rem;
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-  gap: 3rem;
-}
-
-.hero-carousel-text {
-  max-width: 600px;
-  animation: slideInLeft 0.8s ease-out forwards;
-  flex: 1;
-}
-
-.hero-carousel-pinguin {
-  display: none;
-  flex-shrink: 0;
-  animation: slideInRight 0.8s ease-out forwards, float 3s ease-in-out infinite 0.8s;
-}
-
-.hero-carousel-pinguin img {
-  max-width: 580px;
-  height: auto;
-  width: 100%;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
-}
-
-@keyframes slideInRight {
-  from {
+  .hero-carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     opacity: 0;
-    transform: translateX(50px);
+    transition: opacity 0.8s ease-in-out;
+    background-size: cover;
+    background-position: center;
   }
-  to {
+
+  .hero-carousel-slide.active {
     opacity: 1;
-    transform: translateX(0);
   }
-}
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
+  .hero-carousel-slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
   }
-  50% {
-    transform: translateY(-12px);
-  }
-}
 
-@media (min-width: 1024px) {
+  .hero-carousel-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 4rem 1rem;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    gap: 3rem;
+  }
+
+  .hero-carousel-text {
+    max-width: 600px;
+    animation: slideInLeft 0.8s ease-out forwards;
+    flex: 1;
+  }
+
   .hero-carousel-pinguin {
-    display: block;
+    display: none;
+    flex-shrink: 0;
+    animation: slideInRight 0.8s ease-out forwards, float 3s ease-in-out infinite 0.8s;
   }
-}
 
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
+  .hero-carousel-pinguin img {
+    max-width: 580px;
+    height: auto;
+    width: 100%;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 
-.scroll-down-btn {
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero-carousel-pinguin {
+      display: block;
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .scroll-down-btn {
     position: absolute;
     left: 50%;
     bottom: 3.25rem;
@@ -160,91 +182,127 @@ include 'includes/header.php';
     width: 44px;
     height: 44px;
     border-radius: 9999px;
-    border: 2px solid rgba(255,255,255,0.18);
+    border: 2px solid rgba(255, 255, 255, 0.18);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.35);
+    background: rgba(0, 0, 0, 0.35);
     backdrop-filter: blur(4px);
     cursor: pointer;
     z-index: 30;
     transition: transform .18s ease, background .18s ease, opacity .18s ease;
-}
-.scroll-down-btn:hover { transform: translateX(-50%) translateY(-4px); background: rgba(0,0,0,0.5); }
-.scroll-down-btn svg { opacity: 0.95; }
+  }
 
-.scroll-down-btn.__bounce { animation: bounce 1.8s infinite; }
-@keyframes bounce { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
+  .scroll-down-btn:hover {
+    transform: translateX(-50%) translateY(-4px);
+    background: rgba(0, 0, 0, 0.5);
+  }
 
-/* --- CUSTOM TEAM CAROUSEL STYLES --- */
-.carousel-track { 
-    display: flex; 
-    gap: 1.5rem; /* Gap 6 */
-    padding: 1rem 0; 
+  .scroll-down-btn svg {
+    opacity: 0.95;
+  }
+
+  .scroll-down-btn.__bounce {
+    animation: bounce 1.8s infinite;
+  }
+
+  @keyframes bounce {
+
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  /* --- CUSTOM TEAM CAROUSEL STYLES --- */
+  .carousel-track {
+    display: flex;
+    gap: 1.5rem;
+    /* Gap 6 */
+    padding: 1rem 0;
     align-items: stretch;
-}
+  }
 
-.team-card {
-    width: 16rem; /* 256px (w-64) - Lebar yang optimal untuk 4 kartu + gap 1.5rem */
+  .team-card {
+    width: 16rem;
+    /* 256px (w-64) - Lebar yang optimal untuk 4 kartu + gap 1.5rem */
     flex-shrink: 0;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
-    background-color: white; 
-}
-.team-card img {
-    height: 16rem; /* h-64 agar proporsi 1:1 */
-    object-fit: cover; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background-color: white;
+  }
+
+  .team-card img {
+    height: 16rem;
+    /* h-64 agar proporsi 1:1 */
+    object-fit: cover;
     width: 100%;
-    border-radius: 12px 12px 0 0; 
-}
-.team-card .image-wrapper {
+    border-radius: 12px 12px 0 0;
+  }
+
+  .team-card .image-wrapper {
     background-color: #f3f4f6;
-    height: 16rem; /* h-64 */
+    height: 16rem;
+    /* h-64 */
     display: flex;
     align-items: center;
     justify-content: center;
-}
-@media (max-width: 1024px) {
-    .team-carousel-nav { display: none !important; }
-}
+  }
 
-/* --- CUSTOM GALLERY CARD STYLES --- */
-/* Style untuk kartu di bagian "Laboratorium Kami dalam Aksi" */
-.gallery-card {
-    background-color: #f3f4f6; /* Warna latar belakang abu-abu muda seperti di gambar */
-    border-radius: 0.75rem; /* rounded-xl */
+  @media (max-width: 1024px) {
+    .team-carousel-nav {
+      display: none !important;
+    }
+  }
+
+  /* --- CUSTOM GALLERY CARD STYLES --- */
+  /* Style untuk kartu di bagian "Laboratorium Kami dalam Aksi" */
+  .gallery-card {
+    background-color: #f3f4f6;
+    /* Warna latar belakang abu-abu muda seperti di gambar */
+    border-radius: 0.75rem;
+    /* rounded-xl */
     overflow: hidden;
-    padding-bottom: 1rem; /* Tambahkan padding di bawah agar teks di bawah kartu */
-}
+    padding-bottom: 1rem;
+    /* Tambahkan padding di bawah agar teks di bawah kartu */
+  }
 
-.gallery-card img {
+  .gallery-card img {
     /* Membuat area gambar lebih kecil, sekitar 75% tinggi card container */
-    height: 18rem; /* h-72 */
+    height: 18rem;
+    /* h-72 */
     width: 100%;
     object-fit: cover;
-    border-radius: 0.75rem 0.75rem 0 0; /* Hanya sudut atas yang melengkung */
-}
+    border-radius: 0.75rem 0.75rem 0 0;
+    /* Hanya sudut atas yang melengkung */
+  }
 
-/* Style untuk teks di bawah gambar */
-.gallery-card h3 {
-    padding: 0.5rem 1rem 0; /* Padding kecil untuk teks */
+  /* Style untuk teks di bawah gambar */
+  .gallery-card h3 {
+    padding: 0.5rem 1rem 0;
+    /* Padding kecil untuk teks */
     text-align: center;
-}
-/* Memastikan card display flex-col dan center */
-.gallery-card-wrapper {
+  }
+
+  /* Memastikan card display flex-col dan center */
+  .gallery-card-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-}
+  }
 </style>
 
 <!-- Hero Carousel Section -->
 <section class="hero-carousel" style="min-height: 90vh;">
   <!-- Slide 1: Dinamis dari SiteSetting -->
-  <div class="hero-carousel-slide active" 
-       style="background-image: url('<?php echo htmlspecialchars(BASE_URL . '/' . $landing_hero_image_file); ?>'); background-color: #1a1a1a;">
+  <div class="hero-carousel-slide active"
+    style="background-image: url('<?php echo htmlspecialchars(BASE_URL . '/' . $landing_hero_image_file); ?>'); background-color: #1a1a1a;">
     <div class="hero-carousel-content">
       <div class="hero-carousel-text">
         <span class="inline-flex items-center px-4 py-2 bg-secondary-light text-white text-xs font-semibold rounded-full border border-gray-300 mb-4">
@@ -266,334 +324,316 @@ include 'includes/header.php';
       <div class="hero-carousel-pinguin">
         <!-- LOGO PENGUIN DINAMIS -->
         <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $hero_mascot_image_file); ?>" alt="Pinguin Mascot"
-            onerror="this.onerror=null; this.src='<?php echo BASE_URL; ?>/assets/Logo/Pinguin.png';" />
+          onerror="this.onerror=null; this.src='<?php echo BASE_URL; ?>/assets/Logo/Pinguin.png';" />
       </div>
     </div>
   </div>
-    <!-- Scroll down button -->
-    <button aria-label="Scroll down" class="scroll-down-btn __bounce" onclick="scrollDown()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-    </button>
+  <!-- Scroll down button -->
+  <button aria-label="Scroll down" class="scroll-down-btn __bounce" onclick="scrollDown()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 5v14M19 12l-7 7-7-7" />
+    </svg>
+  </button>
 </section>
 
 <script>
-let currentSlideIndex = 1;
-function scrollDown() {
+  let currentSlideIndex = 1;
+
+  function scrollDown() {
     const hero = document.querySelector('.hero-carousel');
     if (!hero) return;
-    const nextTop = hero.getBoundingClientRect().height + window.scrollY; 
-    window.scrollTo({ top: nextTop, behavior: 'smooth' });
-}
+    const nextTop = hero.getBoundingClientRect().height + window.scrollY;
+    window.scrollTo({
+      top: nextTop,
+      behavior: 'smooth'
+    });
+  }
 </script>
 
 
-        <section class="w-full bg-white py-20 md:py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 flex flex-col items-center">
-                    <h2 class="text-4xl md:text-5xl font-bold text-text-darktext-center">
-                        Fokus Riset
-                    </h2>
-                    <p class="text-lg text-medium md:text-center max-w-3xl">
-                        Laboratorium Business Analytics berkomitmen untuk bergerak melampaui tinjauan teoretis. Kami fokus menerapkan riset mutakhir untuk membangun solusi nyata berbasis data yang menyelesaikan tantangan bisnis yang kompleks. Area riset utama kami meliputi:
-                    </p>
-                </div>
-                
-                <!-- START: Fokus Riset Cards (sesuaikan dengan FokusRiset.php) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    
-                    <!-- Card 1: Business Intelligence -->
-                    <a class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary hover:text-white">
-                        <div class="p-6 space-y-6 flex flex-col h-full">
-                            <!-- Icon Placeholder -->
-                            <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
-                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                            </div>
-                            
-                            <h3 class="text-xl font-bold leading-snug group-hover:text-white transition duration-150">
-                                Intelijen Proses Bisnis & Keunggulan Operasional
-                            </h3>
-                            <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                                Mengoptimalkan proses bisnis internal (manufaktur, logistik, layanan) melalui process mining, peramalan, dan analisis operasional.
-                            </p>
-                        </div>
-                    </a>
-                    
-                    <!-- Card 2: Data Analytics & NLP -->
-                    <a class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
-                        <div class="p-6 space-y-6 flex flex-col h-full">
-                            <!-- Icon Placeholder -->
-                            <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
-                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
-                            </div>
+<section class="w-full bg-white py-20 md:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 flex flex-col items-center">
+      <h2 class="text-4xl md:text-5xl font-bold text-text-darktext-center">
+        Fokus Riset
+      </h2>
+      <p class="text-lg text-medium md:text-center max-w-3xl">
+        Laboratorium Business Analytics berkomitmen untuk bergerak melampaui tinjauan teoretis. Kami fokus menerapkan riset mutakhir untuk membangun solusi nyata berbasis data yang menyelesaikan tantangan bisnis yang kompleks. Area riset utama kami meliputi:
+      </p>
+    </div>
 
-                            <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                                Intelijen Pelanggan & Analitik Pemasaran
-                            </h3>
-                            <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                                Memahami Pelanggan untuk meningkatkan strategi pemasaran dan penjualan.
-                            </p>
-                        </div>
-                    </a>
+    <!-- START: Fokus Riset Cards (sesuaikan dengan FokusRiset.php) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                    <!-- Card 3: Process Mining (PM) -->
-                    <a class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
-                        <div class="p-6 space-y-6 flex flex-col h-full">
-                            <!-- Icon Placeholder -->
-                            <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/></svg>
-                            </div>
+      <?php foreach ($kategoriList as $kategori): ?>
+        <a class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary hover:text-white">
+          <div class="p-6 space-y-6 flex flex-col h-full">
 
-                            <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                                Analitik Produk Digital & Platform
-                            </h3>
-                            <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                                Menganalisis data dari produk digital (aplikasi, website, IoT) untuk inovasi.
-                            </p>
-                        </div>
-                    </a>
-                    
-                    <!-- Card 4: Innovative Tools -->
-                    <a class="research-card group block bg-white text-text-dark rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-200 hover:bg-primary">
-                        <div class="p-6 space-y-6 flex flex-col h-full">
-                            <!-- Icon Placeholder -->
-                            <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
-                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3a2.85 2.85 0 0 0-5.69 0H2v2h1.33A2.85 2.85 0 0 0 7 8.85h.01A2.85 2.85 0 0 0 12.69 8.85H22v-2h-1.33A2.85 2.85 0 0 0 17 3zM7 7.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM2 12h1.33A2.85 2.85 0 0 0 7 15.85h.01A2.85 2.85 0 0 0 12.69 15.85H22v-2h-1.33A2.85 2.85 0 0 0 17 12zM7 16.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
-                            </div>
-
-                            <h3 class="text-xl font-bold text-text-dark leading-snug group-hover:text-white transition duration-150">
-                                Analitik Teks & NLP Terapan
-                            </h3>
-                            <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
-                                Mengembangkan solusi cerdas dari data tidak terstruktur seperti teks.
-                            </p>
-                        </div>
-                    </a>
-                    
-                </div>
-                
-                <div class="flex justify-center w-full mt-12">
-                    <a href="profile/FokusRiset.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
-                        Jelajahi Riset Kami
-                    </a>
-                </div>
+            <!-- Icon -->
+            <div class="w-12 h-12 p-3 rounded-full bg-gray-50 text-primary flex items-center justify-center mb-2 border border-gray-300 group-hover:bg-white group-hover:text-primary group-hover:border-white group-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+              </svg>
             </div>
-        </section>
 
-        <section class="w-full bg-white py-20 md:py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 flex flex-col items-center">
-                <h2 class="text-4xl md:text-5xl font-bold text-text-dark text-center">
-                    Tim Kami
-                </h2>
-                
-                <!-- Team carousel: 9 cards -->
-                <div class="relative w-full">
-                    <!-- Left / Right controls -->
-                    <button aria-label="Prev" onclick="teamScroll('left')" class="team-carousel-nav absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-                    </button>
-                    <button aria-label="Next" onclick="teamScroll('right')" class="team-carousel-nav absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-                    </button>
+            <!-- Nama kategori -->
+            <h3 class="text-xl font-bold leading-snug group-hover:text-white transition duration-150">
+              <?= htmlspecialchars($kategori['nama']); ?>
+            </h3>
 
-                    <div id="teamCarousel" class="py-6 scrollbar-hide overflow-x-scroll" style="scroll-behavior:smooth;">
-                        <div class="carousel-track" role="list">
-                                <?php
-                                    // Data Dosen (9 anggota)
-                                    $team = [
-                                        ['name'=>'Dr. Rakhmat Arianto, S.ST., M.Kom.','title'=>'Kepala Lab','img'=>'assets/Dosen/Rakhmat-Arianto.jpg'],
-                                        ['name'=>'Rokhimatul Wakhidah, S.Pd., M.T.','title'=>'Peneliti','img'=>'assets/Dosen/Rokhimatul-Wakhidah.jpg'],
-                                        ['name'=>'Ir. Rudy Ariyanto, S.T., M.Cs.','title'=>'Peneliti','img'=>'assets/Dosen/Rudi-Ariyanto.jpg'],
-                                        ['name'=>'Ahmadi Yuli Ananta, ST., M.M.','title'=>'Peneliti','img'=>'assets/Dosen/ahmadi-putih.jpg'],
-                                        ['name'=>'Candra Bella Vista, S.Kom., MT.','title'=>'Peneliti','img'=>'assets/Dosen/Candra-Bella-Vista.jpg'],
-                                        ['name'=>'Endah Septa Sintiya, S.Pd., M.Kom','title'=>'Peneliti','img'=>'assets/Dosen/Endah-Septa-Sintiya.jpg'],
-                                        ['name'=>'Dhebys Suryani, S.Kom., MT','title'=>'Peneliti','img'=>'assets/Dosen/Dhebys-Suryani.jpg'],
-                                        ['name'=>'Farid Angga Pribadi, S.Kom.,M.Kom.','title'=>'Peneliti','img'=>'assets/Dosen/Farid-Angga-Pribadi.jpg'],
-                                        ['name'=>'Hendra Pradibta, S.E., M.Sc.','title'=>'Peneliti','img'=>'assets/Dosen/Hendra-Pradibta.jpg']
-                                    ];
-                                    foreach($team as $i => $member) {
-                                        // Menggunakan kelas team-card
-                                        echo '<div class="team-card bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between">';
-                                        echo '<div class="image-wrapper">';
-                                        echo '<img src="'.htmlspecialchars($member['img']).'" alt="'.htmlspecialchars($member['name']).'" class="w-full h-full object-cover" onerror="this.onerror=null; this.src=\'https://placehold.co/540x360/EFEFEF/9A9A9A?text=Team\'">';
-                                        echo '</div>';
-                                        echo '<div class="p-4 text-center">'; 
-                                        echo '<h4 class="text-base font-semibold text-text-dark mb-1">'.htmlspecialchars($member['name']).'</h4>'; 
-                                        echo '<p class="text-xs text-primary font-medium mb-4">'.htmlspecialchars($member['title']).'</p>'; 
-                                        echo '</div></div>';
-                                    }
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-center mt-8">
-                        <a href="profile/dosen.php" class="px-8 py-4 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
-                            Lihat Tim Lengkap
-                        </a>
-                    </div>
-                </div>
-        </section>
-
-        <!-- SCRIPT TEAM CAROUSEL (Diperbaiki untuk Autoscroll dan 4 Kartu per slide) -->
-        <script>
-        (function(){
-            var carousel = document.getElementById('teamCarousel');
-            var track = carousel ? carousel.querySelector('.carousel-track') : null;
-            var autoplayInterval = 2500; // Interval autoscroll (2.5 detik)
-            var cardWidth = 0; 
-            var timer = null;
-
-            function updateCardWidth(){
-                if(!track) return;
-                var firstCard = track.querySelector('.team-card'); 
-                if(!firstCard) return;
-                var style = window.getComputedStyle(track);
-                var cardRect = firstCard.getBoundingClientRect();
-                // Mengambil nilai gap dari CSS (1.5rem = 24px)
-                var gap = parseFloat(style.getPropertyValue('gap')) || 24; 
-                // Lebar geser = Lebar Kartu + Gap
-                cardWidth = Math.round(cardRect.width + gap);
-            }
-
-            function startAuto(){
-                stopAuto();
-                updateCardWidth();
-                timer = setInterval(function(){
-                    if(!carousel) return;
-                    
-                    // Cek apakah sudah mencapai ujung (scrollWidth adalah total lebar konten)
-                    if(carousel.scrollLeft + carousel.clientWidth >= track.scrollWidth - 5){
-                        // Kembali ke awal untuk loop, menggunakan instant behavior
-                        carousel.scrollTo({left:0, behavior:'instant'}); 
-                    } else {
-                        // Geser satu kartu
-                        carousel.scrollBy({left: cardWidth, behavior:'smooth'});
-                    }
-                }, autoplayInterval);
-            }
-
-            function stopAuto(){ if(timer) { clearInterval(timer); timer=null; } }
-
-            window.teamScroll = function(dir){
-                stopAuto();
-                updateCardWidth();
-                if(!carousel) return;
-                var amount = dir === 'left' ? -cardWidth * 4 : cardWidth * 4; // Geser 4 kartu
-                carousel.scrollBy({left: amount, behavior: 'smooth'});
-                // Lanjutkan autoscroll setelah interaksi pengguna
-                setTimeout(startAuto, 4000); 
-            }
-
-            if(carousel && track){
-                // Menghentikan autoscroll saat mouse masuk (hover)
-                carousel.addEventListener('mouseenter', stopAuto);
-                // Melanjutkan autoscroll saat mouse keluar
-                carousel.addEventListener('mouseleave', function(){ setTimeout(startAuto, 500); }); 
-                
-                window.addEventListener('resize', updateCardWidth);
-                
-                // Mulai autoscroll saat halaman dimuat
-                updateCardWidth();
-                startAuto();
-            }
-        })();
-        </script>
-
-        <section class="w-full bg-white py-20 md:py-24">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-              
-              <!-- KIRI: TEKS (TANGGAL, JUDUL, DESKRIPSI, AUTHOR, BUTTON) -->
-              <div class="space-y-6">
-                <!-- TANGGAL (Dipindahkan ke atas judul) -->
-                <?php if ($article): ?>
-                    <div class="inline-block bg-blue-100 text-primary text-xs font-bold px-3 py-1 rounded-full mb-2">
-                        <?php echo date('d F Y', strtotime($article['tanggal'])); ?>
-                    </div>
-                <?php endif; ?>
-
-                <h2 class="text-4xl md:text-5xl font-bold text-text-dark">
-                  <!-- JUDUL DINAMIS -->
-                  <?php echo $article ? htmlspecialchars($article['judul']) : 'Artikel Terbaru'; ?>
-                </h2>
-
-                <div class="text-lg text-gray-600 max-w-xl leading-relaxed">
-                  <?php if ($article): ?>
-                    <!-- ISI/RINGKASAN DINAMIS -->
-                    <?php echo substr(strip_tags($article['isi']), 0, 300) . (strlen(strip_tags($article['isi'])) > 300 ? '...' : '...'); ?>
-                  <?php else: ?>
-                    <p>Kami tidak hanya melakukan analisis data, tetapi menghadirkan solusi cerdas berbasis data yang berdampak nyata. Melalui artikel dan prototipe interaktif yang kami kembangkan.</p>
-                  <?php endif; ?>
-                </div>
-
-                <!-- Author (Ditempatkan di bawah deskripsi) -->
-                <?php if ($article): ?>
-                <div class="flex items-center gap-2 text-primary text-sm font-medium">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    <span class="text-medium"><?php echo htmlspecialchars($article['nama']); ?></span>
-                </div>
-                <?php endif; ?>
-
-                <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']) : 'resources/Article.php'; ?>"
-                  class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
-                  Baca Selengkapnya
-                </a>
-              </div>
-
-              <!-- KANAN: HANYA GAMBAR THUMBNAIL (TANPA TEKS/OVERLAY) -->
-              <div class="relative w-full flex justify-center h-full">
-                <?php if ($article): ?>
-                <a href="<?php echo htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']); ?>" 
-                   class="block group w-full rounded-2xl shadow-xl overflow-hidden bg-gray-100 hover:shadow-2xl transition duration-300 border border-gray-200">
-                  
-                  <!-- Gambar Thumbnail Penuh -->
-                  <img class="w-full h-full object-cover transition duration-500 group-hover:scale-105" 
-                       src="<?php echo htmlspecialchars(BASE_URL. '/' . $article['thumbnail']); ?>" 
-                       alt="<?php echo htmlspecialchars($article['judul']); ?>" 
-                       style="min-height: 320px; max-height: 450px;"
-                  />
-                </a>
-                <?php else: ?>
-                  <div class="flex items-center justify-center p-8 border border-dashed rounded-xl h-80 w-full bg-gray-50 text-medium">
-                      Belum ada artikel yang tersedia.
-                  </div>
-                <?php endif; ?>
-              </div>
-
-            </div>
+            <!-- Deskripsi kategori -->
+            <p class="text-sm text-medium flex-grow group-hover:text-gray-200">
+              <?= htmlspecialchars($kategori['deskripsi']); ?>
+            </p>
           </div>
-        </section>
+        </a>
+      <?php endforeach; ?>
+    </div>
+
+    <div class="flex justify-center w-full mt-12">
+      <a href="profile/FokusRiset.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
+        Jelajahi Riset Kami
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="w-full bg-white py-20 md:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 flex flex-col items-center">
+    <h2 class="text-4xl md:text-5xl font-bold text-text-dark text-center">
+      Tim Kami
+    </h2>
+
+    <!-- Team carousel: 9 cards -->
+    <div class="relative w-full">
+      <!-- Left / Right controls -->
+      <button aria-label="Prev" onclick="teamScroll('left')" class="team-carousel-nav absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+        </svg>
+      </button>
+      <button aria-label="Next" onclick="teamScroll('right')" class="team-carousel-nav absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+        </svg>
+      </button>
+
+      <div id="teamCarousel" class="py-6 scrollbar-hide overflow-x-scroll" style="scroll-behavior:smooth;">
+        <div class="carousel-track" role="list">
+          <?php
+          // Data Dosen (9 anggota)
+          $team = [
+            ['name' => 'Dr. Rakhmat Arianto, S.ST., M.Kom.', 'title' => 'Kepala Lab', 'img' => 'assets/Dosen/Rakhmat-Arianto.jpg'],
+            ['name' => 'Rokhimatul Wakhidah, S.Pd., M.T.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Rokhimatul-Wakhidah.jpg'],
+            ['name' => 'Ir. Rudy Ariyanto, S.T., M.Cs.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Rudi-Ariyanto.jpg'],
+            ['name' => 'Ahmadi Yuli Ananta, ST., M.M.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/ahmadi-putih.jpg'],
+            ['name' => 'Candra Bella Vista, S.Kom., MT.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Candra-Bella-Vista.jpg'],
+            ['name' => 'Endah Septa Sintiya, S.Pd., M.Kom', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Endah-Septa-Sintiya.jpg'],
+            ['name' => 'Dhebys Suryani, S.Kom., MT', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Dhebys-Suryani.jpg'],
+            ['name' => 'Farid Angga Pribadi, S.Kom.,M.Kom.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Farid-Angga-Pribadi.jpg'],
+            ['name' => 'Hendra Pradibta, S.E., M.Sc.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Hendra-Pradibta.jpg']
+          ];
+          foreach ($team as $i => $member) {
+            // Menggunakan kelas team-card
+            echo '<div class="team-card bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between">';
+            echo '<div class="image-wrapper">';
+            echo '<img src="' . htmlspecialchars($member['img']) . '" alt="' . htmlspecialchars($member['name']) . '" class="w-full h-full object-cover" onerror="this.onerror=null; this.src=\'https://placehold.co/540x360/EFEFEF/9A9A9A?text=Team\'">';
+            echo '</div>';
+            echo '<div class="p-4 text-center">';
+            echo '<h4 class="text-base font-semibold text-text-dark mb-1">' . htmlspecialchars($member['name']) . '</h4>';
+            echo '<p class="text-xs text-primary font-medium mb-4">' . htmlspecialchars($member['title']) . '</p>';
+            echo '</div></div>';
+          }
+          ?>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center mt-8">
+      <a href="profile/dosen.php" class="px-8 py-4 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+        Lihat Tim Lengkap
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SCRIPT TEAM CAROUSEL (Diperbaiki untuk Autoscroll dan 4 Kartu per slide) -->
+<script>
+  (function() {
+    var carousel = document.getElementById('teamCarousel');
+    var track = carousel ? carousel.querySelector('.carousel-track') : null;
+    var autoplayInterval = 2500; // Interval autoscroll (2.5 detik)
+    var cardWidth = 0;
+    var timer = null;
+
+    function updateCardWidth() {
+      if (!track) return;
+      var firstCard = track.querySelector('.team-card');
+      if (!firstCard) return;
+      var style = window.getComputedStyle(track);
+      var cardRect = firstCard.getBoundingClientRect();
+      // Mengambil nilai gap dari CSS (1.5rem = 24px)
+      var gap = parseFloat(style.getPropertyValue('gap')) || 24;
+      // Lebar geser = Lebar Kartu + Gap
+      cardWidth = Math.round(cardRect.width + gap);
+    }
+
+    function startAuto() {
+      stopAuto();
+      updateCardWidth();
+      timer = setInterval(function() {
+        if (!carousel) return;
+
+        // Cek apakah sudah mencapai ujung (scrollWidth adalah total lebar konten)
+        if (carousel.scrollLeft + carousel.clientWidth >= track.scrollWidth - 5) {
+          // Kembali ke awal untuk loop, menggunakan instant behavior
+          carousel.scrollTo({
+            left: 0,
+            behavior: 'instant'
+          });
+        } else {
+          // Geser satu kartu
+          carousel.scrollBy({
+            left: cardWidth,
+            behavior: 'smooth'
+          });
+        }
+      }, autoplayInterval);
+    }
+
+    function stopAuto() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    window.teamScroll = function(dir) {
+      stopAuto();
+      updateCardWidth();
+      if (!carousel) return;
+      var amount = dir === 'left' ? -cardWidth * 4 : cardWidth * 4; // Geser 4 kartu
+      carousel.scrollBy({
+        left: amount,
+        behavior: 'smooth'
+      });
+      // Lanjutkan autoscroll setelah interaksi pengguna
+      setTimeout(startAuto, 4000);
+    }
+
+    if (carousel && track) {
+      // Menghentikan autoscroll saat mouse masuk (hover)
+      carousel.addEventListener('mouseenter', stopAuto);
+      // Melanjutkan autoscroll saat mouse keluar
+      carousel.addEventListener('mouseleave', function() {
+        setTimeout(startAuto, 500);
+      });
+
+      window.addEventListener('resize', updateCardWidth);
+
+      // Mulai autoscroll saat halaman dimuat
+      updateCardWidth();
+      startAuto();
+    }
+  })();
+</script>
+
+<section class="w-full bg-white py-20 md:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+      <!-- KIRI: TEKS (TANGGAL, JUDUL, DESKRIPSI, AUTHOR, BUTTON) -->
+      <div class="space-y-6">
+        <!-- TANGGAL (Dipindahkan ke atas judul) -->
+        <?php if ($article): ?>
+          <div class="inline-block bg-blue-100 text-primary text-xs font-bold px-3 py-1 rounded-full mb-2">
+            <?php echo date('d F Y', strtotime($article['tanggal'])); ?>
+          </div>
+        <?php endif; ?>
+
+        <h2 class="text-4xl md:text-5xl font-bold text-text-dark">
+          <!-- JUDUL DINAMIS -->
+          <?php echo $article ? htmlspecialchars($article['judul']) : 'Artikel Terbaru'; ?>
+        </h2>
+
+        <div class="text-lg text-gray-600 max-w-xl leading-relaxed">
+          <?php if ($article): ?>
+            <!-- ISI/RINGKASAN DINAMIS -->
+            <?php echo substr(strip_tags($article['isi']), 0, 300) . (strlen(strip_tags($article['isi'])) > 300 ? '...' : '...'); ?>
+          <?php else: ?>
+            <p>Kami tidak hanya melakukan analisis data, tetapi menghadirkan solusi cerdas berbasis data yang berdampak nyata. Melalui artikel dan prototipe interaktif yang kami kembangkan.</p>
+          <?php endif; ?>
+        </div>
+
+        <!-- Author (Ditempatkan di bawah deskripsi) -->
+        <?php if ($article): ?>
+          <div class="flex items-center gap-2 text-primary text-sm font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+            <span class="text-medium"><?php echo htmlspecialchars($article['nama']); ?></span>
+          </div>
+        <?php endif; ?>
+
+        <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']) : 'resources/Article.php'; ?>"
+          class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
+          Baca Selengkapnya
+        </a>
+      </div>
+
+      <!-- KANAN: HANYA GAMBAR THUMBNAIL (TANPA TEKS/OVERLAY) -->
+      <div class="relative w-full flex justify-center h-full">
+        <?php if ($article): ?>
+          <a href="<?php echo htmlspecialchars(BASE_URL . '/artikel-detail/' . $article['slug']); ?>"
+            class="block group w-full rounded-2xl shadow-xl overflow-hidden bg-gray-100 hover:shadow-2xl transition duration-300 border border-gray-200">
+
+            <!-- Gambar Thumbnail Penuh -->
+            <img class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+              src="<?php echo htmlspecialchars(BASE_URL . '/' . $article['thumbnail']); ?>"
+              alt="<?php echo htmlspecialchars($article['judul']); ?>"
+              style="min-height: 320px; max-height: 450px;" />
+          </a>
+        <?php else: ?>
+          <div class="flex items-center justify-center p-8 border border-dashed rounded-xl h-80 w-full bg-gray-50 text-medium">
+            Belum ada artikel yang tersedia.
+          </div>
+        <?php endif; ?>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 
-        <section class="w-full bg-white py-20 md:py-24">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 flex flex-col items-center"
-              x-data="{ active: 'activities' }">
+<section class="w-full bg-white py-20 md:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 flex flex-col items-center"
+    x-data="{ active: 'activities' }">
 
-              <!-- JUDUL + TOGGLE BUTTON -->
-              <div class="w-full flex justify-between items-center">
-                  <h2 class="text-4xl md:text-5xl font-bold text-text-dark">
-                      Laboratorium Kami dalam Aksi
-                  </h2>
+    <!-- JUDUL + TOGGLE BUTTON -->
+    <div class="w-full flex justify-between items-center">
+      <h2 class="text-4xl md:text-5xl font-bold text-text-dark">
+        Laboratorium Kami dalam Aksi
+      </h2>
 
-                  <div class="relative flex space-x-2 p-2 bg-white border border-gray-300 rounded-full">
-                      <button
-                          @click="active = 'activities'"
-                          :class="active === 'activities'
+      <div class="relative flex space-x-2 p-2 bg-white border border-gray-300 rounded-full">
+        <button
+          @click="active = 'activities'"
+          :class="active === 'activities'
                               ? 'bg-primary text-white'
                               : 'bg-transparent text-medium'"
-                          class="relative z-10 px-8 py-2 text-sm font-bold rounded-full transition duration-150">
-                          Kegiatan
-                      </button>
+          class="relative z-10 px-8 py-2 text-sm font-bold rounded-full transition duration-150">
+          Kegiatan
+        </button>
 
-                      <button
-                          @click="active = 'facility'"
-                          :class="active === 'facility'
+        <button
+          @click="active = 'facility'"
+          :class="active === 'facility'
                               ? 'bg-primary text-white'
                               : 'bg-transparent text-medium'"
-                          class="relative z-10 px-8 py-2 text-sm font-bold rounded-full transition duration-150">
-                          Fasilitas
-                      </button>
-                  </div>
-              </div>
+          class="relative z-10 px-8 py-2 text-sm font-bold rounded-full transition duration-150">
+          Fasilitas
+        </button>
+      </div>
+    </div>
 
               <!-- ===================== -->
               <!--     KEGIATAN LIST (DINAMIS)     -->
@@ -603,14 +643,14 @@ function scrollDown() {
                   if (!empty($recentActivities)): 
                       foreach ($recentActivities as $act):
                   ?>
-                      <!-- Mengubah struktur card untuk Kegiatan (Gambar di atas, Judul di bawah) -->
                       <div class="gallery-card-wrapper">
                           <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/galerikegiatan.php'); ?>" 
                              class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
-                              <img src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $act['gambar']); ?>"
+                              <!-- PERBAIKAN: Hapus path statis /assets/kegiatan/ -->
+                              <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $act['gambar']); ?>"
                                   onerror="this.src='https://placehold.co/400x400/cccccc/646464?text=Image';" 
                                   alt="<?php echo htmlspecialchars($act['judul']); ?>" />
-                              <h3 class="text-lg font-semibold text-text-dark hover:text-primary pt-3 pb-1">
+                              <h3 class="text-lg font-semibold text-text-dark pt-3 pb-1">
                                   <?php echo htmlspecialchars($act['judul']); ?>
                               </h3>
                           </a>
@@ -622,13 +662,13 @@ function scrollDown() {
                   endif; 
                   ?>
 
-                  <!-- TOMBOL -->
-                  <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
-                    <a href="galeri/galeriKegiatan.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
-                      Lihat Galeri Kegiatan
-                    </a>
-                  </div>
-              </div>
+      <!-- TOMBOL -->
+      <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
+        <a href="galeri/galeriKegiatan.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+          Lihat Galeri Kegiatan
+        </a>
+      </div>
+    </div>
 
               <!-- ===================== -->
               <!--     FASILITAS LIST (DINAMIS)   -->
@@ -638,11 +678,11 @@ function scrollDown() {
                   if (!empty($recentFacilities)): 
                       foreach ($recentFacilities as $fac):
                   ?>
-                      <!-- Mengubah struktur card untuk Fasilitas (Gambar di atas, Judul di bawah) -->
                       <div class="gallery-card-wrapper">
                            <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/fasilitas.php'); ?>" 
                               class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
-                              <img src="<?php echo htmlspecialchars(BASE_URL . '/assets/images/galeri/' . $fac['gambar']); ?>"
+                              <!-- PERBAIKAN: Hapus path statis /assets/fasilitas/ -->
+                              <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $fac['gambar']); ?>"
                                   onerror="this.src='https://placehold.co/400x400/aaaaaa/646464?text=Facility';" 
                                   alt="<?php echo htmlspecialchars($fac['judul']); ?>" />
                               <h3 class="text-lg font-semibold text-text-dark hover:text-primary pt-3 pb-1">
@@ -657,17 +697,17 @@ function scrollDown() {
                   endif; 
                   ?>
 
-                  <!-- TOMBOL -->
-                  <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
-                    <a href="galeri/fasilitas.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
-                      Lihat Galeri Fasilitas
-                    </a>
-                  </div>
-              </div>
-          </div>
-      </section>
+      <!-- TOMBOL -->
+      <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
+        <a href="galeri/fasilitas.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+          Lihat Galeri Fasilitas
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <?php
+<?php
 // Memanggil Footer (<footer>, tag penutup)
 include 'includes/footer.php';
 ?>

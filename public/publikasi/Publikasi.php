@@ -34,15 +34,16 @@ try {
         // Asumsi: Kita membuat tanggal dengan tahun_terbit untuk keperluan sorting (misal 1 Januari tahun tersebut)
         $tanggal_asumsi = $tahun_terbit !== 'N/A' ? $tahun_terbit . '-01-01' : '1900-01-01'; 
 
-        $publikasi_list_semua[] = [
-            'id' => $id,
-            'judul' => $p_item['judul'],
-            'jenis_publikasi' => $p_item['jenis_publikasi'],
-            'penulis' => $penulis_array,
-            'tanggal' => $tanggal_asumsi, 
-            'tahun' => $tahun_terbit,
-            'thumbnail' => $details['thumbnail'] ?? '../assets/images/publikasi/default.jpg'
-        ];
+            $publikasi_list_semua[] = [
+                'id' => $id,
+                'judul' => $p_item['judul'],
+                'kategori_riset' => $p_item['kategori_nama'] ?? '', // kategori riset dari join
+                'jenis_publikasi' => $p_item['jenis_publikasi'] ?? '', // plain text
+                'penulis' => $penulis_array,
+                'tanggal' => $tanggal_asumsi, 
+                'tahun' => $tahun_terbit,
+                'thumbnail' => $details['thumbnail'] ?? '../assets/images/publikasi/default.jpg'
+            ];
     }
     
     // Urutkan daftar publikasi berdasarkan tanggal (terbaru pertama)
@@ -73,10 +74,17 @@ foreach ($publikasi_list_semua as $publikasi) {
     if (isset($publikasi['penulis']) && is_array($publikasi['penulis'])) {
         $semua_penulis = array_merge($semua_penulis, $publikasi['penulis']);
     }
+    // Ambil semua kategori riset
+    if (!empty($publikasi['kategori_riset'])) {
+        $semua_kategori_riset[] = $publikasi['kategori_riset'];
+    }
 }
 // Dapatkan daftar dosen unik dan urutkan secara alfabetis
 $dosen_unik = array_unique($semua_penulis);
 sort($dosen_unik);
+// Dapatkan daftar kategori riset unik dan urutkan
+$kategori_riset_unik = array_unique($semua_kategori_riset);
+sort($kategori_riset_unik);
 // --------------------------------------------------------
 
 // 2. Tentukan daftar publikasi yang akan ditampilkan
@@ -229,10 +237,15 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
                     <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition duration-300 ease-in-out border border-gray-100 flex flex-col">
                         
                         <div class="h-48 overflow-hidden">
+                            <?php 
+                                // Tentukan teks yang akan menjadi judul di placeholder jika thumbnail gagal/kosong
+                                $placeholder_text = !empty($jenis_publikasi) ? $jenis_publikasi : 'Publikasi';
+                                $placeholder_url = 'https://placehold.co/600x400/124874/ffffff?text=' . urlencode($placeholder_text);
+                            ?>
                             <img class="w-full h-full object-cover" 
                                 src="<?php echo $image_path; ?>" 
-                                alt="<?php echo htmlspecialchars($publikasi['judul'] ?? 'Publikasi'); ?>"
-                                onerror="this.onerror=null; this.src='https://placehold.co/600x400/124874/ffffff?text=Publikasi';">
+                                alt="<?php echo htmlspecialchars($publikasi['judul'] ?? $placeholder_text); ?>"
+                                onerror="this.onerror=null; this.src='<?php echo $placeholder_url; ?>';">
                         </div>
 
                         <div class="p-6 space-y-4 flex flex-col flex-grow">
@@ -253,9 +266,12 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
                             </p>
                             
                             <p class="text-sm text-text-medium flex-grow"></p>
+                            <p class="text-sm text-text-medium flex-grow">
+                                Deskripsi
+                            </p>
 
                             <div class="pt-4 border-t border-gray-100 mt-auto flex justify-between items-center text-xs text-gray-500">
-                                <span>Tanggal : <strong><?php echo $date_formatted; ?></strong></span>
+                                <span>Tahun : <strong><?php echo htmlspecialchars($publikasi['tahun'] ?? 'N/A'); ?></strong></span>
                                 <a href="publikasi_detail.php?id=<?php echo htmlspecialchars($publikasi['id'] ?? 0); ?>" class="font-bold text-primary hover:text-blue-700">
                                     Detail &raquo;
                                 </a>
