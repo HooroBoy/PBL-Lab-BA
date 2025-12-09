@@ -37,6 +37,11 @@ $d = null;
 try {
     if ($dosen_id) {
         $d = Dosen::find($dosen_id);
+        // --- AMBIL BIDANG KEAHLIAN DINAMIS ---
+        $bidang_keahlian_list = Dosen::getBidangKeahlian($dosen_id);
+        // Gabungkan list menjadi string yang dipisahkan koma untuk variabel $d['bidang_keahlian']
+        $d['bidang_keahlian'] = implode(', ', $bidang_keahlian_list);
+        // --- AKHIR AMBIL BIDANG KEAHLIAN DINAMIS ---
     }
 } catch (PDOException $e) {
     // Error database
@@ -48,6 +53,14 @@ if (!$d) {
     include '../includes/footer.php';
     exit;
 }
+
+// --- START: DATA UJI COBA SEMENTARA UNTUK MEMASTIKAN TAMPILAN ---
+// HAPUS BLOK INI SETELAH ANDA MEMASUKKAN DATA KE DATABASE ASLI
+//$d['bidang_keahlian'] = 'Learning EngineeringTechnology, Data Mining, Sistem Cerdas'; 
+$d['linkedin_link'] = 'https://linkedin.com/in/dosen_anda';
+$d['google_scholar_link'] = 'https://scholar.google.com/citations?user=dosen_anda';
+$d['sinta_link'] = 'https://sinta.kemdikbud.go.id/authors/profile/dosen_anda';
+// --- END: DATA UJI COBA SEMENTARA ---
 
 $dosen_id_current = $dosen_id;
 $publikasiList = Publikasi::findByDosenId($dosen_id_current);

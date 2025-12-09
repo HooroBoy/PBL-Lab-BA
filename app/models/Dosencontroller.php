@@ -158,4 +158,19 @@ class Dosen
         $stmt = $pdo->prepare('DELETE FROM dosen WHERE id=?');
         $stmt->execute([$id]);
     }
+
+    public static function getBidangKeahlian($dosen_id)
+    {
+        global $pdo;
+        $stmt = $pdo->prepare("
+            SELECT bk.nama 
+            FROM dosen_bidang_keahlian AS dbk
+            JOIN bidang_keahlian AS bk ON dbk.bidang_id = bk.id
+            WHERE dbk.dosen_id = :dosen_id
+        ");
+        $stmt->execute([':dosen_id' => $dosen_id]);
+        
+        // Mengembalikan array nama bidang keahlian (contoh: ['Text Mining', 'Data Science'])
+        return $stmt->fetchAll(PDO::FETCH_COLUMN, 0); 
+    }
 }
