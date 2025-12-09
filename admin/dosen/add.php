@@ -3,6 +3,11 @@ session_start();
 $title = 'Tambah Dosen';
 include "../../public/layouts-admin/header-admin.php";
 include "../../app/models/Dosencontroller.php";
+// 1. Include Model Bidang Keahlian
+include "../../app/models/BidangKeahlian.php";
+
+// 2. Ambil semua data bidang keahlian untuk dropdown
+$dataBidang = BidangKeahlian::all();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $foto = '';
@@ -14,10 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fileName = basename($_FILES['foto']['name']);
         $targetFile = $targetDir . time() . '_' . $fileName;
         if (move_uploaded_file($_FILES['foto']['tmp_name'], $targetFile)) {
-            $foto = str_replace('../../public', '', $targetFile); // Simpan path relatif dari /public
+            $foto = str_replace('../../public', '', $targetFile); 
         }
     }
-    // Pastikan input JSON tidak null, jika kosong set sebagai array JSON kosong '[]'
+    
+    // Pastikan input JSON tidak null
     $pendidikanInput = !empty($_POST['pendidikan']) ? $_POST['pendidikan'] : '[]';
     $sertifikasiInput = !empty($_POST['sertifikasi']) ? $_POST['sertifikasi'] : '[]';
     $metadataInput = !empty($_POST['metadata']) ? $_POST['metadata'] : '{}';
@@ -33,14 +39,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'sinta_id' => $_POST['sinta_id'],
         'google_scholar_id' => $_POST['google_scholar_id'],
         'linkedin_url' => $_POST['linkedin_url'],
-
-        // Gunakan variabel yang sudah divalidasi
         'pendidikan' => $pendidikanInput,
         'sertifikasi' => $sertifikasiInput,
         'metadata' => $metadataInput,
     ];
 
-    Dosen::create($data);
+    // 3. Siapkan data Bidang Keahlian untuk dikirim ke Model
+    $data2 = [
+        // Menggunakan null coalescing operator agar tidak error jika kosong
+        'bidangs' => isset($_POST['bidang_keahlian']) ? $_POST['bidang_keahlian'] : []
+    ];
+
+    // 4. Panggil create dengan 2 parameter
+    Dosen::create($data, $data2);
+
     $message = "<script>
     Swal.fire({
         title: 'Berhasil',
@@ -55,6 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>";
 }
 ?>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
 <body>
     <script src="../../public/assets/static/js/initTheme.js"></script>
@@ -85,8 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
-                                                <label class="form-label">Nama <span
-                                                        class="text-danger">*</span></label>
+                                                <label class="form-label">Nama <span class="text-danger">*</span></label>
                                                 <input type="text" name="nama" class="form-control" required>
                                             </div>
                                             <div class="col-md-6">
@@ -124,37 +138,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <input type="text" name="google_scholar_id" class="form-control">
                                             </div>
                                         </div>
-                                            <input type="hidden" name="admin_id" class="form-control" value="<?php echo $_SESSION['id']; ?>">
+
+                                        <div class="mb-3">
+                                            <label for="myMultipleSelect" class="form-label">Bidang Keahlian</label>
+                                            <select name="bidang_keahlian[]" id="myMultipleSelect" class="form-control" multiple="multiple">
+                                                <?php foreach ($dataBidang as $bidang) { ?>
+                                                    <option value="<?php echo $bidang['id']; ?>">
+                                                        <?php echo $bidang['nama']; ?>
+                                                    </option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+
+                                        <input type="hidden" name="admin_id" class="form-control" value="<?php echo $_SESSION['id']; ?>">
+                                        
                                         <div class="mb-3">
                                             <label class="form-label">Riwayat Pendidikan</label>
                                             <div id="pendidikan-list">
                                                 <div class="pendidikan-row row g-2 mb-2">
                                                     <div class="col-md-2">
-                                                        <input type="text" class="form-control item-jenjang"
-                                                            placeholder="Jenjang (S1/S2)">
+                                                        <input type="text" class="form-control item-jenjang" placeholder="Jenjang (S1/S2)">
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input type="text" class="form-control item-kampus"
-                                                            placeholder="Nama Kampus">
+                                                        <input type="text" class="form-control item-kampus" placeholder="Nama Kampus">
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <input type="text" class="form-control item-jurusan"
-                                                            placeholder="Jurusan">
+                                                        <input type="text" class="form-control item-jurusan" placeholder="Jurusan">
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <input type="number" class="form-control item-tahun"
-                                                            placeholder="Thn Lulus">
+                                                        <input type="number" class="form-control item-tahun" placeholder="Thn Lulus">
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <button type="button"
-                                                            class="btn btn-outline-danger w-100 remove-pendidikan"><strong>x</strong></button>
+                                                        <button type="button" class="btn btn-outline-danger w-100 remove-pendidikan"><strong>x</strong></button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="button"
-                                                class="btn btn-sm btn-outline-primary mt-1 add-pendidikan">+ Tambah
-                                                Pendidikan</button>
-
+                                            <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-pendidikan">+ Tambah Pendidikan</button>
                                             <input type="hidden" name="pendidikan" id="pendidikan-json">
                                         </div>
 
@@ -179,52 +198,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-sertifikasi">+ Tambah Sertifikasi</button>
                                             <input type="hidden" name="sertifikasi" id="sertifikasi-json">
                                         </div>
+
                                         <div class="mb-3 text-end">
                                             <button type="submit" class="btn btn-primary">Tambah Data</button>
                                             <a href="view.php?halaman=dosen" class="btn btn-secondary ms-2">Kembali</a>
                                         </div>
                                     </form>
+
                                     <script>
-                                        document.addEventListener('DOMContentLoaded', function () {
-
+                                        document.addEventListener('DOMContentLoaded', function() {
                                             // --- 1. Logic Tambah/Hapus Baris (Event Delegation) ---
-                                            document.body.addEventListener('click', function (e) {
-
+                                            document.body.addEventListener('click', function(e) {
                                                 // Tambah Pendidikan
                                                 if (e.target.classList.contains('add-pendidikan')) {
                                                     const list = document.getElementById('pendidikan-list');
                                                     const div = document.createElement('div');
                                                     div.className = 'pendidikan-row row g-2 mb-2';
                                                     div.innerHTML = `
-                <div class="col-md-2"><input type="text" class="form-control item-jenjang" placeholder="Jenjang"></div>
-                <div class="col-md-4"><input type="text" class="form-control item-kampus" placeholder="Nama Kampus"></div>
-                <div class="col-md-3"><input type="text" class="form-control item-jurusan" placeholder="Jurusan"></div>
-                <div class="col-md-2"><input type="number" class="form-control item-tahun" placeholder="Thn"></div>
-                <div class="col-md-1"><button type="button" class="btn btn-outline-danger w-100 remove-pendidikan"><strong>x</strong></button></div>
-            `;
+                                                        <div class="col-md-2"><input type="text" class="form-control item-jenjang" placeholder="Jenjang"></div>
+                                                        <div class="col-md-4"><input type="text" class="form-control item-kampus" placeholder="Nama Kampus"></div>
+                                                        <div class="col-md-3"><input type="text" class="form-control item-jurusan" placeholder="Jurusan"></div>
+                                                        <div class="col-md-2"><input type="number" class="form-control item-tahun" placeholder="Thn"></div>
+                                                        <div class="col-md-1"><button type="button" class="btn btn-outline-danger w-100 remove-pendidikan"><strong>x</strong></button></div>
+                                                    `;
                                                     list.appendChild(div);
                                                 }
-
                                                 // Hapus Pendidikan
                                                 if (e.target.classList.contains('remove-pendidikan') || e.target.closest('.remove-pendidikan')) {
                                                     const row = e.target.closest('.pendidikan-row');
                                                     if (row) row.remove();
                                                 }
-
                                                 // Tambah Sertifikasi
                                                 if (e.target.classList.contains('add-sertifikasi')) {
                                                     const list = document.getElementById('sertifikasi-list');
                                                     const div = document.createElement('div');
                                                     div.className = 'sertifikasi-row row g-2 mb-2';
                                                     div.innerHTML = `
-                <div class="col-md-5"><input type="text" class="form-control item-nama-sertif" placeholder="Nama Sertifikasi"></div>
-                <div class="col-md-4"><input type="text" class="form-control item-penerbit" placeholder="Penerbit"></div>
-                <div class="col-md-2"><input type="number" class="form-control item-tahun-sertif" placeholder="Thn"></div>
-                <div class="col-md-1"><button type="button" class="btn btn-outline-danger w-100 remove-sertifikasi"><strong>x</strong></button></div>
-            `;
+                                                        <div class="col-md-5"><input type="text" class="form-control item-nama-sertif" placeholder="Nama Sertifikasi"></div>
+                                                        <div class="col-md-4"><input type="text" class="form-control item-penerbit" placeholder="Penerbit"></div>
+                                                        <div class="col-md-2"><input type="number" class="form-control item-tahun-sertif" placeholder="Thn"></div>
+                                                        <div class="col-md-1"><button type="button" class="btn btn-outline-danger w-100 remove-sertifikasi"><strong>x</strong></button></div>
+                                                    `;
                                                     list.appendChild(div);
                                                 }
-
                                                 // Hapus Sertifikasi
                                                 if (e.target.classList.contains('remove-sertifikasi') || e.target.closest('.remove-sertifikasi')) {
                                                     const row = e.target.closest('.sertifikasi-row');
@@ -233,8 +249,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             });
 
                                             // --- 2. Logic Submit Form (Convert ke JSON) ---
-                                            document.getElementById('dosenForm').addEventListener('submit', function (e) {
-
+                                            document.getElementById('dosenForm').addEventListener('submit', function(e) {
                                                 // A. Proses Pendidikan
                                                 const pendidikanArr = [];
                                                 document.querySelectorAll('.pendidikan-row').forEach(row => {
@@ -242,8 +257,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     const kampus = row.querySelector('.item-kampus').value;
                                                     const jurusan = row.querySelector('.item-jurusan').value;
                                                     const tahun = row.querySelector('.item-tahun').value;
-
-                                                    // Validasi: Hanya masukkan jika minimal Jenjang & Kampus terisi
                                                     if (jenjang && kampus) {
                                                         pendidikanArr.push({
                                                             jenjang: jenjang,
@@ -253,9 +266,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                         });
                                                     }
                                                 });
-                                                // Jika kosong kirim '[]' agar tidak error di JSON decode
                                                 document.getElementById('pendidikan-json').value = pendidikanArr.length ? JSON.stringify(pendidikanArr) : '[]';
-
 
                                                 // B. Proses Sertifikasi
                                                 const sertifikasiArr = [];
@@ -263,7 +274,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     const nama = row.querySelector('.item-nama-sertif').value;
                                                     const penerbit = row.querySelector('.item-penerbit').value;
                                                     const tahun = row.querySelector('.item-tahun-sertif').value;
-
                                                     if (nama) {
                                                         sertifikasiArr.push({
                                                             nama_sertifikasi: nama,
@@ -290,7 +300,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="../../public/assets/compiled/js/app.js"></script>
     <script src="../../public/assets/static/js/pages/sweetalert2.js"></script>
     
-    <?=$message ?>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    <?php if (!empty($message)) echo $message; ?>
 
+    <script>
+        $(document).ready(function() {
+            $('#myMultipleSelect').select2({
+                theme: 'bootstrap-5',
+                width: 'resolve',
+                placeholder: 'Pilih Bidang Keahlian'
+            });
+        });
+    </script>
+</body>
 </html>

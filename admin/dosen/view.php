@@ -1,12 +1,46 @@
 <?php
 session_start();
-require_once __DIR__ . "/../../app/models/Dosencontroller.php";
+require_once __DIR__ . "/../../app/models/Dosencontroller.php"; // Pastikan path model benar
 
+// Mengambil semua data dosen
 $dosenall = Dosen::all();
 
 $title = 'Data Dosen';
 include "../../public/layouts-admin/header-admin.php";
 ?>
+
+<style>
+    /* CSS Tambahan agar kartu terlihat rapi */
+    .card-dosen {
+        transition: transform 0.2s;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .card-dosen:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    .img-container {
+        width: 100%;
+        height: 250px; /* Tinggi foto tetap */
+        background-color: #f8f9fa;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Agar gambar tidak gepeng */
+        object-position: top center;
+    }
+    .badge-bidang {
+        font-size: 0.75rem;
+        margin-right: 3px;
+        margin-bottom: 3px;
+    }
+</style>
 
 <body>
     <script src="../../public/assets/static/js/initTheme.js"></script>
@@ -32,52 +66,84 @@ include "../../public/layouts-admin/header-admin.php";
                             </div>
                         </div>
                     </div>
-                    <section class="section">
-                        <a href="add.php?halaman=tambah_dosen" class="btn btn-primary btn-sm mb-3">Tambah Dosen</a>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="table">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Nama</th>
-                                                <th>NIP</th>
-                                                <th>NIDN</th>
-                                                <th>Email</th>
-                                                <th>Program Studi</th>
-                                                <th>SINTA ID</th>
-                                                <th>Google Scholar ID</th>
-                                                <th>LinkedIn</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php 
-                                            $i = 1;
-                                                foreach ($dosenall as $row): ?>
-                                                    <tr>
-                                                        <td><?= $i++ ?></td>
-                                                        <td><?= $row['nama'] ?></td>
-                                                        <td><?= $row['nip'] ?></td>
-                                                        <td><?= $row['nidn'] ?></td>
-                                                        <td><?= $row['email'] ?></td>
-                                                        <td><?= $row['program_studi'] ?></td>
-                                                        <td><?= $row['sinta_id'] ?></td>
-                                                        <td><?= $row['google_scholar_id'] ?></td>
-                                                        <td><?= $row['linkedin_url'] ?></td>
-                                                        <td>
-                                                            <a class="btn btn-primary btn-sm" href="edit.php?halaman=ubah_dosen&id=<?= $row['id'] ?>">Ubah</a>
-                                                            <a class="btn btn-danger btn-sm" href="delete.php?halaman=hapus_dosen&id=<?= $row['id'] ?>" onclick="return confirm('Hapus dosen ini?')">Hapus</a>
-                                                        </td>
-                                                    </tr>
-                                                <?php endforeach;?>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                    <section class="section">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <a href="add.php?halaman=tambah_dosen" class="btn btn-primary">
+                                <i class="bi bi-plus-circle me-1"></i> Tambah Dosen
+                            </a>
                         </div>
+
+                        <div class="row">
+                            <?php foreach ($dosenall as $row): ?>
+                                <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                                    <div class="card card-dosen h-100">
+                                        <div class="img-container">
+                                            <?php
+                                                $fotoPath = $row['foto'];
+                                                $displayFoto = 'https://via.placeholder.com/300x300?text=No+Image'; // Default placeholder
+
+                                                if (!empty($fotoPath)) {
+                                                    // Logic path (sesuaikan dengan struktur folder Anda)
+                                                    if (strpos($fotoPath, '/assets/Dosen/') !== false) {
+                                                        $displayFoto = '/PBL-Lab-BA/public' . $fotoPath;
+                                                    } else {
+                                                        $displayFoto = '/PBL-Lab-BA/public/assets/Dosen/' . basename($fotoPath);
+                                                    }
+                                                }
+                                            ?>
+                                            <img src="<?= $displayFoto ?>" alt="Foto <?= htmlspecialchars($row['nama']) ?>">
+                                        </div>
+
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title text-center mb-1"><?= htmlspecialchars($row['nama']) ?></h5>
+                                            <p class="text-muted text-center small mb-3"><?= htmlspecialchars($row['program_studi']) ?></p>
+
+                                            <div class="small mb-3 text-secondary">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>NIP:</span>
+                                                    <span class="fw-bold"><?= $row['nip'] ?></span>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <span>NIDN:</span>
+                                                    <span class="fw-bold"><?= $row['nidn'] ?></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <small class="fw-bold d-block mb-1">Bidang Ahli:</small>
+                                                <div class="d-flex flex-wrap">
+                                                    <?php if (!empty($row['bidang'])): ?>
+                                                        <?php foreach ($row['bidang'] as $bid): ?>
+                                                            <span class="badge bg-light text-primary border badge-bidang">
+                                                                <?= htmlspecialchars($bid['nama_bidang']) ?>
+                                                            </span>
+                                                        <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                        <span class="text-muted small">-</span>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-auto d-flex gap-2">
+                                                <a href="edit.php?halaman=edit_dosen&id=<?= $row['id'] ?>" class="btn btn-warning btn-sm flex-grow-1">
+                                                    <i class="bi bi-pencil-square"></i> Edit
+                                                </a>
+                                                <a href="delete.php?halaman=hapus_dosen&id=<?= $row['id'] ?>" class="btn btn-danger btn-sm flex-grow-1" onclick="return confirm('Yakin ingin menghapus dosen ini?')">
+                                                    <i class="bi bi-trash"></i> Hapus
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <?php if (empty($dosenall)): ?>
+                            <div class="alert alert-info text-center">
+                                Belum ada data dosen. Silakan tambah data baru.
+                            </div>
+                        <?php endif; ?>
+
                     </section>
                 </div>
             </div>
