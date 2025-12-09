@@ -538,9 +538,13 @@ include 'includes/header.php';
 </script>
 
 <section class="w-full bg-white py-20 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+    <h2 class="text-4xl md:text-5xl font-bold text-text-dark text-center mb-20">
+    Artikel Terbaru Kami
+</h2>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-
+      
       <!-- KIRI: TEKS (TANGGAL, JUDUL, DESKRIPSI, AUTHOR, BUTTON) -->
       <div class="space-y-6">
         <!-- TANGGAL (Dipindahkan ke atas judul) -->
