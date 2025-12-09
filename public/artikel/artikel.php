@@ -1,24 +1,16 @@
 <?php
-// Set Judul Halaman
-$page_title = "Daftar Artikel - Laboratory of Business Analytics";
-// Memanggil Header (Header will include HTML setup and Navbar)
+$page_title = "Daftar Artikel Laboratory of Business Analytics";
+
 require_once '../includes/header.php';
 
-// --- Menggunakan Model Artikel untuk Mengambil Data Dinamis ---
-// Asumsi: File model Artikel.php terletak di lokasi yang dapat diakses (misalnya, di folder ../app/models/)
-// Kita harus menggunakan path yang tepat untuk memuat model, tergantung di mana file ini (artikel.php) berada.
-// Asumsi path: Model berada di /app/models/Artikel.php
 require_once __DIR__ . '/../../app/models/Artikel.php';
 
-// Mengambil semua data artikel dari database menggunakan Model Artikel
 try {
     $articles = Artikel::all();
 } catch (PDOException $e) {
-    // Tangani kesalahan jika koneksi database gagal atau tabel tidak ditemukan
-    $articles = []; // Set array kosong untuk menghindari error loop
+    $articles = []; 
     echo "<p class='text-center text-red-600'>Gagal memuat artikel dari database: " . $e->getMessage() . "</p>";
 }
-// --- Akhir Pengambilan Data ---
 
 ?>
 
@@ -30,7 +22,7 @@ try {
             <nav class="text-sm font-medium text-gray-500 mb-4 inline-block" aria-label="Breadcrumb">
                 <ol class="list-none p-0 inline-flex">
                     <li class="flex items-center">
-                        <a href="../index.php" class="text-primary hover:text-blue-700">Home</a>
+                        <a href="/index.php" class="text-primary hover:text-blue-700">Home</a>
                         <svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
                             aria-hidden="true">
                             <path fill-rule="evenodd"
@@ -54,7 +46,6 @@ try {
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
                 <?php foreach ($articles as $article): ?>
-                    <!-- Tautan menuju halaman detail artikel (gunakan slug) -->
                     <a href="/PBL-Lab-BA/public/artikel/detail.php?id=<?php echo $article['id']; ?>"
                         class="group bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 transform hover:scale-[1.02] border border-gray-200">
                         <!-- Foto Artikel -->
@@ -87,7 +78,6 @@ try {
                                     <path
                                         d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                                 </svg>
-                                <!-- Karena tabel artikel tidak memiliki kolom 'author' dan hanya 'admin_id', kita tampilkan ID atau nama admin jika tersedia. Di sini menggunakan placeholder 'Admin ID: X' -->
                                 <span>Author: <?php echo htmlspecialchars($article['nama']); ?></span>
                             </div>
 
@@ -118,6 +108,5 @@ try {
 </div>
 
 <?php
-// Memanggil Footer
 require_once '../includes/footer.php';
 ?>

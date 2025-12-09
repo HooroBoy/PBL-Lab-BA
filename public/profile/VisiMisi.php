@@ -1,9 +1,6 @@
 <?php
-// Set Judul Halaman
-$page_title = "Visi & Misi Lab Business Analytics";
+$page_title = "Visi & Misi Laboratory of Business Analytics";
 
-// Tentukan path relatif ke folder 'includes'
-// Karena file ini ada di 'profile/', kita harus mundur satu level (..)
 include '../includes/header.php';
 ?>
 
@@ -14,9 +11,9 @@ include '../includes/header.php';
             Visi & Misi Lab
         </h1>
 
-        <!-- Visi & Misi Cards (Side-by-side) -->
+        <!-- Visi & Misi Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            <!-- Visi Card -->
+            <!-- Visi -->
             <div class="p-8 md:p-10 bg-blue-50 rounded-2xl shadow-md space-y-6">
                 <div class="flex items-center space-x-4">
                     <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-sm">
@@ -138,7 +135,7 @@ include '../includes/header.php';
             Tujuan Laboratorium Business Analytics
         </h1>
 
-        <!-- Tujuan Descripsi -->
+        <!-- Tujuan -->
         <div class="p-8 md:p-10 bg-blue-50 rounded-2xl shadow-md max-w-4xl mx-auto mb-12">
             <p class="text-lg text-medium leading-relaxed text-text-dark">
                 <span class="font-bold">Laboratorium Business Analytics</span> bertujuan menjadi <span Class="font-bold">Center of Excellence</span> yang memadukan inovasi, riset terapan, pengembangan SDM, dan kemitraan industri untuk mendorong transformasi bisnis berbasis data, serta menjadi rujukan nasional dalam praktik analitik modern.
@@ -299,6 +296,5 @@ include '../includes/header.php';
 </section>
 
 <?php
-// Memanggil Footer (<footer>, tag penutup)
 include '../includes/footer.php';
 ?>

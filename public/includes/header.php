@@ -1,18 +1,13 @@
 <?php
 session_start();
-// Tentukan judul halaman default atau gunakan yang sudah diset
 $page_title = $page_title ?? "Laboratory of Business Analytics";
 
-// Load base path/url helpers so assets and links resolve correctly from any include location
 require_once __DIR__ . '/config.php';
 
-// --- BAGIAN DINAMIS TELAH DIHAPUS ---
-// Nilai Statis Default
 $header_title = 'LABORATORIUM';
 $header_subtitle = 'BUSINESS ANALYTICS';
 $header_slogan = 'Transforming Data into Decisions';
 $header_logo_url = BASE_URL . '/assets/Logo/logo2.png';
-// --- AKHIR BAGIAN STATIS ---
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,10 +20,8 @@ $header_logo_url = BASE_URL . '/assets/Logo/logo2.png';
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <style>
-        /* Custom colors based on the design */
         :root {
             --color-primary: #124874;
-            /* Biru Penguin hallo*/
             --color-secondary-light: #ECF2FB;
             --color-text-dark: #181818;
             --color-text-medium: #646464;
@@ -62,15 +55,12 @@ $header_logo_url = BASE_URL . '/assets/Logo/logo2.png';
             outline-color: var(--color-primary);
         }
 
-        /* Custom styles for the intricate icons/shapes in the original design */
         .icon-box {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 4rem;
-            /* 64px */
             height: 4rem;
-            /* 64px */
             padding: 0.5rem;
             border-radius: 9999px;
         }
@@ -84,15 +74,14 @@ $header_logo_url = BASE_URL . '/assets/Logo/logo2.png';
         <header class="w-full border-b border-primary sticky top-0 bg-primary text-white z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                 <div class="flex items-center space-x-2">
-                    <!-- LOGO STATIS -->
+                    <!-- LOGO -->
                     <img class="w-10 h-10 rounded-lg" src="<?php echo $header_logo_url; ?>" alt="LBA"
                         onerror="this.onerror=null; this.src='https://placehold.co/40x40/124874/FFFFFF?text=LBA';" />
                     <div class="flex flex-col">
-                        <!-- TEKS HEADER STATIS -->
+                        <!-- TEKS HEADER -->
                         <span class="text-xs font-bold uppercase leading-tight text-white"><?php echo $header_title; ?></span>
                         <span class="text-sm font-bold uppercase leading-none text-white"><?php echo $header_subtitle; ?></span>
                         <span class="text-xs font-medium leading-none text-white mt"><?php echo $header_slogan; ?></span>
-                        <!-- AKHIR TEKS HEADER STATIS -->
                     </div>
                 </div>
 
@@ -159,14 +148,12 @@ $header_logo_url = BASE_URL . '/assets/Logo/logo2.png';
                 </nav>
 
                 <div class="flex items-center space-x-2">
-                    <!-- Desktop booking button (visible on lg and up) -->
                     <div class="hidden lg:block">
                         <a href="<?php echo BASE_URL; ?>/peminjaman/Peminjaman.php" class="inline-flex items-center px-6 py-2 bg-white text-primary text-sm font-bold rounded-full shadow-lg hover:bg-blue-100 transition duration-300">
                             Peminjaman
                         </a>
                     </div>
 
-                    <!-- Mobile three-dot menu (visible on small/medium widths) -->
                     <div x-data="{ openMobileMenu: false }" class="lg:hidden relative">
                         <button @click="openMobileMenu = !openMobileMenu" class="p-2 rounded-md hover:bg-white/10 text-white focus:outline-none">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">

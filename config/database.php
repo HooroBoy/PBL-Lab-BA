@@ -1,11 +1,10 @@
 <?php
 $host = 'localhost';
-$dbname = 'PBL';  // Ganti sesuai nama DB PostgreSQL kamu
-$user = 'postgres';       // Default user PostgreSQL
-$pass = 'rafazl';  // Sesuaikan dengan password PostgreSQL
-$port = '5432'; // Sesuaikan dengan port PostgreSQL jika perlu
+$dbname = 'PBL_LAB_BA';  
+$user = 'postgres';       
+$pass = '1234'; 
+$port = '5432'; 
 try {
-    // DSN untuk PostgreSQL
     $dsn = "pgsql:host=$host;dbname=$dbname;user=$user;password=$pass;port=$port";
     $pdo = new PDO($dsn);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
