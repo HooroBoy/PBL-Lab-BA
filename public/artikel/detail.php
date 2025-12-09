@@ -34,7 +34,7 @@ $page_title = $artikel['judul'];
             <?php echo htmlspecialchars($artikel['judul']); ?>
         </h1>
 
-        <!-- Meta info -->
+        <!-- info -->
         <div class="flex items-center space-x-4 text-gray-600 text-sm mb-8">
             <span>📅 <?php echo date("d M Y", strtotime($artikel['created_at'])); ?></span>
             <span>👤 <?= htmlspecialchars($artikel['admin_username']) ?></span>
