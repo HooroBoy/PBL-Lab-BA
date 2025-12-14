@@ -1,5 +1,5 @@
     <?php
-include_once __DIR__ . '/../models/Peminjaman.php';
+    include_once __DIR__ . '/../models/Peminjaman.php';
 
     class PeminjamanController
     {
@@ -76,7 +76,7 @@ include_once __DIR__ . '/../models/Peminjaman.php';
             $sql = "
             SELECT COUNT(*)
             FROM peminjaman
-            WHERE status IN ('diterima','menunggu')
+            WHERE status = 'diterima'
             AND tanggal_mulai = :tanggal
             
             AND (
@@ -94,20 +94,33 @@ include_once __DIR__ . '/../models/Peminjaman.php';
 
             return $stmt->fetchColumn() == 0;
         }
-        public static function fetchAll(){
+        public static function fetchAll()
+        {
             global $pdo;
             $query = "SELECT * FROM peminjaman";
             $stmt =  $pdo->query($query)->fetchAll();
             return $stmt;
         }
 
-        public static function find($id){
+        public static function fetchApproved()
+        {
+            global $pdo;
+            // Query khusus untuk mengambil data yang statusnya 'diterima' saja
+            // Kita juga bisa mengurutkannya dari tanggal terbaru (DESC)
+            $query = "SELECT * FROM peminjaman WHERE status = 'diterima' ORDER BY tanggal_mulai DESC";
+
+            $stmt = $pdo->query($query);
+            return $stmt->fetchAll();
+        }
+
+        public static function find($id)
+        {
             global $pdo;
             $stmt = $pdo->prepare('SELECT * FROM peminjaman WHERE id = ?');
             $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
-        
+
         public static function addJadwalTidakTersedia($tanggal, $jam, $keterangan, $admin_id)
         {
             if (empty($tanggal) || empty($keterangan)) {
@@ -115,19 +128,20 @@ include_once __DIR__ . '/../models/Peminjaman.php';
             }
 
             $jam_fix = empty($jam) ? '00:00:00' : $jam;
-            
+
             $waktu_input = $tanggal . ' ' . $jam_fix;
 
             try {
                 JadwalTidakTersedia::createBlockedDate($waktu_input, $keterangan, $admin_id);
-                
+
                 return ['type' => 'success', 'msg' => 'Jadwal berhasil diblokir/ditambahkan.'];
             } catch (Exception $e) {
                 return ['type' => 'danger', 'msg' => 'Gagal menyimpan: ' . $e->getMessage()];
             }
         }
-        public static function SetStatus($id,$status,$alasan){
-            Peminjaman::setStatus($id,$status,$alasan);
+        public static function SetStatus($id, $status, $alasan)
+        {
+            Peminjaman::setStatus($id, $status, $alasan);
         }
     }
     ?>
