@@ -60,7 +60,7 @@ include '../includes/header.php';
       ?>
                 <a href="LihatDosen.php?id=<?php echo urlencode($dosen_id); ?>" class="group block bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 relative overflow-hidden">
           <div class="flex flex-col items-center text-center p-0">
-                            <div class="w-full h-72 overflow-hidden mb-4 relative z-10 rounded-t-xl">
+                            <div class="w-full h-96 overflow-hidden mb-4 relative z-10 rounded-t-xl">
               <img src="<?php echo $img; ?>" 
                     alt="<?php echo htmlspecialchars($d['nama']); ?>" 
                     class="w-full h-full object-cover transition duration-300 group-hover:scale-105" 

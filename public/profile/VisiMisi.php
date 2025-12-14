@@ -245,10 +245,10 @@ include '../includes/header.php';
                     </button>
                     <div x-show="openFocus === 5" x-transition class="px-4 pb-4 bg-blue-50 border-t border-primary text-medium">
                         Meningkatkan kualitas dan kapasitas SDM melalui:
-                        <br>1. Pembelajaran berbasis proyek</br>
-                        2. Sertifikasi kompetensi nasional (BNSP/SKKNI) dan global
-                        <br>3. Pelatihan perangkat profesional (Power BI, Tableau, SQL, Cloud)</br>
-                        4. Klinik riset dan metodologi.
+                        <br>- Pembelajaran berbasis proyek</br>
+                        - Sertifikasi kompetensi nasional (BNSP/SKKNI) dan global
+                        <br>- Pelatihan perangkat profesional (Power BI, Tableau, SQL, Cloud)</br>
+                        - Klinik riset dan metodologi.
                     </div>
                 </div>
 
