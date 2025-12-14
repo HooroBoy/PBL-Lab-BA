@@ -650,7 +650,7 @@ include 'includes/header.php';
         foreach ($recentActivities as $act):
       ?>
           <div class="gallery-card-wrapper">
-            <a href="<?php echo htmlspecialchars(BASE_URL . '/aktifitas/galerikegiatan.php'); ?>"
+            <a href="<?php echo htmlspecialchars(BASE_URL . '/detail/galerikegiatan.php'); ?>"
               class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
               <!-- PERBAIKAN: Hapus path statis /assets/kegiatan/ -->
               <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $act['gambar']); ?>"
@@ -670,7 +670,7 @@ include 'includes/header.php';
 
       <!-- TOMBOL -->
       <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
-        <a href="aktifitas/galeriKegiatan.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+        <a href="detail/galeriKegiatan.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
           Lihat Galeri Kegiatan
         </a>
       </div>
@@ -685,7 +685,7 @@ include 'includes/header.php';
         foreach ($recentFacilities as $fac):
       ?>
           <div class="gallery-card-wrapper">
-            <a href="<?php echo htmlspecialchars(BASE_URL . '/aktifitas/fasilitas.php'); ?>"
+            <a href="<?php echo htmlspecialchars(BASE_URL . '/detail/fasilitas.php'); ?>"
               class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
               <!-- PERBAIKAN: Hapus path statis /assets/fasilitas/ -->
               <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $fac['gambar']); ?>"
@@ -705,7 +705,7 @@ include 'includes/header.php';
 
       <!-- TOMBOL -->
       <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
-        <a href="aktifitas/fasilitas.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+        <a href="detail/fasilitas.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
           Lihat Galeri Fasilitas
         </a>
       </div>
