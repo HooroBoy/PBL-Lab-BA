@@ -411,7 +411,7 @@ include 'includes/header.php';
     <div class="relative w-full">
       <!-- Left / Right controls -->
       <button aria-label="Prev" onclick="teamScroll('left')" class="team-carousel-nav absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
           <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
         </svg>
       </button>
@@ -597,7 +597,7 @@ include 'includes/header.php';
                 View Artikel
               </span>
             </div>
-            
+
             <!-- Gambar Thumbnail Penuh -->
             <img class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
               src="<?php echo htmlspecialchars(BASE_URL . '/' . $article['thumbnail']); ?>"
