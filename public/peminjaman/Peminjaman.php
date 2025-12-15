@@ -243,22 +243,15 @@ if (isset($_SESSION['wa_redirect'])) {
             confirmButtonText: 'OK'
           };
 
-          // Kustomisasi Khusus jika SUKSES (Ada link WA)
           if (waLink) {
-            // HAPUS TIMER agar user punya waktu untuk klik
-            // swalConfig.timer = 2000; 
-
-            // Tampilkan tombol agar browser mengizinkan buka Tab Baru
             swalConfig.showConfirmButton = true;
             swalConfig.confirmButtonText = 'Lanjut ke WhatsApp 👉';
             swalConfig.text = text + '\n\nSilakan klik tombol di bawah untuk membuka WhatsApp.';
           }
 
-          // Tampilkan SweetAlert
+
           Swal.fire(swalConfig).then((result) => {
-            // Logika ini jalan setelah tombol "Lanjut ke WhatsApp" diklik
             if (result.isConfirmed && waLink) {
-              // Parameter '_blank' membuat link terbuka di TAB BARU
               window.open(waLink, '_blank');
             }
           });
