@@ -256,7 +256,7 @@
             </form>
             
             <div class="register-link">
-                Lupa password? Hubungi <a href="#">Admin</a>.
+                Belum punya akun? <a href="register.php">Daftar Sekarang</a>.
             </div>
         </div>
     </div>
