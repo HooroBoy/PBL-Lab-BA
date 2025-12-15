@@ -75,7 +75,7 @@ include '../includes/header.php';
                 </div>
           </div>
 
-                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center z-20">
+          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center z-20">
             <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-5 py-2 bg-white text-primary font-bold rounded-full shadow-lg text-sm border-2 border-primary">
               View Profile
             </span>

@@ -99,6 +99,8 @@ include '../includes/header.php';
                 <img src="<?php echo htmlspecialchars(dosen_image_or_placeholder($d['foto'] ?? '')); ?>" 
             alt="<?php echo htmlspecialchars($d['nama']); ?>" 
             class="w-full h-auto object-cover rounded-lg shadow-lg border-2 border-gray-300" />
+
+            
       </div>
       <div class="flex-1">
                 <h2 class="text-2xl font-bold text-text-dark mb-4"><?php echo htmlspecialchars($nama_lengkap); ?></h2>
@@ -286,6 +288,60 @@ include '../includes/header.php';
         </ul>
         <?php else: ?>
         <p class="text-medium italic">Dosen ini belum memiliki data publikasi yang tercatat.</p>
+        <?php endif; ?>
+    </div>
+
+    <div class="mt-12">
+        <h2 class="text-2xl font-bold text-text-dark mb-6 border-b-2 border-gray-300 pb-2">Pengalaman Penelitian</h2>
+
+        <?php if (!empty($penelitian_items)): ?>
+        <ul class="space-y-6">
+            <?php foreach ($penelitian_items as $penelitian): 
+                $judul = htmlspecialchars($penelitian['judul'] ?? $penelitian['description'] ?? '-');
+                $peran = htmlspecialchars($penelitian['peran'] ?? '-');
+                $tahun = htmlspecialchars($penelitian['tahun'] ?? '-');
+                $detail = htmlspecialchars($penelitian['description'] ?? '');
+            ?>
+            <li class="p-4 border rounded-lg hover:bg-gray-50 transition duration-150 relative">
+                <h3 class="text-lg font-semibold text-blue-800 mb-1"><?php echo $judul; ?></h3>
+                <div class="text-sm text-medium space-y-1">
+                    <p><span class="font-semibold">Peran:</span> <?php echo $peran; ?></p>
+                    <p><span class="font-semibold">Tahun:</span> <?php echo $tahun; ?></p>
+                    <?php if (!empty($detail)): ?>
+                    <p><span class="font-semibold">Detail:</span> <?php echo $detail; ?></p>
+                    <?php endif; ?>
+                </div>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php else: ?>
+        <p class="text-medium italic">Belum ada pengalaman penelitian yang dicatat.</p>
+        <?php endif; ?>
+
+        <h2 class="text-2xl font-bold text-text-dark my-6 border-b-2 border-gray-300 pb-2">Pengabdian Masyarakat</h2>
+
+        <?php if (!empty($pengabdian_items)): ?>
+        <ul class="space-y-6">
+            <?php foreach ($pengabdian_items as $pengabdian): 
+                $judul = htmlspecialchars($pengabdian['judul'] ?? $pengabdian['description'] ?? '-');
+                $peran = htmlspecialchars($pengabdian['peran'] ?? '-');
+                $tahun = htmlspecialchars($pengabdian['tahun'] ?? '-');
+                $detail = htmlspecialchars($pengabdian['description'] ?? '');
+            ?>
+            <li class="p-4 border rounded-lg hover:bg-gray-50 transition duration-150 relative">
+                <h3 class="text-lg font-semibold text-blue-800 mb-1"><?php echo $judul; ?></h3>
+                <div class="text-sm text-medium space-y-1">
+                    <p><span class="font-semibold">Peran:</span> <?php echo $peran; ?></p>
+                    <p><span class="font-semibold">Tahun:</span> <?php echo $tahun; ?></p>
+                    <?php if (!empty($detail)): ?>
+                    <p><span class="font-semibold">Detail:</span> <?php echo $detail; ?></p>
+                    <?php endif; ?>
+                </div>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php else: ?>
+        <p class="text-medium italic">Belum ada pengabdian masyarakat yang dicatat.</p>
         <?php endif; ?>
     </div>
 

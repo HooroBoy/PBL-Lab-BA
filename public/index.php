@@ -580,9 +580,9 @@ include 'includes/header.php';
           </div>
         <?php endif; ?>
 
-        <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel/detail.php?id=' . $article['id']) : 'resources/Article.php'; ?>"
+        <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel/artikel.php?id=' . $article['id']) : 'resources/Article.php'; ?>"
           class="inline-block px-7 py-3 text-sm font-semibold bg-primary text-white rounded-full shadow-md hover:bg-blue-800 transition duration-300">
-          Baca Selengkapnya
+          Selengkapnya
         </a>
       </div>
 
@@ -592,6 +592,12 @@ include 'includes/header.php';
           <a href="<?php echo $article ? htmlspecialchars(BASE_URL . '/artikel/detail.php?id=' . $article['id']) : 'resources/Article.php'; ?>" 
             class="block group w-full rounded-2xl shadow-xl overflow-hidden bg-gray-100 hover:shadow-2xl transition duration-300 border border-gray-200">
 
+            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center z-20">
+              <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-5 py-2 bg-white text-primary font-bold rounded-full shadow-lg text-sm border-2 border-primary">
+                View Artikel
+              </span>
+            </div>
+            
             <!-- Gambar Thumbnail Penuh -->
             <img class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
               src="<?php echo htmlspecialchars(BASE_URL . '/' . $article['thumbnail']); ?>"
