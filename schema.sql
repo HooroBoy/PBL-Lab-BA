@@ -1,9 +1,16 @@
+-- [0] SETUP EKSTENSI & TIPE DATA
+
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
-CREATE TYPE status_peminjaman AS ENUM ('pending', 'approved', 'rejected');
-CREATE TYPE kategori_galeri AS ENUM ('activity', 'facility'); 
+DO $$ BEGIN
+    CREATE TYPE status_peminjaman AS ENUM ('pending', 'approved', 'rejected');
+    CREATE TYPE kategori_galeri AS ENUM ('activity', 'facility'); 
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
+-- Fungsi Helper: Update Timestamp
 CREATE OR REPLACE FUNCTION update_timestamp() RETURNS TRIGGER AS $$
 BEGIN
     NEW.updated_at = NOW();
@@ -11,6 +18,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Fungsi Helper: Slugify (Membuat URL friendly string)
 CREATE OR REPLACE FUNCTION slugify(text) RETURNS text AS $$
 DECLARE s TEXT := lower($1);
 BEGIN
@@ -20,9 +28,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- =========================================================
 -- [1] AUTHENTICATION (ADMIN ONLY)
--- =========================================================
 
 CREATE TABLE admin (
     id SERIAL PRIMARY KEY,
@@ -35,9 +41,7 @@ CREATE TABLE admin (
 );
 CREATE TRIGGER set_timestamp_admin BEFORE UPDATE ON admin FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
 
--- =========================================================
--- [2] PROFIL DOSEN (DATA ONLY)
--- =========================================================
+-- [2] PROFIL DOSEN & DATA AKADEMIK
 
 CREATE TABLE bidang_keahlian (
     id SERIAL PRIMARY KEY,
@@ -49,21 +53,37 @@ CREATE TABLE dosen (
     id SERIAL PRIMARY KEY,
     admin_id INT REFERENCES admin(id) ON DELETE SET NULL,
 
+    -- Identitas Utama
     nip VARCHAR(50) UNIQUE,
     nidn VARCHAR(50) UNIQUE,
     nama VARCHAR(255) NOT NULL,
     email VARCHAR(150), 
     program_studi VARCHAR(150),
     foto VARCHAR(255),
+    
+    -- Data Tambahan
+    jenis_kelamin VARCHAR(20),       
+    jabatan_fungsional VARCHAR(100), 
+    tempat_lahir VARCHAR(100),       
+    tanggal_lahir DATE,              
+    nomor_hp VARCHAR(30),            
+    alamat_kantor TEXT,              
+    nomor_telepon_faks VARCHAR(50),  
+    lulusan_dihasilkan TEXT,         
+    mata_kuliah_diampu TEXT,         
 
+    -- External Links
     sinta_id VARCHAR(100),
     google_scholar_id VARCHAR(100),
     linkedin_url VARCHAR(255),
 
+    -- Data JSONB
     pendidikan JSONB DEFAULT '[]'::jsonb,  -- List Pendidikan
     sertifikasi JSONB DEFAULT '[]'::jsonb, -- List Sertifikasi
     metadata JSONB DEFAULT '{}'::jsonb,    
-    search_vector TSVECTOR,                -- Mesin Pencari
+    
+    -- Pencarian
+    search_vector TSVECTOR,                
     
     created_at TIMESTAMP DEFAULT NOW(),
     update_at TIMESTAMP DEFAULT NOW()
@@ -77,9 +97,54 @@ CREATE TABLE dosen_bidang_keahlian (
     UNIQUE(dosen_id, bidang_id)
 );
 
--- =========================================================
--- [3] RESEARCH & INNOVATION
--- =========================================================
+-- [3] DATA PENGEMBANGAN DOSEN
+
+-- A. Tabel Pengalaman Penelitian & Funding
+CREATE TABLE pengalaman_penelitian (
+    id SERIAL PRIMARY KEY,
+    dosen_id INT REFERENCES dosen(id) ON DELETE CASCADE,
+    tahun INT,
+    judul_penelitian TEXT,
+    sumber_dana VARCHAR(100),         
+    jumlah_dana VARCHAR(50),         
+    search_vector TSVECTOR,           
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- B. Tabel Pengabdian Masyarakat
+CREATE TABLE pengalaman_pengabdian (
+    id SERIAL PRIMARY KEY,
+    dosen_id INT REFERENCES dosen(id) ON DELETE CASCADE,
+    tahun INT,
+    judul_pengabdian TEXT,
+    sumber_dana VARCHAR(100),
+    jumlah_dana VARCHAR(50),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- C. Tabel Karya Buku
+CREATE TABLE karya_buku (
+    id SERIAL PRIMARY KEY,
+    dosen_id INT REFERENCES dosen(id) ON DELETE CASCADE,
+    judul_buku VARCHAR(255),
+    tahun INT,
+    jumlah_halaman INT,
+    penerbit VARCHAR(150),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- D. Tabel HKI / Hak Kekayaan Intelektual
+CREATE TABLE perolehan_hki (
+    id SERIAL PRIMARY KEY,
+    dosen_id INT REFERENCES dosen(id) ON DELETE CASCADE,
+    judul_tema_hki TEXT,
+    tahun INT,
+    jenis VARCHAR(100),               
+    nomor_id VARCHAR(100),            
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- [4] RESEARCH & INNOVATION (PUBLIKASI)
 
 CREATE TABLE kategori_riset (
     id SERIAL PRIMARY KEY,
@@ -111,11 +176,7 @@ CREATE TABLE publikasi_penulis (
     UNIQUE (publikasi_id, dosen_id)
 );
 
-
--- =========================================================
--- [4] CMS (CONTENT MANAGEMENT)
--- =========================================================
-
+-- [5] CMS (CONTENT MANAGEMENT)
 
 CREATE TABLE artikel (
     id SERIAL PRIMARY KEY,
@@ -137,7 +198,7 @@ CREATE TABLE galeri (
     judul VARCHAR(150),
     deskripsi TEXT,
     gambar VARCHAR(255) NOT NULL,
-    kategori kategori_galeri NOT NULL DEFAULT 'activity', -- Pembeda Aktifitas/Fasilitas
+    kategori kategori_galeri NOT NULL DEFAULT 'activity',
     created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -151,10 +212,7 @@ CREATE TABLE contact_messages (
     tanggal TIMESTAMP DEFAULT NOW()
 );
 
-
--- =========================================================
--- [5] LOGGING & AUDIT
--- =========================================================
+-- [6] LOGGING & WEBSITE SETTINGS
 
 CREATE TABLE admin_activity_log (
     id SERIAL PRIMARY KEY,
@@ -198,8 +256,10 @@ BEFORE UPDATE ON website_setting
 FOR EACH ROW
 EXECUTE PROCEDURE update_timestamp();
 
+-- [7] SISTEM PEMINJAMAN LAB
+
 CREATE TABLE peminjaman (
-    id SERIAL NOT NULL,
+    id SERIAL NOT NULL PRIMARY KEY,
     nama_peminjam character varying(100) NOT NULL,
     no_induk character varying(20) NOT NULL,
     nomor_telepon VARCHAR(20) NOT NULL,
@@ -209,38 +269,30 @@ CREATE TABLE peminjaman (
     jam_selesai time NOT NULL,
     keperluan text NOT NULL,
     status character varying(20) DEFAULT 'menunggu' CHECK (status IN ('diterima', 'ditolak', 'menunggu')),
-    admin_id integer NULL,
+    admin_id integer NULL REFERENCES admin(id),
     alasan_penolakan TEXT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT peminjaman_pkey PRIMARY KEY (id),
-    CONSTRAINT fk_admin FOREIGN KEY (admin_id)
-        REFERENCES admin (id) MATCH SIMPLE
-        ON DELETE NO ACTION
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
+
 CREATE TABLE jadwal_tidak_tersedia(
-    id SERIAL NOT NULL,
+    id SERIAL NOT NULL PRIMARY KEY,
     waktu TIMESTAMP without time zone NOT NULL,
     keterangan TEXT NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT hari_tidak_tersedia_pkey PRIMARY KEY (id),
-    admin_id INTEGER NULL,
-    CONSTRAINT fk_admin_hari_tidak_tersedia FOREIGN KEY (admin_id)
-        REFERENCES admin (id) MATCH SIMPLE
-        ON DELETE NO ACTION
+    admin_id INTEGER NULL REFERENCES admin(id)
 );
 
--- =========================================================
--- [6] TRIGGERS & LOGIC (AUTOMATION)
--- =========================================================
+-- [8] LOGIC: AUTO SLUG & SEARCH VECTOR
 
+-- Trigger untuk membuat Slug otomatis
 CREATE OR REPLACE FUNCTION auto_slug_trigger() RETURNS trigger AS $$
 BEGIN
     IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
         IF TG_TABLE_NAME IN ('bidang_keahlian', 'kategori_riset') THEN
              NEW.slug := slugify(NEW.nama);
-        ELSIF TG_TABLE_NAME IN ('proyek', 'artikel') THEN
+        ELSIF TG_TABLE_NAME IN ('artikel') THEN
              IF NEW.slug IS NULL OR NEW.slug = '' THEN
                  NEW.slug := slugify(NEW.judul);
              END IF;
@@ -253,13 +305,10 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trg_slug_bidang BEFORE INSERT OR UPDATE ON bidang_keahlian FOR EACH ROW EXECUTE PROCEDURE auto_slug_trigger();
 CREATE TRIGGER trg_slug_artikel BEFORE INSERT OR UPDATE ON artikel FOR EACH ROW EXECUTE PROCEDURE auto_slug_trigger();
 
+-- Trigger untuk Update Vector Pencarian
 CREATE OR REPLACE FUNCTION refresh_search_vector() RETURNS TRIGGER AS $$
 BEGIN
-    IF TG_TABLE_NAME = 'proyek' THEN
-        NEW.search_vector :=
-            setweight(to_tsvector('indonesian', COALESCE(NEW.judul,'')), 'A') ||
-            setweight(to_tsvector('indonesian', COALESCE(NEW.teknologi::text,'')), 'B');
-    ELSIF TG_TABLE_NAME = 'artikel' THEN
+    IF TG_TABLE_NAME = 'artikel' THEN
         NEW.search_vector :=
             setweight(to_tsvector('indonesian', COALESCE(NEW.judul,'')), 'A') ||
             setweight(to_tsvector('indonesian', COALESCE(NEW.isi,'')), 'B');
@@ -267,17 +316,30 @@ BEGIN
         NEW.search_vector :=
             setweight(to_tsvector('indonesian', COALESCE(NEW.nama,'')), 'A') ||
             setweight(to_tsvector('indonesian', COALESCE(NEW.program_studi,'')), 'B');
+    ELSIF TG_TABLE_NAME = 'pengalaman_penelitian' THEN
+        NEW.search_vector :=
+            setweight(to_tsvector('indonesian', COALESCE(NEW.judul_penelitian,'')), 'A') ||
+            setweight(to_tsvector('indonesian', COALESCE(NEW.tahun::text,'')), 'B');
     END IF;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
+-- Pasang Trigger Pencarian
 CREATE TRIGGER trg_tsv_dosen BEFORE INSERT OR UPDATE ON dosen FOR EACH ROW EXECUTE PROCEDURE refresh_search_vector();
 CREATE TRIGGER trg_tsv_artikel BEFORE INSERT OR UPDATE ON artikel FOR EACH ROW EXECUTE PROCEDURE refresh_search_vector();
+CREATE TRIGGER trg_tsv_penelitian BEFORE INSERT OR UPDATE ON pengalaman_penelitian FOR EACH ROW EXECUTE PROCEDURE refresh_search_vector();
 
--- =========================================================
--- [7] INDEXES (PERFORMANCE OPTIMIZATION)
--- =========================================================
+-- [9] INDEXES (OPTIMISASI)
+
+-- Index Pencarian (Full Text Search)
 CREATE INDEX idx_search_artikel ON artikel USING GIN (search_vector);
 CREATE INDEX idx_search_dosen ON dosen USING GIN (search_vector);
+CREATE INDEX idx_search_penelitian ON pengalaman_penelitian USING GIN (search_vector);
+
+-- Index Relasi Foreign Key (Penting untuk performa JOIN)
 CREATE INDEX idx_galeri_kategori ON galeri(kategori);
+CREATE INDEX idx_penelitian_dosen ON pengalaman_penelitian(dosen_id);
+CREATE INDEX idx_pengabdian_dosen ON pengalaman_pengabdian(dosen_id);
+CREATE INDEX idx_buku_dosen ON karya_buku(dosen_id);
+CREATE INDEX idx_hki_dosen ON perolehan_hki(dosen_id);
