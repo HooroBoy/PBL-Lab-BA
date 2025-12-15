@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 $role = $_SESSION['role'] ?? 'guest';
 $dosen_id = $_SESSION['dosen_id'] ?? null;
 
