@@ -72,6 +72,17 @@ $d['email'] = $d['email'] ?? '-';
 $d['gelar_depan'] = $d['gelar_depan'] ?? '';
 $d['gelar_belakang'] = $d['gelar_belakang'] ?? '';
 
+// Fallbacks untuk field biodata tambahan
+$d['jenis_kelamin'] = $d['jenis_kelamin'] ?? '-';
+$d['jabatan'] = $d['jabatan'] ?? ($d['jabatan_fungsional'] ?? '-');
+$d['tempat_lahir'] = $d['tempat_lahir'] ?? '';
+$d['tanggal_lahir'] = $d['tanggal_lahir'] ?? '';
+$d['telepon'] = $d['telepon'] ?? ($d['no_telepon'] ?? '-');
+$d['alamat_kantor'] = $d['alamat_kantor'] ?? ($d['alamat_kantor_lengkap'] ?? '-');
+$d['telepon_faks'] = $d['telepon_faks'] ?? ($d['telepon_fax'] ?? '-');
+$d['lulusan'] = $d['lulusan'] ?? '';
+$d['mata_kuliah'] = $d['mata_kuliah'] ?? '';
+
 $nama_lengkap = trim(($d['gelar_depan'] ? $d['gelar_depan'] . ' ' : '') . $d['nama'] . ($d['gelar_belakang'] ? ', ' . $d['gelar_belakang'] : ''));
 
 $primary_color = 'bg-blue-800'; 
@@ -100,7 +111,49 @@ include '../includes/header.php';
             alt="<?php echo htmlspecialchars($d['nama']); ?>" 
             class="w-full h-auto object-cover rounded-lg shadow-lg border-2 border-gray-300" />
 
-            
+            <?php
+            // Tampilkan ringkasan Pendidikan & Sertifikasi di bawah foto (kolom kiri)
+            $education_items_left = format_dosen_detail($d['pendidikan'] ?? '');
+            $cert_items_left = format_dosen_detail($d['sertifikasi'] ?? '');
+            ?>
+            <div class="mt-4 space-y-3">
+                <details class="border rounded-lg bg-blue-500 hover:bg-gray-50 shadow-sm" role="group">
+                    <summary class="px-4 py-3 cursor-pointer font-semibold text-sm">Pendidikan</summary>
+                    <div class="p-4 pt-0">
+                        <?php if (!empty($education_items_left)): ?>
+                            <?php foreach ($education_items_left as $edu_left):
+                                $jenjang_l = $edu_left['jenjang'] ?? '';
+                                $jurusan_l = $edu_left['jurusan'] ?? $edu_left['description'] ?? '';
+                                $kampus_l = $edu_left['kampus'] ?? '';
+                                $tahun_l = $edu_left['tahun'] ?? '';
+                            ?>
+                            <div class="text-sm mb-2">
+                                <div class="font-semibold"><?php echo htmlspecialchars($jenjang_l); ?><?php if ($jurusan_l) echo ' — ' . htmlspecialchars($jurusan_l); ?></div>
+                                <div class="text-medium"><?php echo htmlspecialchars($kampus_l); ?> <?php if ($tahun_l) echo '(' . htmlspecialchars($tahun_l) . ')'; ?></div>
+                            </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="text-sm">-</div>
+                        <?php endif; ?>
+                    </div>
+                </details>
+
+                <details class="border rounded-lg bg-blue-500 hover:bg-gray-50 shadow-sm" role="group">
+                    <summary class="px-4 py-3 cursor-pointer font-semibold text-sm">Sertifikasi</summary>
+                    <div class="p-4 pt-0">
+                        <?php if (!empty($cert_items_left) && count($cert_items_left) > 0 && ($cert_items_left[0]['description'] ?? '') != '-'): ?>
+                            <ul class="list-none text-sm space-y-1">
+                                <?php foreach ($cert_items_left as $c_left): ?>
+                                    <li><?php echo htmlspecialchars($c_left['nama_sertifikasi'] ?? $c_left['description'] ?? ''); ?><?php if (!empty($c_left['tahun'])) echo ' (' . htmlspecialchars($c_left['tahun']) . ')'; ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else: ?>
+                            <div class="text-sm">-</div>
+                        <?php endif; ?>
+                    </div>
+                </details>
+            </div>
+
       </div>
       <div class="flex-1">
                 <h2 class="text-2xl font-bold text-text-dark mb-4"><?php echo htmlspecialchars($nama_lengkap); ?></h2>
@@ -162,75 +215,69 @@ include '../includes/header.php';
                 <div class="font-semibold w-28 flex-shrink-0">Email</div>
                 <div class="flex-grow">: <a href="mailto:<?php echo htmlspecialchars($d['email']); ?>" class="text-blue-600 hover:underline"><?php echo htmlspecialchars($d['email']); ?></a></div>
             </div>
-        </div>
-
-        <h2 class="text-xl font-bold text-text-dark mb-4 mt-8">Pendidikan & Sertifikasi</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="p-6 border rounded-xl bg-gray-50 shadow-sm">
-            <h3 class="font-bold text-lg mb-3">Pendidikan</h3>
-            <ul class="list-none text-sm text-medium space-y-3">
-              <?php 
-              $education_items = format_dosen_detail($d['pendidikan'] ?? '');
-              if (!empty($education_items)):
-                  foreach ($education_items as $edu): 
-                      $jenjang = $edu['jenjang'] ?? '';
-                      $jurusan = $edu['jurusan'] ?? $edu['description'] ?? '';
-                      $kampus = $edu['kampus'] ?? '';
-                      $tahun = $edu['tahun'] ?? '';
-              ?>
-                <li>
-                    <div class="font-semibold text-text-dark">
-                        <?php echo htmlspecialchars($jenjang); ?> &mdash; <?php echo htmlspecialchars($jurusan); ?>
-                    </div>
-                    <div class="text-medium pl-4">
-                        <?php echo htmlspecialchars($kampus); ?> 
-                        <?php if ($tahun) echo ' (' . htmlspecialchars($tahun) . ')'; ?>
-                    </div>
-                </li>
-              <?php endforeach; else: ?>
-                <li>Data Pendidikan tidak tersedia.</li>
-              <?php endif; ?>
-            </ul>
-          </div>
-
-          <div class="p-6 border rounded-xl bg-gray-50 shadow-sm">
-            <h3 class="font-bold text-lg mb-3">Sertifikasi</h3>
-            <?php 
-                $cert_items = format_dosen_detail($d['sertifikasi'] ?? '');
-                if (!empty($cert_items) && count($cert_items) > 0 && ($cert_items[0]['description'] ?? '') != '-'):
-            ?>
-                <ul class="list-none text-sm text-medium space-y-2">
-                    <?php 
-                        foreach ($cert_items as $c): 
-                            $tahun = $c['tahun'] ?? '';
-                            $penerbit = $c['penerbit'] ?? '';
-                            $nama = $c['nama_sertifikasi'] ?? $c['description'] ?? '';
+            <div class="flex">
+                <div class="font-semibold w-28 flex-shrink-0">Jenis Kelamin</div>
+                <div class="flex-grow">: <?php echo htmlspecialchars($d['jenis_kelamin']); ?></div>
+            </div>
+            <div class="flex">
+                <div class="font-semibold w-28 flex-shrink-0">Jabatan</div>
+                <div class="flex-grow">: <?php echo htmlspecialchars($d['jabatan']); ?></div>
+            </div>
+            <div class="flex">
+                <div class="font-semibold w-28 flex-shrink-0">TTL</div>
+                <div class="flex-grow">: <?php
+                    $ttl = trim((($d['tempat_lahir'] ?? '') . ((isset($d['tanggal_lahir']) && $d['tanggal_lahir'] !== '') ? ', ' . $d['tanggal_lahir'] : '')) );
+                    echo htmlspecialchars($ttl ?: '-');
+                ?></div>
+            </div>
+            <div class="flex">
+                <div class="font-semibold w-28 flex-shrink-0">No. Tlp</div>
+                <div class="flex-grow">: <?php echo htmlspecialchars($d['telepon']); ?></div>
+            </div>
+            <div class="flex">
+                <div class="font-semibold w-28 flex-shrink-0">Alamat Kantor</div>
+                <div class="flex-grow">: <?php echo htmlspecialchars($d['alamat_kantor']); ?></div>
+            </div>
+            <div class="flex">
+                <div class="font-semibold w-28 flex-shrink-0">No. Tlp / Faks</div>
+                <div class="flex-grow">: <?php echo htmlspecialchars($d['telepon_faks']); ?></div>
+            </div>
+            <div class="flex">
+                <div class="font-semibold w-28 flex-shrink-0">Lulusan</div>
+                <div class="flex-grow">:
+                    <?php
+                    $lulusan_items = format_dosen_detail($d['lulusan']);
+                    if (!empty($lulusan_items)):
+                        $texts = array_map(function($it){ return htmlspecialchars($it['description'] ?? ($it['nama'] ?? '')); }, $lulusan_items);
+                        echo ' ' . implode(', ', $texts);
+                    else:
+                        echo ' -';
+                    endif;
                     ?>
-                    <li>
-                        <?php 
-                            echo htmlspecialchars($nama);
-                            if ($tahun || $penerbit) {
-                                echo ' (';
-                                if ($tahun) echo htmlspecialchars($tahun);
-                                if ($tahun && $penerbit) echo ', ';
-                                if ($penerbit) echo htmlspecialchars($penerbit);
-                                echo ')';
-                            }
-                        ?>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else: ?>
-              <div class="text-sm text-medium">-</div>
-            <?php endif; ?>
-          </div>
+                </div>
+            </div>
+            <div class="flex">
+                <div class="font-semibold w-28 flex-shrink-0">Mata Kuliah</div>
+                <div class="flex-grow">:
+                    <?php
+                    $mk_items = format_dosen_detail($d['mata_kuliah']);
+                    if (!empty($mk_items)):
+                        $mk_texts = array_map(function($it){ return htmlspecialchars($it['description'] ?? ($it['nama'] ?? '')); }, $mk_items);
+                        echo ' ' . implode(', ', $mk_texts);
+                    else:
+                        echo ' -';
+                    endif;
+                    ?>
+                </div>
+            </div>
         </div>
+
+                <!-- Pendidikan & Sertifikasi dipindahkan ke kolom kiri (di bawah foto). Duplikat dihapus. -->
         </div>
     </div>
 
     <div class="mt-16">
         <h2 class="text-2xl font-bold text-text-dark mb-6 border-b-2 border-gray-300 pb-2">Publikasi (<?php echo count($publikasiList); ?>)</h2>
-        
         <?php if (!empty($publikasiList)): ?>
         <ul class="space-y-6">
             <?php foreach ($publikasiList as $publikasi): 
