@@ -38,6 +38,20 @@ $limit = 8;
 
         <!-- Header Section -->
         <header class="text-center mb-12 space-y-3">
+            <nav class="text-sm font-medium text-gray-500 mb-4 inline-block" aria-label="Breadcrumb">
+                <ol class="list-none p-0 inline-flex">
+                    <li class="flex items-center">
+                        <a href="../index.php" class="text-primary hover:text-blue-700">Home</a>
+                        <svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                            aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10l-3.293-3.293a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </li>
+                    <li class="text-primary">Fokus Riset</li>
+                </ol>
+            </nav>
             <h1 class="text-4xl md:text-5xl font-extrabold text-text-dark leading-tight">
                 Fokus Riset
             </h1>

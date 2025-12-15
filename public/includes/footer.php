@@ -102,10 +102,10 @@ $social_youtube = $site_settings['social_youtube'] ?? '#';
                 </div>
 
                 <div class="space-y-3">
-                    <h4 class="text-base font-semibold mb-2">Galeri</h4>
+                    <h4 class="text-base font-semibold mb-2">Detail</h4>
                     <ul class="space-y-2">
-                        <li><a href="<?php echo BASE_URL; ?>/galeri/galerikegiatan.php" class="opacity-70 hover:opacity-100 transition duration-150">Kegiatan</a></li>
-                        <li><a href="<?php echo BASE_URL; ?>/galeri/fasilitas.php" class="opacity-70 hover:opacity-100 transition duration-150">Fasilitas</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>/detail/galerikegiatan.php" class="opacity-70 hover:opacity-100 transition duration-150">Kegiatan</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>/detail/fasilitas.php" class="opacity-70 hover:opacity-100 transition duration-150">Fasilitas</a></li>
                     </ul>
                 </div>
             </div>

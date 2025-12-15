@@ -42,6 +42,15 @@ include '../includes/header.php';
 
 <section class="w-full bg-white pt-12 pb-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <nav class="text-sm font-medium text-gray-500 mb-4 inline-block" aria-label="Breadcrumb">
+                <ol class="list-none p-0 inline-flex">
+                    <li class="flex items-center">
+                        <a href="../index.php" class="text-primary hover:text-blue-700">Home</a>
+                        <svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10l-3.293-3.293a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                    </li>
+                    <li class="text-primary">Dosen</li>
+                </ol>
+            </nav>
     <h1 class="text-3xl font-extrabold text-text-dark mb-12">Tim Kami</h1>
         <?php if (!empty($dosenList)): ?>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -51,7 +60,7 @@ include '../includes/header.php';
       ?>
                 <a href="LihatDosen.php?id=<?php echo urlencode($dosen_id); ?>" class="group block bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 relative overflow-hidden">
           <div class="flex flex-col items-center text-center p-0">
-                            <div class="w-full h-72 overflow-hidden mb-4 relative z-10 rounded-t-xl">
+                            <div class="w-full h-96 overflow-hidden mb-4 relative z-10 rounded-t-xl">
               <img src="<?php echo $img; ?>" 
                     alt="<?php echo htmlspecialchars($d['nama']); ?>" 
                     class="w-full h-full object-cover transition duration-300 group-hover:scale-105" 

@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $page_title = $page_title ?? "Laboratory of Business Analytics";
 
 require_once __DIR__ . '/config.php';
@@ -127,7 +129,7 @@ $header_logo_url = BASE_URL . '/assets/Logo/logo2.png';
 
                     <div class="relative" x-data="{ open: false }" @click.outside="open = false">
                         <button @click="open = !open" type="button" class="text-white hover:text-blue-200 transition duration-150 flex items-center focus:outline-none px-3 py-2">
-                            Galeri
+                            Detail
                             <svg :class="{'rotate-180': open}" class="w-4 h-4 ml-1 transform transition duration-200" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M7 10l5 5 5-5z" />
                             </svg>
@@ -135,10 +137,10 @@ $header_logo_url = BASE_URL . '/assets/Logo/logo2.png';
 
                         <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 origin-top-left">
                             <div class="py-1">
-                                <a href="<?php echo BASE_URL; ?>/galeri/galerikegiatan.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
+                                <a href="<?php echo BASE_URL; ?>/detail/galerikegiatan.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
                                     Kegiatan
                                 </a>
-                                <a href="<?php echo BASE_URL; ?>/galeri/Fasilitas.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
+                                <a href="<?php echo BASE_URL; ?>/detail/Fasilitas.php" class="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-primary">
                                     Fasilitas
                                 </a>
                             </div>
@@ -188,16 +190,16 @@ $header_logo_url = BASE_URL . '/assets/Logo/logo2.png';
                             </a>
                             <div x-data="{ resourcesOpen: false }">
                                 <button @click="resourcesOpen = !resourcesOpen" class="flex items-center justify-between w-full px-4 py-2 text-sm hover:bg-gray-100">
-                                    Galeri
+                                    Detail
                                     <svg :class="resourcesOpen ? 'rotate-180' : ''" class="w-4 h-4 ml-2 transform transition duration-150" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M7 10l5 5 5-5z" />
                                     </svg>
                                 </button>
                                 <div x-show="resourcesOpen" x-transition class="pl-4">
-                                    <a href="<?php echo BASE_URL; ?>/galeri/galerikegiatan.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                    <a href="<?php echo BASE_URL; ?>/detail/galerikegiatan.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
                                         Kegiatan
                                     </a>
-                                    <a href="<?php echo BASE_URL; ?>/galeri/Fasilitas.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                    <a href="<?php echo BASE_URL; ?>/detail/Fasilitas.php" class="block px-4 py-2 text-sm hover:bg-gray-100">
                                         Fasilitas
                                     </a>
                                 </div>

@@ -233,25 +233,38 @@ include 'includes/header.php';
     background-color: white;
   }
 
-  .team-card img {
-    height: 16rem;
-    object-fit: cover;
-    width: 100%;
-    border-radius: 12px 12px 0 0;
+  .team-card {
+    width: 16rem;
+    flex-shrink: 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background-color: white;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   .team-card .image-wrapper {
     background-color: #f3f4f6;
-    height: 16rem;
+    height: 20rem; /* Increased height to make the frame taller */
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
   }
 
-  @media (max-width: 1024px) {
-    .team-carousel-nav {
-      display: none !important;
-    }
+  .team-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ensure uniform cropping to fill taller frame */
+    display: block;
+  }
+
+  @media (max-width: 640px) {
+    .team-card { width: 14.5rem; }
+    .team-card .image-wrapper { height: 16rem; }
   }
 
   /* --- CUSTOM GALLERY CARD STYLES --- */
@@ -398,7 +411,7 @@ include 'includes/header.php';
     <div class="relative w-full">
       <!-- Left / Right controls -->
       <button aria-label="Prev" onclick="teamScroll('left')" class="team-carousel-nav absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
           <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
         </svg>
       </button>
@@ -637,7 +650,7 @@ include 'includes/header.php';
         foreach ($recentActivities as $act):
       ?>
           <div class="gallery-card-wrapper">
-            <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/galerikegiatan.php'); ?>"
+            <a href="<?php echo htmlspecialchars(BASE_URL . '/detail/galerikegiatan.php'); ?>"
               class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
               <!-- PERBAIKAN: Hapus path statis /assets/kegiatan/ -->
               <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $act['gambar']); ?>"
@@ -657,7 +670,7 @@ include 'includes/header.php';
 
       <!-- TOMBOL -->
       <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
-        <a href="galeri/galeriKegiatan.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+        <a href="detail/galeriKegiatan.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
           Lihat Galeri Kegiatan
         </a>
       </div>
@@ -672,7 +685,7 @@ include 'includes/header.php';
         foreach ($recentFacilities as $fac):
       ?>
           <div class="gallery-card-wrapper">
-            <a href="<?php echo htmlspecialchars(BASE_URL . '/galeri/fasilitas.php'); ?>"
+            <a href="<?php echo htmlspecialchars(BASE_URL . '/detail/fasilitas.php'); ?>"
               class="block gallery-card w-full shadow-lg hover:shadow-xl transition duration-300">
               <!-- PERBAIKAN: Hapus path statis /assets/fasilitas/ -->
               <img src="<?php echo htmlspecialchars(BASE_URL . '/' . $fac['gambar']); ?>"
@@ -692,7 +705,7 @@ include 'includes/header.php';
 
       <!-- TOMBOL -->
       <div class="col-span-1 md:col-span-2 lg:col-span-3 w-full flex justify-center mt-10">
-        <a href="galeri/fasilitas.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+        <a href="detail/fasilitas.php" class="px-6 py-3 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
           Lihat Galeri Fasilitas
         </a>
       </div>
