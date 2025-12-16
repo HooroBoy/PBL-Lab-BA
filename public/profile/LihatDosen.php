@@ -38,17 +38,14 @@ try {
     if ($dosen_id) {
         $d = Dosen::find($dosen_id);
         
-        // --- PERBAIKAN: Mapping Link Sosmed agar konsisten dengan dosen.php ---
-        // Kita cek berbagai kemungkinan nama kolom di database
+        // --- Mapping Link Sosmed ---
         $d['sinta_link']          = $d['sinta_id'] ?? $d['sinta'] ?? $d['link_sinta'] ?? '';
         $d['google_scholar_link'] = $d['google_scholar_id'] ?? $d['google_scholar'] ?? $d['link_google_scholar'] ?? '';
         $d['linkedin_link']       = $d['linkedin_id'] ?? $d['link_linkedin'] ?? $d['linkedin'] ?? $d['linkedin_url'] ?? '';
 
-        // --- AMBIL BIDANG KEAHLIAN DINAMIS ---
+        // --- AMBIL BIDANG KEAHLIAN ---
         $bidang_keahlian_list = Dosen::getBidangKeahlian($dosen_id);
-        // Gabungkan list menjadi string yang dipisahkan koma untuk variabel $d['bidang_keahlian']
         $d['bidang_keahlian'] = implode(', ', $bidang_keahlian_list);
-        // --- AKHIR AMBIL BIDANG KEAHLIAN DINAMIS ---
     }
 } catch (PDOException $e) {
 }
@@ -60,12 +57,10 @@ if (!$d) {
     exit;
 }
 
-// --- PERBAIKAN: DATA UJI COBA SEMENTARA SUDAH DIHAPUS ---
-// Kode lama yang memaksa link menjadi 'dosen_anda' telah dihapus agar data asli dari database yang tampil.
-
 $dosen_id_current = $dosen_id;
 $publikasiList = Publikasi::findByDosenId($dosen_id_current);
 
+// Data Identitas (JANGAN DIUBAH AGAR TAMPILAN TETAP)
 $d['nama'] = $d['nama'] ?? 'Nama Dosen';
 $d['nip'] = $d['nip'] ?? '-';
 $d['nidn'] = $d['nidn'] ?? '-';
@@ -74,7 +69,6 @@ $d['email'] = $d['email'] ?? '-';
 $d['gelar_depan'] = $d['gelar_depan'] ?? '';
 $d['gelar_belakang'] = $d['gelar_belakang'] ?? '';
 
-// Fallbacks untuk field biodata tambahan
 $d['jenis_kelamin'] = $d['jenis_kelamin'] ?? '-';
 $d['jabatan'] = $d['jabatan'] ?? ($d['jabatan_fungsional'] ?? '-');
 $d['tempat_lahir'] = $d['tempat_lahir'] ?? '';
@@ -85,12 +79,18 @@ $d['telepon_faks'] = $d['telepon_faks'] ?? ($d['telepon_fax'] ?? '-');
 $d['lulusan'] = $d['lulusan'] ?? '';
 $d['mata_kuliah'] = $d['mata_kuliah'] ?? '';
 
+// Penyiapan Data Riwayat (Penelitian, Pengabdian)
+$penelitian_items = format_dosen_detail($d['penelitian'] ?? $d['riwayat_penelitian'] ?? '');
+$pengabdian_items = format_dosen_detail($d['pengabdian'] ?? $d['riwayat_pengabdian'] ?? '');
+
+// --- TAMBAHAN BARU: Menyiapkan Data Buku & HKI ---
+$karya_buku_items = format_dosen_detail($d['karya_buku'] ?? $d['buku'] ?? '');
+$hki_items        = format_dosen_detail($d['hki'] ?? $d['hak_kekayaan_intelektual'] ?? '');
+
 $nama_lengkap = trim(($d['gelar_depan'] ? $d['gelar_depan'] . ' ' : '') . $d['nama'] . ($d['gelar_belakang'] ? ', ' . $d['gelar_belakang'] : ''));
 
 $primary_color = 'bg-blue-800'; 
 $profile_link_class = "px-4 py-2 rounded-lg border text-sm font-semibold border-blue-600 text-blue-600 bg-white hover:bg-blue-50 transition shadow-sm";
-
-$area_tag_class = "px-3 py-1 rounded-full border border-gray-300 text-sm text-text-dark bg-white hover:bg-gray-100 transition cursor-pointer shadow-sm";
 
 include '../includes/header.php';
 ?>
@@ -109,7 +109,7 @@ include '../includes/header.php';
     
     <div class="flex flex-col md:flex-row md:items-start md:space-x-10">
       <div class="w-full md:w-64 mb-6 md:mb-0 flex-shrink-0">
-                <img src="<?php echo htmlspecialchars(dosen_image_or_placeholder($d['foto'] ?? '')); ?>" 
+            <img src="<?php echo htmlspecialchars(dosen_image_or_placeholder($d['foto'] ?? '')); ?>" 
             alt="<?php echo htmlspecialchars($d['nama']); ?>" 
             class="w-full h-auto object-cover rounded-lg shadow-lg border-2 border-gray-300" />
 
@@ -158,7 +158,7 @@ include '../includes/header.php';
 
       </div>
       <div class="flex-1">
-                <h2 class="text-2xl font-bold text-text-dark mb-4"><?php echo htmlspecialchars($nama_lengkap); ?></h2>
+        <h2 class="text-2xl font-bold text-text-dark mb-4"><?php echo htmlspecialchars($nama_lengkap); ?></h2>
         
         <div class="flex flex-wrap gap-2 mb-4">
           <?php 
@@ -175,7 +175,7 @@ include '../includes/header.php';
 
       <div class="flex flex-wrap gap-3 mb-6">
           <?php 
-          // Tautan Profil - Hanya tampilkan jika link tidak kosong dan bukan '#'
+          // Tautan Profil
           if (!empty($d['linkedin_link']) && $d['linkedin_link'] !== '#'): ?>
               <a href="<?php echo htmlspecialchars($d['linkedin_link']); ?>" target="_blank" 
                   class="<?php echo $profile_link_class; ?>">
@@ -276,7 +276,7 @@ include '../includes/header.php';
             </div>
         </div>
 
-        </div>
+      </div>
     </div>
 
     <div class="mt-16">
@@ -295,14 +295,9 @@ include '../includes/header.php';
                     $detail_publikasi[] = htmlspecialchars($publikasi['tahun_terbit']);
                 }
                 $detail_text = implode(', ', $detail_publikasi);
-
-                // Tautan jurnal default
                 $jurnal_default_link = 'https://jurnal.polinema.ac.id/index.php/jip';
-
                 $detail_link = $jurnal_default_link;
-
                 $target = '_self';
-
             ?>
             <li class="p-4 border rounded-lg hover:bg-gray-50 transition duration-150 relative">
                 <h3 class="text-lg font-semibold text-blue-800 mb-1">
@@ -330,9 +325,8 @@ include '../includes/header.php';
                 <a href="<?php echo $detail_link; ?>" 
                    target="<?php echo $target; ?>"
                    class="absolute bottom-4 right-4 text-sm font-semibold text-blue-600 hover:underline">
-                    Detail &raquo;
+                   Detail &raquo;
                 </a>
-
             </li>
             <?php endforeach; ?>
         </ul>
@@ -393,6 +387,55 @@ include '../includes/header.php';
         <?php else: ?>
         <p class="text-medium italic">Belum ada pengabdian masyarakat yang dicatat.</p>
         <?php endif; ?>
+
+        <h2 class="text-2xl font-bold text-text-dark my-6 border-b-2 border-gray-300 pb-2">Karya Buku</h2>
+        <?php if (!empty($karya_buku_items)): ?>
+        <ul class="space-y-6">
+            <?php foreach ($karya_buku_items as $buku): 
+                // Mengambil data sesuai contoh tabel (Judul, Tahun, Hal, Penerbit)
+                $judul_buku = htmlspecialchars($buku['judul'] ?? $buku['judul_buku'] ?? $buku['description'] ?? '-');
+                $tahun_buku = htmlspecialchars($buku['tahun'] ?? '-');
+                $penerbit = htmlspecialchars($buku['penerbit'] ?? '-');
+                $halaman = htmlspecialchars($buku['jumlah_halaman'] ?? $buku['halaman'] ?? '-');
+            ?>
+            <li class="p-4 border rounded-lg hover:bg-gray-50 transition duration-150 relative">
+                <h3 class="text-lg font-semibold text-blue-800 mb-1"><?php echo $judul_buku; ?></h3>
+                <div class="text-sm text-medium space-y-1">
+                    <p><span class="font-semibold">Tahun:</span> <?php echo $tahun_buku; ?></p>
+                    <p><span class="font-semibold">Penerbit:</span> <?php echo $penerbit; ?></p>
+                    <p><span class="font-semibold">Jumlah Halaman:</span> <?php echo $halaman; ?></p>
+                </div>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php else: ?>
+        <p class="text-medium italic">Belum ada karya buku yang dicatat.</p>
+        <?php endif; ?>
+
+        <h2 class="text-2xl font-bold text-text-dark my-6 border-b-2 border-gray-300 pb-2">Perolehan HKI</h2>
+        <?php if (!empty($hki_items)): ?>
+        <ul class="space-y-6">
+            <?php foreach ($hki_items as $hki): 
+                // Mengambil data sesuai contoh tabel (Judul/Tema, Tahun, Jenis, No. ID)
+                $judul_hki = htmlspecialchars($hki['judul'] ?? $hki['judul_hki'] ?? $hki['tema'] ?? $hki['description'] ?? '-');
+                $tahun_hki = htmlspecialchars($hki['tahun'] ?? '-');
+                $jenis_hki = htmlspecialchars($hki['jenis'] ?? $hki['jenis_hki'] ?? '-');
+                $nomor_hki = htmlspecialchars($hki['nomor'] ?? $hki['nomor_id'] ?? $hki['no_hki'] ?? '-');
+            ?>
+            <li class="p-4 border rounded-lg hover:bg-gray-50 transition duration-150 relative">
+                <h3 class="text-lg font-semibold text-blue-800 mb-1"><?php echo $judul_hki; ?></h3>
+                <div class="text-sm text-medium space-y-1">
+                    <p><span class="font-semibold">Jenis:</span> <?php echo $jenis_hki; ?></p>
+                    <p><span class="font-semibold">Tahun:</span> <?php echo $tahun_hki; ?></p>
+                    <p><span class="font-semibold">Nomor P/ID:</span> <?php echo $nomor_hki; ?></p>
+                </div>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php else: ?>
+        <p class="text-medium italic">Belum ada perolehan HKI yang dicatat.</p>
+        <?php endif; ?>
+
     </div>
 
   </div>
