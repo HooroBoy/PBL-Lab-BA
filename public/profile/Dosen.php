@@ -36,7 +36,7 @@ include '../includes/header.php';
 ?>
 
 <section class="w-full bg-white pt-12 pb-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     
     <nav class="text-sm font-medium text-gray-500 mb-4 inline-block" aria-label="Breadcrumb">
         <ol class="list-none p-0 inline-flex">
@@ -96,7 +96,7 @@ include '../includes/header.php';
                     <?php echo htmlspecialchars($d['program_studi'] ?? 'Dosen'); ?>
                 </div>
 
-                <hr class="border-gray-100 mb-4 w-1/2 mx-auto">
+                <hr class="border-gray-100 mb-1 w-1/2 mx-auto">
 
                 <div class="flex justify-center items-center gap-3">
                     
