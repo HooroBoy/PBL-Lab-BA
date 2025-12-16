@@ -37,6 +37,13 @@ $d = null;
 try {
     if ($dosen_id) {
         $d = Dosen::find($dosen_id);
+        
+        // --- PERBAIKAN: Mapping Link Sosmed agar konsisten dengan dosen.php ---
+        // Kita cek berbagai kemungkinan nama kolom di database
+        $d['sinta_link']          = $d['sinta_id'] ?? $d['sinta'] ?? $d['link_sinta'] ?? '';
+        $d['google_scholar_link'] = $d['google_scholar_id'] ?? $d['google_scholar'] ?? $d['link_google_scholar'] ?? '';
+        $d['linkedin_link']       = $d['linkedin_id'] ?? $d['link_linkedin'] ?? $d['linkedin'] ?? $d['linkedin_url'] ?? '';
+
         // --- AMBIL BIDANG KEAHLIAN DINAMIS ---
         $bidang_keahlian_list = Dosen::getBidangKeahlian($dosen_id);
         // Gabungkan list menjadi string yang dipisahkan koma untuk variabel $d['bidang_keahlian']
@@ -53,13 +60,8 @@ if (!$d) {
     exit;
 }
 
-// --- START: DATA UJI COBA SEMENTARA UNTUK MEMASTIKAN TAMPILAN ---
-// HAPUS BLOK INI SETELAH ANDA MEMASUKKAN DATA KE DATABASE ASLI
-//$d['bidang_keahlian'] = 'Learning EngineeringTechnology, Data Mining, Sistem Cerdas'; 
-$d['linkedin_link'] = 'https://linkedin.com/in/dosen_anda';
-$d['google_scholar_link'] = 'https://scholar.google.com/citations?user=dosen_anda';
-$d['sinta_link'] = 'https://sinta.kemdikbud.go.id/authors/profile/dosen_anda';
-// --- END: DATA UJI COBA SEMENTARA ---
+// --- PERBAIKAN: DATA UJI COBA SEMENTARA SUDAH DIHAPUS ---
+// Kode lama yang memaksa link menjadi 'dosen_anda' telah dihapus agar data asli dari database yang tampil.
 
 $dosen_id_current = $dosen_id;
 $publikasiList = Publikasi::findByDosenId($dosen_id_current);
@@ -173,20 +175,22 @@ include '../includes/header.php';
 
       <div class="flex flex-wrap gap-3 mb-6">
           <?php 
-          // Tautan Profil
-          if (!empty($d['linkedin_link'])): ?>
+          // Tautan Profil - Hanya tampilkan jika link tidak kosong dan bukan '#'
+          if (!empty($d['linkedin_link']) && $d['linkedin_link'] !== '#'): ?>
               <a href="<?php echo htmlspecialchars($d['linkedin_link']); ?>" target="_blank" 
                   class="<?php echo $profile_link_class; ?>">
                   LinkedIn
               </a>
           <?php endif; ?>
-          <?php if (!empty($d['google_scholar_link'])): ?>
+
+          <?php if (!empty($d['google_scholar_link']) && $d['google_scholar_link'] !== '#'): ?>
               <a href="<?php echo htmlspecialchars($d['google_scholar_link']); ?>" target="_blank" 
                   class="<?php echo $profile_link_class; ?>">
                   Google Scholar
               </a>
           <?php endif; ?>
-          <?php if (!empty($d['sinta_link'])): ?>
+          
+          <?php if (!empty($d['sinta_link']) && $d['sinta_link'] !== '#'): ?>
               <a href="<?php echo htmlspecialchars($d['sinta_link']); ?>" target="_blank" 
                   class="<?php echo $profile_link_class; ?>">
                   Sinta
@@ -272,7 +276,6 @@ include '../includes/header.php';
             </div>
         </div>
 
-                <!-- Pendidikan & Sertifikasi dipindahkan ke kolom kiri (di bawah foto). Duplikat dihapus. -->
         </div>
     </div>
 

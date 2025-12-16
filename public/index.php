@@ -7,6 +7,7 @@ require_once __DIR__ . '/../app/models/SiteSetting.php';
 require_once __DIR__ . '/../app/models/Artikel.php';
 require_once __DIR__ . '/../app/models/Galeri.php';
 require_once __DIR__ . '/../app/models/Kategori.php';
+require_once __DIR__ . '/../app/models/Dosen.php'; //
 
 $kategoriList = array_slice(Kategori::all(), 0, 4);
 
@@ -15,6 +16,8 @@ try {
   // Mengambil HANYA 1 artikel terbaru untuk TEASER homepage
   $latestArticle = Artikel::latest(1);
   $article = $latestArticle[0] ?? null;
+  //mengambil data dosen
+  $dosenList = Dosen::all();
 
   // --- DATA DINAMIS GALERI ---
   $recentActivities = Galeri::latest('activity', 6);
@@ -25,6 +28,7 @@ try {
   $article = null;
   $recentActivities = [];
   $recentFacilities = [];
+  $dosenList = [];
 }
 
 $landing_badge = $setting['landing_badge'] ?? 'Business Analytics';
@@ -407,136 +411,189 @@ include 'includes/header.php';
       Tim Kami
     </h2>
 
-    <!-- Team carousel: 9 cards -->
-    <div class="relative w-full">
-      <!-- Left / Right controls -->
-      <button aria-label="Prev" onclick="teamScroll('left')" class="team-carousel-nav absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-        </svg>
-      </button>
-      <button aria-label="Next" onclick="teamScroll('right')" class="team-carousel-nav absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-white border rounded-full p-2 shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+    <div class="relative w-full overflow-hidden p-4 "> <button onclick="moveCarousel('prev')" 
+              class="absolute left-0 top-1/2 z-20 transform -translate-y-1/2 bg-white border border-gray-200 text-primary p-3 rounded-full shadow-lg hover:bg-gray-50 focus:outline-none carousel-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
 
-      <div id="teamCarousel" class="py-6 scrollbar-hide overflow-x-scroll" style="scroll-behavior:smooth;">
-        <div class="carousel-track" role="list">
-          <?php
-          // Data Dosen (9 anggota)
-          $team = [
-            ['name' => 'Dr. Rakhmat Arianto, S.ST., M.Kom.', 'title' => 'Kepala Lab', 'img' => 'assets/Dosen/Rakhmat-Arianto.jpg'],
-            ['name' => 'Rokhimatul Wakhidah, S.Pd., M.T.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Rokhimatul-Wakhidah.jpg'],
-            ['name' => 'Ir. Rudy Ariyanto, S.T., M.Cs.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Rudi-Ariyanto.jpg'],
-            ['name' => 'Ahmadi Yuli Ananta, ST., M.M.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/ahmadi-putih.jpg'],
-            ['name' => 'Candra Bella Vista, S.Kom., MT.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Candra-Bella-Vista.jpg'],
-            ['name' => 'Endah Septa Sintiya, S.Pd., M.Kom', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Endah-Septa-Sintiya.jpg'],
-            ['name' => 'Dhebys Suryani, S.Kom., MT', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Dhebys-Suryani.jpg'],
-            ['name' => 'Farid Angga Pribadi, S.Kom.,M.Kom.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Farid-Angga-Pribadi.jpg'],
-            ['name' => 'Hendra Pradibta, S.E., M.Sc.', 'title' => 'Peneliti', 'img' => 'assets/Dosen/Hendra-Pradibta.jpg']
-          ];
-          foreach ($team as $i => $member) {
-            // Menggunakan kelas team-card
-            echo '<div class="team-card bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between">';
-            echo '<div class="image-wrapper">';
-            echo '<img src="' . htmlspecialchars($member['img']) . '" alt="' . htmlspecialchars($member['name']) . '" class="w-full h-full object-cover" onerror="this.onerror=null; this.src=\'https://placehold.co/540x360/EFEFEF/9A9A9A?text=Team\'">';
-            echo '</div>';
-            echo '<div class="p-4 text-center">';
-            echo '<h4 class="text-base font-semibold text-text-dark mb-1">' . htmlspecialchars($member['name']) . '</h4>';
-            echo '<p class="text-xs text-primary font-medium mb-4">' . htmlspecialchars($member['title']) . '</p>';
-            echo '</div></div>';
+      <button onclick="moveCarousel('next')" 
+              class="absolute right-0 top-1/2 z-20 transform -translate-y-1/2 bg-white border border-gray-200 text-primary p-3 rounded-full shadow-lg hover:bg-gray-50 focus:outline-none carousel-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <div id="carouselTrack" class="flex gap-6 w-full justify-center transition-transform duration-300 ease-in-out">
+        <?php
+        if(count($dosenList) >= 4){
+          
+          
+          foreach ($dosenList as $member) {
+              $dbFoto = $member['foto'] ?? '';
+              // Logic Path Foto
+              if (empty($dbFoto)) {
+                  $fotoUrl = 'https://placehold.co/540x360/EFEFEF/9A9A9A?text=No+Image';
+              } else {
+                  $fotoUrl = (strpos($dbFoto, 'assets/') !== false) ? BASE_URL . '/' . $dbFoto : BASE_URL . '/assets/Dosen/' . $dbFoto;
+              }
+  
+              echo '<div class="team-card flex-shrink-0 bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100" style="width: 16rem;">';
+              echo '  <div class="h-64 bg-gray-50 overflow-hidden relative">';
+              echo '    <img src="' . htmlspecialchars($fotoUrl) . '" class="w-full h-full object-cover" loading="lazy" onerror="this.src=\'https://placehold.co/540x360/EFEFEF/9A9A9A?text=Error\'">';
+              echo '  </div>';
+              echo '  <div class="p-4 text-center">';
+              echo '    <h4 class="text-base font-bold text-text-dark line-clamp-1">' . htmlspecialchars($member['nama']) . '</h4>';
+              echo '    <p class="text-xs text-primary uppercase font-semibold mt-1">' . htmlspecialchars($member['program_studi'] ?? 'Dosen') . '</p>';
+              echo '  </div>';
+              echo '</div>';
           }
-          ?>
-        </div>
+        }else{
+          echo '<h3 class="text-center ">Tidak ada anggota tim yang tersedia.</h3>';
+        }
+        ?>
       </div>
+
     </div>
+
     <div class="flex justify-center mt-8">
-      <a href="profile/dosen.php" class="px-8 py-4 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300">
+      <a href="profile/dosen.php" class="px-8 py-4 text-sm font-bold bg-primary text-white rounded-full border border-primary hover:bg-blue-800 transition duration-300 shadow-md carousel-button">
         Lihat Tim Lengkap
       </a>
     </div>
   </div>
 </section>
 
-<!-- SCRIPT carousel tim kami -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
-  (function() {
-    var carousel = document.getElementById('teamCarousel');
-    var track = carousel ? carousel.querySelector('.carousel-track') : null;
-    var autoplayInterval = 2500; // Interval autoscroll (2.5 detik)
-    var cardWidth = 0;
-    var timer = null;
-
-    function updateCardWidth() {
-      if (!track) return;
-      var firstCard = track.querySelector('.team-card');
-      if (!firstCard) return;
-      var style = window.getComputedStyle(track);
-      var cardRect = firstCard.getBoundingClientRect();
-      var gap = parseFloat(style.getPropertyValue('gap')) || 24;
-      // Lebar geser = Lebar Kartu + Gap
-      cardWidth = Math.round(cardRect.width + gap);
+$(document).ready(function() {
+    const $track = $('#carouselTrack');
+    const $cards = $('.team-card');
+    const $cButton = $('.carousel-button');
+    const gap = 24; // Sesuai gap-6 tailwind (1.5rem = 24px)
+    let isAnimating = false;
+    const totalCards = $cards.length;
+    if(totalCards == 0){
+      $cButton.addClass('hidden');
     }
 
-    function startAuto() {
-      stopAuto();
-      updateCardWidth();
-      timer = setInterval(function() {
-        if (!carousel) return;
+    // Hitung lebar kartu + gap
+    function getMoveWidth() {
+        const cardWidth = $('.team-card').first().outerWidth();
+        return cardWidth + gap;
+    }
 
-        // Cek apakah sudah mencapai ujung (scrollWidth adalah total lebar konten)
-        if (carousel.scrollLeft + carousel.clientWidth >= track.scrollWidth - 5) {
-          // Kembali ke awal untuk loop, menggunakan instant behavior
-          carousel.scrollTo({
-            left: 0,
-            behavior: 'instant'
-          });
+    window.moveCarousel = function(direction) {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        const moveDist = getMoveWidth();
+
+        if (direction === 'next') {
+            // === LOGIKA NEXT ===
+            // 1. Geser Track ke Kiri (Margin Minus)
+            $track.animate({ marginLeft: `-${moveDist}px` }, 300, 'swing', function() {
+                // 2. Setelah animasi selesai:
+                // Ambil kartu PERTAMA, pindahkan ke PALING BELAKANG
+                $track.find('.team-card').first().appendTo($track);
+                
+                // 3. Reset Margin ke 0 (Instan, user tidak sadar karena urutan kartu sudah berubah)
+                $track.css('marginLeft', '0px');
+                
+                isAnimating = false;
+            });
+
         } else {
-          // Geser satu kartu
-          carousel.scrollBy({
-            left: cardWidth,
-            behavior: 'smooth'
-          });
+            // === LOGIKA PREV ===
+            // 1. Ambil kartu TERAKHIR, pindahkan ke PALING DEPAN (Instan)
+            $track.find('.team-card').last().prependTo($track);
+            
+            // 2. Set Margin ke Minus dulu (agar kartu yg baru dipindah tidak langsung muncul, tapi sembunyi di kiri)
+            $track.css('marginLeft', `-${moveDist}px`);
+            
+            // 3. Animate Margin ke 0 (Geser Masuk ke Kanan)
+            $track.animate({ marginLeft: '0px' }, 300, 'swing', function() {
+                isAnimating = false;
+            });
         }
-      }, autoplayInterval);
-    }
+    };
+});
+</script>
 
-    function stopAuto() {
-      if (timer) {
-        clearInterval(timer);
-        timer = null;
+<script>
+  $(document).ready(function() {
+    const $carousel = $('#teamCarousel');
+    const $track = $('.carousel-track');
+    let isAnimating = false;
+
+    window.teamScroll = function(direction) {
+      if (isAnimating) return;
+
+      // --- 1. UKUR GEOMETRI KARTU DENGAN PRESISI ---
+      const $cards = $track.find('.team-card');
+      const totalCards = $cards.length;
+      
+      // Kita tahu data diduplikasi di PHP, jadi jumlah set asli = total / 2
+      const realCardCount = totalCards / 2; 
+
+      if (realCardCount <= 0) return;
+
+      const $firstCard = $cards.first();
+      // Ambil gap. Jika tidak terbaca, default ke 24px (1.5rem)
+      const gap = parseFloat($track.css('gap')) || 24; 
+      // Lebar satu kartu full (width + gap)
+      const itemWidth = $firstCard.outerWidth() + gap;
+      
+      // INI KUNCINYA: Lebar presisi dari SATU SET data (Set 1)
+      const singleSetWidth = itemWidth * realCardCount;
+
+      // Posisi saat ini
+      let currentScroll = $carousel.scrollLeft();
+
+      // Mulai Animasi
+      isAnimating = true;
+
+      if (direction === 'right') {
+        // --- LOGIKA KANAN ---
+
+        // Cek: Apakah kita sudah melewati batas Set 1?
+        // Menggunakan ">= singleSetWidth - 10" (minus 10px untuk toleransi desimal browser)
+        if (currentScroll >= (singleSetWidth - 10)) {
+           // SNAP BACK: Pindahkan mundur sejauh satu set width. 
+           // Ini menempatkan kita di posisi visual yang PERSIS sama di Set 1.
+           currentScroll = currentScroll - singleSetWidth;
+           $carousel.scrollLeft(currentScroll);
+        }
+
+        // Animasi Maju
+        $carousel.animate({
+          scrollLeft: currentScroll + itemWidth
+        }, 400, 'swing', function() {
+          isAnimating = false;
+        });
+
+      } else {
+        // --- LOGIKA KIRI ---
+
+        // Cek: Apakah kita mau geser ke kiri TAPI ruang sisa kurang dari lebar kartu?
+        // (Artinya kita ada di awal atau hampir awal)
+        if (currentScroll < itemWidth) {
+           // SNAP FORWARD: Pindahkan maju sejauh satu set width ke Set 2.
+           // Posisi visual tidak berubah, tapi sekarang kita punya ruang di kiri.
+           currentScroll = currentScroll + singleSetWidth;
+           $carousel.scrollLeft(currentScroll);
+        }
+
+        // Animasi Mundur
+        $carousel.animate({
+          scrollLeft: currentScroll - itemWidth
+        }, 400, 'swing', function() {
+          isAnimating = false;
+        });
       }
-    }
-
-    window.teamScroll = function(dir) {
-      stopAuto();
-      updateCardWidth();
-      if (!carousel) return;
-      var amount = dir === 'left' ? -cardWidth * 4 : cardWidth * 4; // Geser 4 kartu
-      carousel.scrollBy({
-        left: amount,
-        behavior: 'smooth'
-      });
-      // Lanjutkan autoscroll setelah interaksi pengguna
-      setTimeout(startAuto, 4000);
-    }
-
-    if (carousel && track) {
-      // Menghentikan autoscroll saat mouse masuk (hover)
-      carousel.addEventListener('mouseenter', stopAuto);
-      // Melanjutkan autoscroll saat mouse keluar
-      carousel.addEventListener('mouseleave', function() {
-        setTimeout(startAuto, 500);
-      });
-
-      window.addEventListener('resize', updateCardWidth);
-
-      // Mulai autoscroll saat halaman dimuat
-      updateCardWidth();
-      startAuto();
-    }
-  })();
+    };
+  });
 </script>
 
 <section class="w-full bg-white py-20 md:py-24">
