@@ -1,44 +1,36 @@
 <?php
-// FILE: pages/publikasi.php
+$page_title = "Daftar Publikasi Laboratory of Business Analytics";
 
-// Set Judul Halaman
-$page_title = "Daftar Publikasi - Laboratory of Business Analytics";
-// Memanggil Header 
 require_once '../includes/header.php'; 
 
-// --- IMPOR MODEL DINAMIS ---
-// Path disesuaikan: diasumsikan file Publikasi.php ada di '../models/Publikasi.php'
 require_once __DIR__ . '/../../app/models/Publikasi.php'; 
+// [BARU] Import model Kategori untuk dropdown filter
+require_once __DIR__ . '/../../app/models/Kategori.php'; 
 
-// --- DEKLARASI DATA DINAMIS ---
 $publikasi_list_semua = [];
+$daftar_kategori_db = []; // Inisialisasi daftar kategori dari DB
 
 try {
-    // 1. Ambil data relasi publikasi dan penulis menggunakan method 'all()' (BUKAN getAll)
+    // [BARU] Ambil semua kategori dari database
+    $daftar_kategori_db = Kategori::all();
+
     $publikasi_terstruktur = Publikasi::all(); 
 
-    // 2. Transformasi data dari relasional menjadi flat structure
     foreach ($publikasi_terstruktur as $p_item) {
         $id = $p_item['id_publikasi'];
         
-        // Ambil detail publikasi yang hilang (tahun, thumbnail) dari DB menggunakan Publikasi::find()
-        // Ini dilakukan karena method all() di Publikasi.php hanya mengambil data relasi penulis
         $details = Publikasi::find($id); 
 
-        // Flatten array penulis: ['Dr. Rina Sari, S.Kom., M.T.', 'Budi Santoso, S.T., M.Kom.']
         $penulis_array = array_column($p_item['dosen'], 'nama_dosen');
 
-        // Rekonstruksi struktur data yang dibutuhkan oleh logika filter
-        // Menggunakan 'tahun_terbit' sebagai 'tahun'
         $tahun_terbit = $details['tahun_terbit'] ?? 'N/A';
-        // Asumsi: Kita membuat tanggal dengan tahun_terbit untuk keperluan sorting (misal 1 Januari tahun tersebut)
         $tanggal_asumsi = $tahun_terbit !== 'N/A' ? $tahun_terbit . '-01-01' : '1900-01-01'; 
 
             $publikasi_list_semua[] = [
                 'id' => $id,
                 'judul' => $p_item['judul'],
-                'kategori_riset' => $p_item['kategori_nama'] ?? '', // kategori riset dari join
-                'jenis_publikasi' => $p_item['jenis_publikasi'] ?? '', // plain text
+                'kategori_riset' => $p_item['kategori_nama'] ?? '', 
+                'jenis_publikasi' => $p_item['jenis_publikasi'] ?? '', 
                 'penulis' => $penulis_array,
                 'tanggal' => $tanggal_asumsi, 
                 'tahun' => $tahun_terbit,
@@ -46,91 +38,72 @@ try {
             ];
     }
     
-    // Urutkan daftar publikasi berdasarkan tanggal (terbaru pertama)
+    // Urutkan daftar publikasi berdasarkan tanggal
     usort($publikasi_list_semua, function($a, $b) {
         return strtotime($b['tanggal']) - strtotime($a['tanggal']);
     });
 
 } catch (Exception $e) {
-    // Fallback jika ada masalah koneksi DB atau model
+    // Tangani error jika koneksi DB atau pemanggilan model gagal
+    error_log("Error loading publications or categories: " . $e->getMessage());
     $publikasi_list_semua = [];
-    // Anda bisa mengaktifkan baris ini untuk debugging: echo "Error loading publications: " . $e->getMessage();
+    $daftar_kategori_db = [];
 }
-// --------------------------------------------------
 
-
-// --- LOGIKA FILTERING (SEARCH & FILTER) ---
-
+// (SEARCH & FILTER) 
 // 1. Ambil input dari URL
 $search_query = isset($_GET['q']) ? strtolower(trim($_GET['q'])) : '';
-$filter_kategori = isset($_GET['kategori_riset']) ? trim($_GET['kategori_riset']) : '';
+// Ganti nama filter dari 'jenis' menjadi 'kategori' untuk lebih spesifik
+$filter_kategori = isset($_GET['kategori']) ? trim($_GET['kategori']) : '';
 $filter_tahun = isset($_GET['tahun']) ? trim($_GET['tahun']) : '';
 $filter_dosen = isset($_GET['dosen']) ? trim($_GET['dosen']) : '';
-
-// --- KUMPULKAN DAN OLAH DATA UNIK UNTUK FILTER DOSEN & KATEGORI RISET ---
+//KUMPULKAN DAN OLAH DATA UNIK UNTUK FILTER DOSEN
 $semua_penulis = [];
-$semua_kategori_riset = [];
 foreach ($publikasi_list_semua as $publikasi) {
-    // Ambil semua penulis dari setiap publikasi, pastikan itu array
     if (isset($publikasi['penulis']) && is_array($publikasi['penulis'])) {
         $semua_penulis = array_merge($semua_penulis, $publikasi['penulis']);
     }
-    // Ambil semua kategori riset
-    if (!empty($publikasi['kategori_riset'])) {
-        $semua_kategori_riset[] = $publikasi['kategori_riset'];
-    }
 }
-// Dapatkan daftar dosen unik dan urutkan secara alfabetis
 $dosen_unik = array_unique($semua_penulis);
 sort($dosen_unik);
-// Dapatkan daftar kategori riset unik dan urutkan
-$kategori_riset_unik = array_unique($semua_kategori_riset);
-sort($kategori_riset_unik);
-// --------------------------------------------------------
 
-// 2. Tentukan daftar publikasi yang akan ditampilkan
+
+// 2. Daftar publikasi yang akan ditampilkan
 $publikasi_list_terfilter = array_filter($publikasi_list_semua, function($publikasi) use ($search_query, $filter_kategori, $filter_tahun, $filter_dosen) {
-    
-    // Konversi data ke string yang dapat dicari (pastikan 'penulis' adalah array)
     $judul_lower = strtolower($publikasi['judul']);
     $penulis_array = isset($publikasi['penulis']) && is_array($publikasi['penulis']) ? $publikasi['penulis'] : [];
     $penulis_string = strtolower(implode(' ', $penulis_array));
-    $kategori_riset_raw = strtolower($publikasi['kategori_riset']);
+    // Menggunakan kunci 'kategori_riset' yang benar
+    $kategori_riset_raw = strtolower($publikasi['kategori_riset'] ?? '');
     $tahun_raw = $publikasi['tahun'];
-
-
-    // Kriteria 1: Pencarian (Judul atau Penulis)
+    
+    // Kriteria 1 Cari Judul atau Penulis
     $match_search = true;
     if (!empty($search_query)) {
         if (strpos($judul_lower, $search_query) === false && strpos($penulis_string, $search_query) === false) {
             $match_search = false;
         }
     }
-
-    // Kriteria 2: Filter Jenis Publikasi
+    // Kriteria 2 Filter Kategori Riset
     $match_kategori = true;
     if (!empty($filter_kategori)) {
+        // Filter berdasarkan nama kategori yang disimpan di database
         if ($kategori_riset_raw !== strtolower($filter_kategori)) {
             $match_kategori = false;
         }
     }
-
-    // Kriteria 3: Filter Tahun
+    // Kriteria 3 Filter Tahun
     $match_tahun = true;
     if (!empty($filter_tahun)) {
         if ((string)$tahun_raw !== $filter_tahun) { 
             $match_tahun = false;
         }
     }
-
-    // Kriteria 4: Filter Dosen
+    // Kriteria 4 Filter Dosen
     $match_dosen = true;
     if (!empty($filter_dosen)) {
-        // Konversi semua nama penulis ke lowercase
         $penulis_lower = array_map('strtolower', $penulis_array);
         $filter_dosen_lower = strtolower($filter_dosen);
-
-        // Cek apakah nama dosen yang difilter ada di dalam array penulis publikasi
         if (!in_array($filter_dosen_lower, $penulis_lower)) {
             $match_dosen = false;
         }
@@ -139,7 +112,7 @@ $publikasi_list_terfilter = array_filter($publikasi_list_semua, function($publik
     return $match_search && $match_kategori && $match_tahun && $match_dosen;
 });
 
-// Urutkan ulang array setelah filtering
+// Urut ulang array setelah filtering
 $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
 ?>
 
@@ -170,7 +143,7 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
                 <div class="relative">
                     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                         <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.352l3.72 3.72a.75.75 0 11-1.06 1.06l-3.72-3.72A7 7 0 012 9z" clip-rule="evenodd" />
+                            <path fill-rule="evenodd" d="M9 3.5a5.5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.352l3.72 3.72a.75.75 0 11-1.06 1.06l-3.72-3.72A7 7 0 012 9z" clip-rule="evenodd" />
                         </svg>
                     </div>
                     <input id="q" name="q" value="<?php echo htmlspecialchars($search_query); ?>" class="block w-full rounded-md border-0 bg-gray-50 py-2.5 pl-10 pr-3 text-sm text-text-dark ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm" placeholder="Cari berdasarkan judul atau penulis...">
@@ -178,16 +151,16 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
             </div>
 
             <div class="w-full md:w-1/4">
-                <label for="kategori_riset" class="sr-only">Filter Kategori Riset</label>
-                <select id="kategori_riset" name="kategori_riset" onchange="this.form.submit()" class="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-sm text-text-dark ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary" style="background-position: right 1.25rem center;">
+                <label for="kategori" class="sr-only">Filter Kategori Riset</label>
+                <select id="kategori" name="kategori" onchange="this.form.submit()" class="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-sm text-text-dark ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary">
                     <option value="">Pilih Kategori Riset</option>
                     <?php 
-                        foreach ($kategori_riset_unik as $kategori): 
-                            if (empty($kategori)) continue;
+                        // [PERUBAHAN] Loop melalui data kategori dari database
+                        foreach ($daftar_kategori_db as $kategori): 
                     ?>
-                        <option value="<?php echo htmlspecialchars($kategori); ?>" 
-                                <?php echo ($filter_kategori === $kategori) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($kategori); ?>
+                        <option value="<?php echo htmlspecialchars($kategori['nama']); ?>" 
+                                <?php echo ($filter_kategori === $kategori['nama']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($kategori['nama']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -216,7 +189,6 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
                 <select id="dosen" name="dosen" onchange="this.form.submit()" class="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-sm text-text-dark ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary">
                     <option value="">Dosen</option>
                     <?php 
-                        // Menggunakan $dosen_unik
                         foreach ($dosen_unik as $dosen): 
                             if (empty($dosen)) continue;
                     ?>
@@ -234,20 +206,18 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 
                 <?php foreach ($publikasi_list_terfilter as $publikasi): 
-                    // Data Dinamis
                     $image_path = htmlspecialchars($publikasi['thumbnail'] ?? '../assets/images/publikasi/default.jpg'); 
-                    // Tampilkan tanggal atau tahun jika tanggal penuh tidak tersedia
                     $date_formatted = isset($publikasi['tanggal']) && $publikasi['tanggal'] !== '1900-01-01' ? date('d F Y', strtotime($publikasi['tanggal'])) : 'Tahun ' . htmlspecialchars($publikasi['tahun'] ?? 'N/A');
                     $kategori_riset = htmlspecialchars($publikasi['kategori_riset'] ?? 'Lainnya');
-                    $jenis_publikasi = htmlspecialchars($publikasi['jenis_publikasi'] ?? ''); // plain text
+                    $jenis_publikasi = htmlspecialchars($publikasi['jenis_publikasi'] ?? ''); 
                     $authors = isset($publikasi['penulis']) && is_array($publikasi['penulis']) ? $publikasi['penulis'] : [];
                 ?>
                     <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition duration-300 ease-in-out border border-gray-100 flex flex-col">
                         
                         <div class="h-48 overflow-hidden">
                             <?php 
-                                // Tentukan teks yang akan menjadi judul di placeholder jika thumbnail gagal/kosong
-                                $placeholder_text = !empty($jenis_publikasi) ? $jenis_publikasi : 'Publikasi';
+                                // Placeholder text diubah untuk menggunakan kategori riset jika ada
+                                $placeholder_text = !empty($kategori_riset) ? $kategori_riset : 'Publikasi';
                                 $placeholder_url = 'https://placehold.co/600x400/124874/ffffff?text=' . urlencode($placeholder_text);
                             ?>
                             <img class="w-full h-full object-cover" 
@@ -258,7 +228,10 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
 
                         <div class="p-6 space-y-4 flex flex-col flex-grow">
                             <span class="text-xs font-semibold uppercase tracking-wider text-white bg-primary py-1 px-3 rounded-full self-start">
-                                <?php echo $kategori_riset; ?>
+                                <?php 
+                                    // [PERUBAHAN KUNCI] Menampilkan Kategori Riset di kapsul
+                                    echo $kategori_riset; 
+                                ?>
                             </span>
 
                             <h2 class="text-xl font-bold text-text-dark leading-snug hover:text-primary transition duration-200 flex-grow">
@@ -306,5 +279,5 @@ $publikasi_list_terfilter = array_values($publikasi_list_terfilter);
 </div>
 
 <?php
-require_once '../includes/footer.php'; // Memanggil Footer
+require_once '../includes/footer.php'; 
 ?>

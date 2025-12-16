@@ -64,7 +64,7 @@ if (!$d) {
 // Kode lama yang memaksa link menjadi 'dosen_anda' telah dihapus agar data asli dari database yang tampil.
 
 $dosen_id_current = $dosen_id;
-$publikasiList = Publikasi::findByDosenId($dosen_id_current);
+$publikasiList = Publikasi::allByDosen($dosen_id_current);
 
 $d['nama'] = $d['nama'] ?? 'Nama Dosen';
 $d['nip'] = $d['nip'] ?? '-';
