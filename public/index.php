@@ -654,7 +654,7 @@ $(document).ready(function() {
                 View Artikel
               </span>
             </div>
-            
+
             <!-- Gambar Thumbnail Penuh -->
             <img class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
               src="<?php echo htmlspecialchars(BASE_URL . '/' . $article['thumbnail']); ?>"
