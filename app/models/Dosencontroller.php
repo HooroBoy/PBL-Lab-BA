@@ -8,7 +8,7 @@ class Dosen
     {
         global $pdo;
         // Query digabung (JOIN) untuk mengambil data dosen beserta nama bidang keahliannya
-        $stmt = $pdo->query("SELECT d.id AS id, d.nama AS nama, d.foto AS foto, d.nip AS nip, d.nidn AS nidn, d.email AS email, d.program_studi AS program_studi, d.sinta_id AS sinta_id, d.google_scholar_id AS google_scholar_id, bk.nama AS nama_bidang FROM dosen d INNER JOIN dosen_bidang_keahlian AS dbk ON d.id = dbk.dosen_id INNER JOIN bidang_keahlian bk ON dbk.bidang_id = bk.id ORDER BY d.id DESC");
+        $stmt = $pdo->query("SELECT d.id AS id, d.nama AS nama, d.foto AS foto, d.nip AS nip, d.nidn AS nidn, d.email AS email, d.program_studi AS program_studi, d.sinta_id AS sinta_id, d.google_scholar_id AS google_scholar_id, d.linkedin_url AS linkedin_url, bk.nama AS nama_bidang FROM dosen d INNER JOIN dosen_bidang_keahlian AS dbk ON d.id = dbk.dosen_id INNER JOIN bidang_keahlian bk ON dbk.bidang_id = bk.id ORDER BY d.id DESC");
         $relasi_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $dosen_terstruktur = [];
@@ -27,6 +27,7 @@ class Dosen
                     'program_studi' => $row['program_studi'],
                     'sinta_id' => $row['sinta_id'],
                     'google_scholar_id' => $row['google_scholar_id'],
+                    'linkedin_url' => $row['linkedin_url'],
                     'bidang' => [] // Inisialisasi array bidang
                 ];
             }
