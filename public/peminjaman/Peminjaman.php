@@ -1,4 +1,5 @@
 <?php
+// Fungsi untuk mengubah format tanggal ke format Indonesia
 function tgl_indo($tanggal)
 {
   $bulan = array(
@@ -66,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   } else {
 
+    // On success, set message and prepare WhatsApp redirect
     $_SESSION['alerts'] = $result;
     $waUrl = 'https://api.whatsapp.com/send?phone=6285183192045&text=Halo%20Admin,%20saya%20' . rawurlencode($nama) . '%20ingin%20melakukan%20peminjaman%20pada%20tanggal%20' . tgl_indo($tanggal_mulai) . '%20s.d%20tanggal%20' . tgl_indo($tanggal_selesai) . '%20untuk%20' . rawurlencode($keperluan) . '%20Mohon%20disetujui.';
     $_SESSION['wa_redirect'] = $waUrl;
@@ -75,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
+// Include header
 include '../includes/header.php';
 $autoRedirectWA = null;
 if (isset($_SESSION['wa_redirect'])) {
@@ -83,7 +86,7 @@ if (isset($_SESSION['wa_redirect'])) {
 }
 ?>
 
-
+<!-- Header Section -->
 <div class="w-full flex-1 flex flex-col bg-white">
   <section class="w-full bg-white pt-12 pb-6">
     <div class="max-w-3xl mx-auto px-4 text-center">
@@ -211,6 +214,7 @@ if (isset($_SESSION['wa_redirect'])) {
       </div>
     </section>
 
+    <!-- Auto redirect to WhatsApp if applicable -->
     <?php if ($autoRedirectWA): ?>
       <script>
         document.addEventListener("DOMContentLoaded", function() {
