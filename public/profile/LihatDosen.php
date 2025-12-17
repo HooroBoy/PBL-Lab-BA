@@ -284,8 +284,21 @@ include '../includes/header.php';
         <?php if (!empty($publikasiList)): ?>
         <ul class="space-y-6">
             <?php foreach ($publikasiList as $publikasi): 
-                $penulis_nama = array_column($publikasi['penulis'], 'nama');
-                $penulis_text = implode(', ', $penulis_nama);
+                // --- PERBAIKAN START ---
+                // Cek apakah key 'penulis' ada DAN isinya adalah array
+                $raw_penulis = $publikasi['penulis'] ?? []; 
+                if (!is_array($raw_penulis)) {
+                    $raw_penulis = [];
+                }
+
+                $penulis_nama = array_column($raw_penulis, 'nama');
+                
+                // Jika ada nama penulis, gabungkan. Jika kosong, beri tanda strip atau teks default.
+                $penulis_text = !empty($penulis_nama) ? implode(', ', $penulis_nama) : '-';
+                // --- PERBAIKAN END ---
+
+                $detail_publikasi = [];
+                // ... (lanjutkan kode di bawahnya tetap sama)
                 
                 $detail_publikasi = [];
                 if (!empty($publikasi['nama_penerbit'])) {
