@@ -58,7 +58,7 @@ if (!$d) {
 }
 
 $dosen_id_current = $dosen_id;
-$publikasiList = Publikasi::findByDosenId($dosen_id_current);
+$publikasiList = Publikasi::allByDosen($dosen_id_current);
 
 // Data Identitas (JANGAN DIUBAH AGAR TAMPILAN TETAP)
 $d['nama'] = $d['nama'] ?? 'Nama Dosen';

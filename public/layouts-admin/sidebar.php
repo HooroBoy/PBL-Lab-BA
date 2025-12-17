@@ -260,6 +260,12 @@ if (isset($_GET['halaman'])) {
                             <span>Dosen</span>
                         </a>
                     </li>
+                    <li class="sidebar-item <?= $publikasi ? 'active' : '' ?>">
+                        <a href="/PBL-Lab-BA/admin/publikasi/view.php?halaman=publikasi" class="sidebar-link">
+                            <i class="bi bi-filetype-doc"></i>
+                            <span>Publikasi</span>
+                        </a>
+                    </li>
                     <li class="sidebar-item <?= $buku ? 'active' : '' ?>">
                         <a href="/PBL-Lab-BA/admin/karya_buku/view.php?halaman=buku" class="sidebar-link">
                             <i class="bi bi-book"></i>

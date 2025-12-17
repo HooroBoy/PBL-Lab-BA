@@ -42,7 +42,7 @@ class Kategori
     public static function create($nama, $deskripsi)
     {
         global $pdo;
-        $slug = createSlug($nama);
+        $slug = createSlugKategori($nama);
         $stmt = $pdo->prepare('INSERT INTO kategori_riset (nama,deskripsi,slug) VALUES (:nama, :deskripsi, :slug)');
         $stmt->execute(['nama' => $nama, 'deskripsi' => $deskripsi, 'slug' => $slug]);
     }
@@ -50,7 +50,7 @@ class Kategori
     public static function update($id, $nama, $deskripsi)
     {
         global $pdo;
-        $slug = createSlug($nama);
+        $slug = createSlugKategori($nama);
         $stmt = $pdo->prepare('UPDATE kategori_riset SET nama= :nama, deskripsi= :deskripsi, slug= :slug WHERE id= :id');
         $stmt->execute(['nama' => $nama, 'deskripsi' => $deskripsi, 'slug' => $slug, 'id' => $id]);
     }

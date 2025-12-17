@@ -1,9 +1,30 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
-session_start();
 include "../../app/models/Publikasi.php";
-$data = Publikasi::all();
+
+session_start();
+// --- 1. LOGIKA DATA & HAK AKSES ---
+$role = $_SESSION['role'] ?? 'guest'; 
+$id_dosen = $_SESSION['dosen_id'] ?? null;
+
+// Default kosong untuk keamanan
+$data = [];
+
+// Logika pengambilan data yang LEBIH AMAN
+if ($role == 'admin') {
+    // Admin melihat semua
+    $data = Publikasi::all();
+} elseif ($role == 'dosen') {
+    // Dosen melihat dirinya sendiri
+    if ($id_dosen) {
+        $perolehanDosen = Publikasi::allByDosen($id_dosen);
+        $data = $perolehanDosen;
+    } else {
+        // Jika login dosen tapi ID tidak ketemu, biarkan kosong (Jangan tampilkan semua data!)
+        $data = [];
+    }
+}
 $title = 'Data Publikasi';
 include "../../public/layouts-admin/header-admin.php";
 ?>
@@ -27,6 +48,18 @@ include "../../public/layouts-admin/header-admin.php";
                                 <p class="text-subtitle text-muted">
                                     Halaman Tampil Data Publikasi
                                 </p>
+                            </div>
+                            <div class="col-12 col-md-6 order-md-2 order-first">
+                                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="index.php?halaman=publikasi">Publikasi</a>
+                                        </li>
+                                        <li class="breadcrumb-item active" aria-current="page">
+                                            Lihat Data Publikasi
+                                        </li>
+                                    </ol>
+                                </nav>
                             </div>
                         </div>
                     </div>
